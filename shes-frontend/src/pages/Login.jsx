@@ -9,31 +9,43 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await axios.post('http://localhost:5014/api/Account/Login', {
-        userName: email, // الباكند يتعامل مع username، نمرر الإيميل كمفتاح userName
-        password: password,
-      });
+const handleLogin = async (e) => {
+  e.preventDefault();
+  try {
+    const res = await axios.post('http://localhost:5014/api/Account/Login', {
+      userName: email,
+      password: password,
+    });
 
-      const token = res.data.token;
-      const decoded = JSON.parse(atob(token.split('.')[1]));
-      const role = decoded.role || 'Patient';
+    const token = res.data.token;
+    const decoded = JSON.parse(atob(token.split('.')[1]));
 
-      saveUserToLocalStorage({ token, role });
+    const role = decoded.role || 'Patient';
+    const userId = parseInt(decoded.sub); // أو decoded.userId إذا مختلف عندك
 
-      switch (role) {
-        case 'Patient': return navigate('/patient/home');
-        case 'Doctor': return navigate('/doctor/home');
-        case 'Supervisor': return navigate('/supervisor/home');
-        case 'Admin': return navigate('/admin/home');
-        default: return navigate('/login');
-      }
-    } catch (err) {
-      alert('Login failed. Invalid credentials.');
+    if (!userId) {
+      console.error("❌ Failed to extract userId from token:", decoded);
+      alert("Login succeeded, but user ID is missing.");
+      return;
     }
-  };
+
+    // ✅ حفظ كل شيء في localStorage
+    saveUserToLocalStorage({ token, role, userId });
+
+    // ✅ التوجيه حسب الدور
+    switch (role) {
+      case 'Patient': return navigate('/patient/home');
+      case 'Doctor': return navigate('/doctor/home');
+      case 'Supervisor': return navigate('/supervisor/home');
+      case 'Admin': return navigate('/admin/home');
+      default: return navigate('/login');
+    }
+  } catch (err) {
+    console.error("Login error:", err);
+    alert('Login failed. Invalid credentials.');
+  }
+};
+
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-blue-50">

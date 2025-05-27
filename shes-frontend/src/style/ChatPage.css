@@ -1,0 +1,42 @@
+.chat-full-layout {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background-color: #d63b3b;
+}
+
+.chat-page-wrapper {
+  display: flex;
+  flex: 1;
+  background-color: #f4f6f9;
+}
+
+.doctor-list-panel {
+  width: 300px;
+  background-color: #fff;
+  border-right: 1px solid #ddd;
+  overflow-y: auto;
+  padding: 15px;
+}
+
+.chat-main-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #fafafa;
+  height: 100vh;
+}
+
+.sidebar-title {
+  font-size: 18px;
+  margin-bottom: 10px;
+  text-align: center;
+  color: #444;
+}
+
+.placeholder {
+  margin: auto;
+  font-size: 20px;
+  color: #888;
+}
