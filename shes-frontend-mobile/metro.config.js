@@ -1,5 +1,9 @@
-const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config');
+// metro.config.js
+const { getDefaultConfig } = require("expo/metro-config");
 
-const config = {};
+const config = getDefaultConfig(__dirname);
 
-module.exports = mergeConfig(getDefaultConfig(__dirname), config);
+// Disable package exports resolution for Metro (fixes some require errors)
+config.resolver.unstable_enablePackageExports = false;
+
+module.exports = config;
