@@ -14,6 +14,7 @@ type Theme = {
     text: string;
     textSecondary: string;
     primary: string;
+    primaryDark: string;
     secondary: string;
     error: string;
     success: string;
@@ -84,6 +85,7 @@ const lightTheme: Theme = {
     text: '#263238',
     textSecondary: '#666',
     primary: '#25a6e9',
+    primaryDark: '#1B4C77',
     secondary: '#26c6da',
     error: '#ef5350',
     success: '#4caf50',
@@ -225,7 +227,7 @@ export function useTheme() {
 }
 
 // Helper function for component styles
-import { ViewStyle, TextStyle, ImageStyle } from 'react-native';
+import { ViewStyle, TextStyle, ImageStyle, StyleProp } from 'react-native';
 
 export const makeStyles = (theme: Theme) => ({
   // ======================
@@ -398,5 +400,329 @@ textInput: {
   } as ViewStyle
 });
 
+// Chat-specific styles
+export const makeChatStyles = (theme: Theme) => ({
+  wrapper: {
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: theme.colors.background
+  } as ViewStyle,
+  doctorPanel: {
+    width: 300,
+    backgroundColor: theme.colors.card,
+    borderRightWidth: 0.5,
+    borderRightColor: theme.colors.border
+  } as ViewStyle,
+  doctorListContainer: {
+    paddingBottom: theme.spacing.md
+  } as ViewStyle,
+  chatPanel: {
+    flex: 1,
+    backgroundColor: theme.colors.card
+  } as ViewStyle,
+  sidebarTitle: {
+    fontSize: theme.typography.lg,
+    marginBottom: theme.spacing.sm,
+    paddingVertical: theme.spacing.sm,
+    textAlign: 'center',
+    fontWeight: '600',
+    color: theme.colors.text
+  } as TextStyle,
+  placeholderContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: theme.spacing.lg
+  } as ViewStyle,
+  placeholder: {
+    fontSize: theme.typography.md,
+    textAlign: 'center',
+    color: theme.colors.textSecondary
+  } as TextStyle,
+  // Responsive variants
+  smallScreen: {
+    wrapper: {
+      flexDirection: 'column'
+    } as ViewStyle,
+    doctorPanel: {
+      width: '100%'
+    } as ViewStyle
+  }
+});
+
+export const makeMedicalStyles = (theme: Theme) => ({
+  container: {
+    flexGrow: 1,
+    padding: theme.spacing.lg,
+  } as ViewStyle,
+  title: {
+    fontSize: theme.typography.xl,
+    fontWeight: 'bold',
+    marginBottom: theme.spacing.lg,
+    color: theme.colors.text,
+  } as TextStyle,
+  card: {
+    backgroundColor: theme.colors.card,
+    borderRadius: theme.radii.md,
+    padding: theme.spacing.lg,
+    marginBottom: theme.spacing.md,
+    ...theme.shadows.sm,
+  } as ViewStyle,
+  cardTitle: {
+    fontSize: theme.typography.lg,
+    fontWeight: '600',
+    marginBottom: theme.spacing.sm,
+    color: theme.colors.primary,
+  } as TextStyle,
+  cardValue: {
+    color: theme.colors.text,
+    fontWeight: 'normal',
+  } as TextStyle,
+  entry: {
+    fontSize: theme.typography.md,
+    marginBottom: theme.spacing.xs,
+    color: theme.colors.text,
+  } as TextStyle,
+  label: {
+    fontWeight: '600',
+    color: theme.colors.text,
+  } as TextStyle,
+  emptyText: {
+    textAlign: 'center',
+    marginTop: theme.spacing.xl,
+    fontSize: theme.typography.md,
+    color: theme.colors.textSecondary,
+  } as TextStyle,
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: theme.colors.background,
+  } as ViewStyle,
+  errorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: theme.spacing.lg,
+    backgroundColor: theme.colors.background,
+  } as ViewStyle,
+  errorText: {
+    fontSize: theme.typography.md,
+    textAlign: 'center',
+  } as TextStyle,
+});
+
+export const makeLoginStyles = (theme: Theme) => ({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: theme.colors.background,
+  } as ViewStyle,
+  formContainer: {
+    marginHorizontal: theme.spacing.lg,
+    padding: theme.spacing.xl,
+    borderRadius: theme.radii.lg,
+    backgroundColor: theme.colors.card,
+    ...theme.shadows.md,
+  } as ViewStyle,
+  title: {
+    fontSize: theme.typography.xl,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: theme.spacing.lg,
+    color: theme.colors.primary,
+  } as TextStyle,
+  input: {
+    height: 50,
+    borderWidth: 1,
+    borderColor: theme.colors.border,
+    borderRadius: theme.radii.md,
+    paddingHorizontal: theme.spacing.md,
+    marginBottom: theme.spacing.md,
+    fontSize: theme.typography.md,
+    color: theme.colors.text,
+    backgroundColor: theme.colors.background,
+  } as TextInputStyle,
+  loginButton: {
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: theme.radii.md,
+    backgroundColor: theme.colors.primary,
+    marginTop: theme.spacing.sm,
+  } as ViewStyle,
+  buttonPressed: {
+    opacity: 0.8,
+  } as ViewStyle,
+  buttonDisabled: {
+    backgroundColor: theme.colors.disabled,
+  } as ViewStyle,
+  buttonText: {
+    color: 'white',
+    fontSize: theme.typography.md,
+    fontWeight: '600',
+  } as TextStyle,
+  linksContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: theme.spacing.lg,
+  } as ViewStyle,
+  linkText: {
+    color: theme.colors.primary,
+    fontSize: theme.typography.sm,
+    marginHorizontal: theme.spacing.sm,
+  } as TextStyle,
+  linkPressed: {
+    opacity: 0.6,
+  } as ViewStyle,
+});
+
+export const makeAppointmentStyles = (theme: Theme) => ({
+  container: {
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: theme.colors.background,
+  } as ViewStyle,
+
+  scrollContent: {
+    flexGrow: 1,
+    padding: theme.spacing.lg,
+  } as ViewStyle,
+
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  } as ViewStyle,
+
+  title: {
+    fontSize: theme.typography.xl,
+    fontWeight: 'bold',
+    marginBottom: theme.spacing.lg,
+    color: theme.colors.text,
+  } as TextStyle,
+
+  emptyText: {
+    textAlign: 'center',
+    marginTop: theme.spacing.xl,
+    fontSize: theme.typography.md,
+    color: theme.colors.textSecondary,
+  } as TextStyle,
+
+  appointmentsContainer: {
+    gap: theme.spacing.md,
+  } as ViewStyle,
+
+  appointmentCard: {
+    backgroundColor: theme.colors.card,
+    borderRadius: theme.radii.md,
+    padding: theme.spacing.md,
+    ...theme.shadows.sm,
+  } as ViewStyle,
+
+  doctorName: {
+    fontSize: theme.typography.lg,
+    fontWeight: '600',
+    marginBottom: theme.spacing.xs,
+    color: theme.colors.text,
+  } as TextStyle,
+
+  appointmentText: {
+    fontSize: theme.typography.md,
+    marginBottom: theme.spacing.xs,
+    color: theme.colors.text,
+  } as TextStyle,
+
+  actionsContainer: {
+    flexDirection: 'row',
+    gap: theme.spacing.sm,
+    marginTop: theme.spacing.sm,
+  } as ViewStyle,
+
+  cancelButton: {
+    backgroundColor: theme.colors.error,
+    paddingVertical: theme.spacing.sm,
+    paddingHorizontal: theme.spacing.md,
+    borderRadius: theme.radii.sm,
+  } as ViewStyle,
+
+  rateButton: {
+    backgroundColor: theme.colors.primary,
+    paddingVertical: theme.spacing.sm,
+    paddingHorizontal: theme.spacing.md,
+    borderRadius: theme.radii.sm,
+  } as ViewStyle,
+
+  buttonText: {
+    color: 'white',
+    fontWeight: '500',
+  } as TextStyle,
+
+  buttonPressed: {
+    opacity: 0.8,
+  } as ViewStyle,
+
+  buttonDisabled: {
+    opacity: 0.6,
+  } as ViewStyle,
+
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  } as ViewStyle,
+
+  modalContent: {
+    width: '90%',
+    backgroundColor: theme.colors.card,
+    borderRadius: theme.radii.lg,
+    padding: theme.spacing.lg,
+    ...theme.shadows.lg,
+  } as ViewStyle,
+
+  modalTitle: {
+    fontSize: theme.typography.lg,
+    fontWeight: 'bold',
+    marginBottom: theme.spacing.md,
+    textAlign: 'center',
+    color: theme.colors.text,
+  } as TextStyle,
+
+  ratingContainer: {
+    justifyContent: 'center',
+    marginVertical: theme.spacing.md,
+  } as ViewStyle,
+
+  commentInput: {
+    borderWidth: 1,
+    borderColor: theme.colors.border,
+    borderRadius: theme.radii.sm,
+    padding: theme.spacing.md,
+    marginBottom: theme.spacing.md,
+    minHeight: 100,
+    textAlignVertical: 'top',
+    color: theme.colors.text,
+    backgroundColor: theme.colors.background,
+  } as TextInputStyle,
+
+  modalActions: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    gap: theme.spacing.md,
+  } as ViewStyle,
+
+  modalButton: {
+    flex: 1,
+    padding: theme.spacing.md,
+    borderRadius: theme.radii.sm,
+    alignItems: 'center',
+    justifyContent: 'center',
+  } as ViewStyle,
+
+  cancelModalButton: {
+    backgroundColor: theme.colors.textSecondary,
+  } as ViewStyle,
+});
 // Type exports
 export type { Theme };
