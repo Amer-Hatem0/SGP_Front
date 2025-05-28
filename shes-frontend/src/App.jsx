@@ -18,6 +18,7 @@ import PatientDetails from './pages/doctor/PatientDetails';
 import LeaveAndSchedule from './pages/doctor/LeaveAndSchedule';
 import RescheduleAppointments from './pages/doctor/RescheduleAppointments';
 import DoctorChatPage from './pages/doctor/DoctorChatPage';
+import Notifications from './pages/doctor/Notifications';
 
 
 
@@ -52,10 +53,11 @@ export default function App() {
   <Route path="/doctor/patient-details" element={< PatientDetails />} />
   <Route path="/doctor/leave-schedule" element={< LeaveAndSchedule />} />
  <Route path="/doctor/RescheduleAppointments" element={< RescheduleAppointments />} />
-
+<Route path="/doctor/Notifications" element={<Notifications />} />
 <Route path="/doctor/chat" element={<DoctorChatPage />} />
 
 
+ 
  
     
       <Route path="/admin/home" element={<AdminHome />} />

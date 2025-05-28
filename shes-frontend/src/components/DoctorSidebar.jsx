@@ -17,7 +17,8 @@ export default function DoctorSidebar() {
         <NavLink to="/doctor/patient-details" className={getLinkClass}><FaFileMedical /> Patient Details</NavLink>
         <NavLink to="/doctor/leave-schedule" className={getLinkClass}><FaCalendarCheck /> Leave & Schedule</NavLink>
         <NavLink to="/doctor/RescheduleAppointments" className={getLinkClass}><FaChartLine /> My Appointments</NavLink>
-        <NavLink to="/doctor/chat" className={getLinkClass}><FaBell /> chat</NavLink>
+        <NavLink to="/doctor/chat" className={getLinkClass}>💬    chat</NavLink>
+          <NavLink to="/doctor/Notifications" className={getLinkClass}><FaBell /> Notifications</NavLink>
       </nav>
     </div>
   );

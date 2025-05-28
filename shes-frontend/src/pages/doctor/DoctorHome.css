@@ -43,6 +43,31 @@
   flex-direction: column;
   gap: 0.8rem;
 }
+/* DoctorHome.css */
+.DrHome-badge-green {
+  position: absolute;
+  top: 0px;
+  right: -2px;
+  width: 8px;
+  height: 8px;
+  background-color: green;
+  border-radius: 50%;
+}
+.unread-background {
+  background-color: #ffdddd;
+  font-weight: bold;
+}
+
+.DrHome-unread-count {
+  position: absolute;
+  top: -5px;
+  right: -12px;
+  background-color: red;
+  color: white;
+  font-size: 10px;
+  padding: 2px 4px;
+  border-radius: 10px;
+}
 
 .DoctorSidebar-link {
   color: #cbd5e1;
@@ -660,8 +685,69 @@
 }
 
 /*  */
-/*  chat */
+/*  Notifications */
 /*  */
+.notifications-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  padding: 20px;
+  width: 100vw !important;
+ 
+ 
+}
+
+.nc{
+    background-color: #eeeeee;
+    width: 20%;
+    padding: 30px;
+     border-radius: 25px;
+}
+.notifications-list {
+  list-style: none;
+  padding: 0;
+  
+  
+}
+
+.notification-item {
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  background-color: #f7f7f7;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+ 
+}
+
+.notification-item.unread {
+  background-color: #fff4e5;
+  border-left: 5px solid orange;
+}
+
+.notification-content p {
+  margin: 0;
+  font-weight: 500;
+}
+
+.notification-content small {
+  color: #666;
+}
+
+.notifications-container button {
+  padding: 6px 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.notifications-container button:hover {
+  background-color: #0056b3;
+}
 
 
  
