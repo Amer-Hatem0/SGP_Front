@@ -12,6 +12,16 @@ import UploadReport from './pages/patient/UploadReport';
 import MedicalHistory from './pages/patient/MedicalHistory';
 
 import DoctorHome from './pages/doctor/DoctorHome';
+import TasksAndHistory from './pages/doctor/TasksAndHistory';
+import PatientManagement from './pages/doctor/PatientManagement';
+import PatientDetails from './pages/doctor/PatientDetails';
+import LeaveAndSchedule from './pages/doctor/LeaveAndSchedule';
+import RescheduleAppointments from './pages/doctor/RescheduleAppointments';
+import DoctorChatPage from './pages/doctor/DoctorChatPage';
+
+
+
+
 import AdminHome from './pages/admin/AdminHome';
 import SupervisorHome from './pages/supervisor/SupervisorHome';
 import { getUserFromLocalStorage } from './utils/auth';
@@ -37,6 +47,17 @@ export default function App() {
 
 
       <Route path="/doctor/home" element={<DoctorHome />} />
+         <Route path="/doctor/tasks-history" element={< TasksAndHistory />} />
+            <Route path="/doctor/patient-management" element={< PatientManagement />} />
+  <Route path="/doctor/patient-details" element={< PatientDetails />} />
+  <Route path="/doctor/leave-schedule" element={< LeaveAndSchedule />} />
+ <Route path="/doctor/RescheduleAppointments" element={< RescheduleAppointments />} />
+
+<Route path="/doctor/chat" element={<DoctorChatPage />} />
+
+
+ 
+    
       <Route path="/admin/home" element={<AdminHome />} />
       <Route path="/supervisor/home" element={<SupervisorHome />} />
     </Routes>

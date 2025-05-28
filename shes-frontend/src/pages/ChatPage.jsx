@@ -1,48 +1,34 @@
-// import React, { useState } from 'react';
-// import DoctorList from '../components/DoctorList';
-// import ChatBox from '../components/ChatBox';
-// import '../style/ChatPage.css';
-// import PatientSidebar from '../components/PatientSidebar';
-
-// export default function ChatPage() {
-//   const [selectedDoctorId, setSelectedDoctorId] = useState(null);
-
-//   return (
-//     <div className="chat-full-layout">
-//       <PatientSidebar />
-//       <div className="chat-page-wrapper">
-//         <div className="doctor-list-panel">
-//           <h3 className="sidebar-title"> Doctors 🩺</h3>
-//           <DoctorList onSelectDoctor={setSelectedDoctorId} />
-//         </div>
-//         <div className="chat-main-panel">
-//           {selectedDoctorId ? (
-//             <ChatBox receiverId={selectedDoctorId} />
-//           ) : (
-//             <div className="placeholder">
-//       <p>Choose a doctor to start the conversation</p>
-//             </div>
-//           )}
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-
+ 
 import React, { useState } from 'react';
 import DoctorList from '../components/DoctorList';
 import ChatBox from '../components/ChatBox';
 import PatientSidebar from '../components/PatientSidebar';
 import '../style/ChatPage.css';
-
+ import axios from 'axios';
+import API_BASE_URL from '../config/apiConfig';
 export default function ChatPage() {
   const [selectedDoctorId, setSelectedDoctorId] = useState(null);
   const [selectedDoctorName, setSelectedDoctorName] = useState('');
 
-  const handleDoctorSelect = (id, name) => {
-    setSelectedDoctorId(id);
-    setSelectedDoctorName(name);
-  };
+const markAllAsReadFromDoctor = async (doctorId) => {
+  const currentUser = JSON.parse(localStorage.getItem('user'));
+  const token = currentUser?.token;
+
+  try {
+    await axios.put(`${API_BASE_URL}/Chat/MarkAllFromSenderAsRead/${doctorId}`, {}, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  } catch (err) {
+    console.error("Failed to mark all messages as read from this doctor", err);
+  }
+};
+
+const handleDoctorSelect = (id, name) => {
+  setSelectedDoctorId(id);
+  setSelectedDoctorName(name);
+  markAllAsReadFromDoctor(id);  
+};
+
 
   return (
     <div className="chat-full-layout">

@@ -1,0 +1,669 @@
+/* Full layout container */
+.DrHome-container-full {
+  display: flex;
+  min-height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #fff;
+  width: 90vw;
+  padding-left: 50px;
+  padding-right: 50px;
+  overflow: hidden;
+}
+.DrHome-main{
+    margin-top: 10px !important;
+}
+/* Fixed Sidebar */
+.DoctorSidebar-container {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 240px;
+  height: 100vh;
+  background-color: #1e293b;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 1rem;
+  z-index: 1000;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Sidebar nav styling */
+.DoctorSidebar-title {
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: #38bdf8;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.DoctorSidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.DoctorSidebar-link {
+  color: #cbd5e1;
+  text-decoration: none;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.DoctorSidebar-link:hover,
+.DoctorSidebar-link.DoctorSidebar-active {
+  background-color: #38bdf8;
+  color: #1e293b;
+  font-weight: 600;
+}
+
+/* Main content */
+.DrHome-main {
+  margin-left: 240px; /* equal to sidebar width */
+  padding: 2rem;
+  width: calc(100% - 240px);
+}
+
+/* Header */
+.DrHome-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.DrHome-search {
+  padding: 0.6rem 1rem;
+  width: 260px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.DrHome-icons {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.DrHome-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+/* Stats Section */
+.DrHome-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.DrHome-card {
+    margin-top: 50px !important;
+  flex: 1 1 250px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background-color: #f4f7fc;
+  border-radius: 12px;
+  padding: 1.2rem 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease-in-out;
+}
+.DrHome-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background-color: red;
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+}
+
+.DrHome-card:hover {
+  transform: translateY(-3px);
+}
+
+.DrHome-stat-number {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.DrHome-stat-label {
+  font-size: 0.95rem;
+  color: #7b8a97;
+}
+
+/* Responsive handling */
+@media (max-width: 768px) {
+  .DrHome-main {
+    margin-left: 0;
+    width: 100%;
+    padding: 1rem;
+  }
+
+  .DoctorSidebar-container {
+    display: none;
+  }
+}
+
+
+
+/*  */
+/* TasksAndHistory */
+/*  */
+
+
+.TasksAndHistory-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f8fafc;
+ 
+}
+
+.TasksAndHistory-main {
+  flex-grow: 1;
+  padding: 2rem 3rem;
+  width: 100%;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f9fbfe;
+  margin-left: 500px;
+}
+
+.TasksAndHistory-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 2rem;
+  border-bottom: 3px solid #3b82f6;
+  padding-bottom: 0.5rem;
+}
+
+.TasksAndHistory-section {
+  background-color: white;
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2.5rem;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+  width: 100%;
+}
+
+.TasksAndHistory-section h2 {
+  font-size: 1.4rem;
+  color: #1e3a8a;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.TasksAndHistory-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  margin-bottom: 1.5rem;
+}
+
+.card {
+  flex: 1;
+  min-width: 220px;
+  background-color: #e0f2fe;
+  border-left: 6px solid #0ea5e9;
+  padding: 1rem 1.5rem;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #0369a1;
+  display: flex;
+  justify-content: space-between;
+}
+
+.TasksAndHistory-subsection {
+  margin-top: 1.5rem;
+}
+
+.TasksAndHistory-subsection h3 {
+  font-size: 1.1rem;
+  color: #334155;
+  margin-bottom: 0.75rem;
+}
+
+.TasksAndHistory-subsection ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.TasksAndHistory-subsection li {
+  padding: 0.75rem 1rem;
+  background-color: #f1f5f9;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.TasksAndHistory-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  font-size: 0.95rem;
+}
+
+.TasksAndHistory-table thead {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.TasksAndHistory-table th,
+.TasksAndHistory-table td {
+  padding: 12px 16px;
+  text-align: left;
+}
+
+.TasksAndHistory-table tbody tr:nth-child(even) {
+  background-color: #f1f5f9;
+}
+
+.TasksAndHistory-table tbody tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+
+/*  */
+/* PatientManagement  */
+/*  */
+.PatientManagement-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f9fafb;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.PatientManagement-main {
+ 
+  padding: 2rem;
+  margin-left: 240px;
+}
+
+.PatientManagement-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #1e293b;
+  margin-bottom: 2rem;
+}
+
+.PatientManagement-form {
+  background-color: #ffffff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.PatientManagement-input,
+.PatientManagement-textarea {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: #f1f5f9;
+  resize: none;
+}
+
+.PatientManagement-textarea {
+  height: 100px;
+}
+
+.PatientManagement-button {
+  align-self: flex-start;
+  background-color: #3b82f6;
+  color: white;
+  padding: 0.6rem 1.4rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.PatientManagement-button:hover {
+  background-color: #2563eb;
+}
+
+
+/*  */
+/* patient-details */
+/*  */ 
+.PatientDetails-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #eaeaea;
+  font-family: 'Segoe UI', sans-serif;
+  width: 70vw;
+ margin-left: 300px;
+}
+
+ 
+.PatientDetails-main {
+  flex-grow: 1;
+  padding: 40px 60px;
+  width: 100%;
+    margin: auto !important;
+}
+
+ 
+.PatientDetails-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 30px;
+  color: #2d3748;
+}
+
+ 
+.PatientDetails-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.PatientDetails-input,
+.PatientDetails-button {
+  padding: 10px 15px;
+  border-radius: 6px;
+  border: 1px solid #cbd5e0;
+  font-size: 1rem;
+}
+
+.PatientDetails-button {
+  background-color: #3182ce;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.PatientDetails-button:hover {
+  background-color: #2b6cb0;
+}
+
+ 
+.PatientDetails-content {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+ 
+.PatientDetails-infoCard {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.PatientDetails-subtitle {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #2d3748;
+}
+
+ 
+.PatientDetails-section {
+  background-color: #ffffff;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+ 
+.PatientDetails-list {
+  list-style-type: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.PatientDetails-item {
+  padding: 10px;
+  border-bottom: 1px solid #edf2f7;
+}
+
+.PatientDetails-item:last-child {
+  border-bottom: none;
+}
+
+ 
+.PatientDetails-downloadLink {
+  background-color: #edf2f7;
+  padding: 10px 15px;
+  border-radius: 6px;
+  display: inline-block;
+  font-weight: 500;
+  color: #2b6cb0;
+  border: none;
+  cursor: pointer;
+}
+.PatientDetails-downloadLink:hover {
+  background-color: #e2e8f0;
+}
+
+ 
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 1000px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+
+/*  */
+/*  LeaveAndSchedule */
+/*  */
+
+.LeaveRequestPage-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f1f5f9;
+}
+
+.LeaveRequestPage-main {
+  margin-left: 240px;
+  padding: 2rem;
+  width: 100%;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.LeaveRequestPage-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  color: #1e293b;
+}
+
+.LeaveRequestPage-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.06);
+  max-width: 500px;
+}
+
+.LeaveRequestPage-label {
+  font-weight: 600;
+  color: #334155;
+}
+
+.LeaveRequestPage-input,
+.LeaveRequestPage-textarea {
+  padding: 0.7rem 1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  width: 100%;
+}
+
+.LeaveRequestPage-button {
+  padding: 0.8rem;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.LeaveRequestPage-button:hover {
+  background-color: #2563eb;
+}
+.LeaveRequestPage-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 12px;
+  margin-top: 1.5rem;
+  background-color: #f8fafc;
+  border-radius: 8px;
+  overflow: hidden;
+  font-size: 0.95rem;
+}
+
+.LeaveRequestPage-table th {
+  background-color: #0ea5e9;
+  color: white;
+  padding: 12px;
+  text-align: left;
+  font-weight: 600;
+}
+
+.LeaveRequestPage-table td {
+  background-color: #ffffff;
+  padding: 14px;
+  border-bottom: 1px solid #e2e8f0;
+  vertical-align: middle;
+}
+
+.LeaveRequestPage-delete {
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.LeaveRequestPage-delete:hover {
+  background-color: #dc2626;
+}
+
+.LeaveRequestPage-status.pending {
+  color: #f59e0b;
+  font-weight: bold;
+}
+.LeaveRequestPage-status.approved {
+  color: #22c55e;
+  font-weight: bold;
+}
+.LeaveRequestPage-status.rejected {
+  color: #ef4444;
+  font-weight: bold;
+}
+
+/*  */
+/* RescheduleAppointments */
+/*  */
+
+.Reschedule-container {
+  display: flex;
+  background-color: #f1f5f9;
+  min-height: 100vh;
+}
+
+.Reschedule-main {
+  padding: 2rem;
+  margin-left: 240px;
+  width: 100%;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.Reschedule-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  color: #1e293b;
+}
+
+.Reschedule-list {
+  list-style: none;
+  padding: 0;
+}
+
+.Reschedule-item {
+  background-color: white;
+  border: 1px solid #e2e8f0;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.Reschedule-form {
+  margin-top: 1rem;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.Reschedule-input {
+  padding: 0.5rem 1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  width: 200px;
+}
+
+.Reschedule-button {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  padding: 0.5rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/*  */
+/*  chat */
+/*  */
+
+
+ 
+
+ 

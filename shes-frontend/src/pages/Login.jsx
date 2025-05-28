@@ -21,18 +21,16 @@ const handleLogin = async (e) => {
     const decoded = JSON.parse(atob(token.split('.')[1]));
 
     const role = decoded.role || 'Patient';
-    const userId = parseInt(decoded.sub); // أو decoded.userId إذا مختلف عندك
+    const userId = parseInt(decoded.sub); 
 
     if (!userId) {
       console.error("❌ Failed to extract userId from token:", decoded);
       alert("Login succeeded, but user ID is missing.");
       return;
     }
-
-    // ✅ حفظ كل شيء في localStorage
+ 
     saveUserToLocalStorage({ token, role, userId });
-
-    // ✅ التوجيه حسب الدور
+ 
     switch (role) {
       case 'Patient': return navigate('/patient/home');
       case 'Doctor': return navigate('/doctor/home');
