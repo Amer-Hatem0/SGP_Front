@@ -11,6 +11,7 @@ import MyAppointments from './pages/patient/MyAppointments';
 import UploadReport from './pages/patient/UploadReport';
 import MedicalHistory from './pages/patient/MedicalHistory';
 
+
 import DoctorHome from './pages/doctor/DoctorHome';
 import TasksAndHistory from './pages/doctor/TasksAndHistory';
 import PatientManagement from './pages/doctor/PatientManagement';
@@ -21,7 +22,14 @@ import DoctorChatPage from './pages/doctor/DoctorChatPage';
 import Notifications from './pages/doctor/Notifications';
 
 
+import SupervisorDashboard from './pages/supervisor/SupervisorDashboard';
+import LeaveRequest from './pages/supervisor/LeaveRequests';
+import AssignPatient from './pages/supervisor/AssignPatient';
+import VerifyPatients from './pages/supervisor/VerifyPatients';
+import SupervisorPerformance from './pages/supervisor/SupervisorPerformance';
+import SupervisorProfile from './pages/supervisor/SupervisorProfile';
 
+  
 
 import AdminHome from './pages/admin/AdminHome';
 import SupervisorHome from './pages/supervisor/SupervisorHome';
@@ -37,7 +45,7 @@ export default function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/register" element={<Register />} />
-       <Route path="/ChatPage" element={<ChatPage />} />
+      <Route path="/ChatPage" element={<ChatPage />} />
 
       <Route path="/patient/home" element={<PatientHome />} />
       <Route path="/patient/Profile" element={<Profile />} />
@@ -48,20 +56,26 @@ export default function App() {
 
 
       <Route path="/doctor/home" element={<DoctorHome />} />
-         <Route path="/doctor/tasks-history" element={< TasksAndHistory />} />
-            <Route path="/doctor/patient-management" element={< PatientManagement />} />
-  <Route path="/doctor/patient-details" element={< PatientDetails />} />
-  <Route path="/doctor/leave-schedule" element={< LeaveAndSchedule />} />
- <Route path="/doctor/RescheduleAppointments" element={< RescheduleAppointments />} />
-<Route path="/doctor/Notifications" element={<Notifications />} />
-<Route path="/doctor/chat" element={<DoctorChatPage />} />
+      <Route path="/doctor/tasks-history" element={< TasksAndHistory />} />
+      <Route path="/doctor/patient-management" element={< PatientManagement />} />
+      <Route path="/doctor/patient-details" element={< PatientDetails />} />
+      <Route path="/doctor/leave-schedule" element={< LeaveAndSchedule />} />
+      <Route path="/doctor/RescheduleAppointments" element={< RescheduleAppointments />} />
+      <Route path="/doctor/Notifications" element={<Notifications />} />
+      <Route path="/doctor/chat" element={<DoctorChatPage />} />
 
 
- 
- 
-    
+
       <Route path="/admin/home" element={<AdminHome />} />
-      <Route path="/supervisor/home" element={<SupervisorHome />} />
+
+
+      <Route path="/supervisor/home" element={<SupervisorDashboard />} />
+         <Route path="/supervisor/leave-requests" element={<LeaveRequest />} />
+           <Route path="/supervisor/assign-patient" element={<AssignPatient />} />
+            <Route path="/supervisor/verify-patients" element={<VerifyPatients />} />
+             <Route path="/supervisor/performance" element={<SupervisorPerformance />} />
+             <Route path="/supervisor/profile" element={<SupervisorProfile />} />
+    
     </Routes>
   );
 }
