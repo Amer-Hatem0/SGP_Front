@@ -73,10 +73,10 @@ export default function SupervisorDashboard() {
               <FaBell size={18} className="text-secondary" />
               {hasNotification && <span style={{ position: 'absolute', top: '-5px', right: '-5px', background: 'red', color: 'white', borderRadius: '50%', padding: '2px 5px', fontSize: '10px' }}>!</span>}
               {showDropdown && (
-                <div className="dropdown-menu show p-2" style={{ position: 'absolute', right: 0, top: '25px', zIndex: 999, minWidth: '220px' }}>
-                  {overview?.pendingLeaveRequests > 0 && <div className="dropdown-item" onClick={() => navigateTo('leave')}>📝 طلب إجازة جديد</div>}
-                  {unverifiedPatients.length > 0 && <div className="dropdown-item" onClick={() => navigateTo('verify')}>🆕 توثيق مريض جديد</div>}
-                </div>
+        <div className="dropdown-menu show p-2" style={{ position: 'absolute', right: 0, top: '25px', zIndex: 999, minWidth: '220px' }}>
+    {overview?.pendingLeaveRequests > 0 && <div className="dropdown-item" onClick={() => navigateTo('leave')}>📝 New Leave Request</div>}
+    {unverifiedPatients.length > 0 && <div className="dropdown-item" onClick={() => navigateTo('verify')}>🆕 New Patient Verification</div>}
+</div>
               )}
             </div>
 
@@ -91,7 +91,7 @@ export default function SupervisorDashboard() {
               {showProfileDropdown && (
                 <div className="dropdown-menu show p-2" style={{ position: 'absolute', right: 0, top: '42px', zIndex: 999 }}>
             <div className="dropdown-item" onClick={() => navigateTo('profile')} style={{ cursor: 'pointer' }}>⚙️ Settings</div>
----
+ 
 <div className="dropdown-item" onClick={() => navigateTo('logout')} style={{ cursor: 'pointer' }}>🚪 Logout</div>   </div>
               )}
             </div>

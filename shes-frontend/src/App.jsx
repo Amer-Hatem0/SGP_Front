@@ -36,6 +36,7 @@ import SupervisorHome from './pages/supervisor/SupervisorHome';
 import { getUserFromLocalStorage } from './utils/auth';
 import PatientSidebar from './components/PatientSidebar';
 import ChatPage from './pages/ChatPage';
+import VerifyEmail from './pages/VerifyEmail';
 
 
 export default function App() {
@@ -46,6 +47,9 @@ export default function App() {
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/register" element={<Register />} />
       <Route path="/ChatPage" element={<ChatPage />} />
+  <Route path="/verify-email" element={<VerifyEmail />} />
+
+
 
       <Route path="/patient/home" element={<PatientHome />} />
       <Route path="/patient/Profile" element={<Profile />} />
