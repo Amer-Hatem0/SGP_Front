@@ -43,7 +43,7 @@
     "react-native-reanimated": "^3.17.5",
     "react-native-safe-area-context": "^5.4.0",
     "react-native-screens": "~4.10.0",
-    "react-native-star-rating": "^1.1.0",
+    "react-native-star-rating-widget": "^1.9.2",
     "react-native-web": "~0.20.0",
     "react-native-webview": "13.13.5",
     "undefined": "\\"
@@ -54,7 +54,6 @@
     "@react-native/metro-config": "^0.79.2",
     "@types/base-64": "^1.0.2",
     "@types/react": "~19.0.10",
-    "@types/react-native-star-rating": "^1.1.6",
     "eslint": "^9.25.0",
     "eslint-config-expo": "~9.2.0",
     "metro": "^0.82.4",

@@ -18,7 +18,7 @@ import PatientSidebar from '../../../components/patient/Sidebar';
 import axios from 'axios';
 import API_BASE_URL from '../../../../config/apiConfig';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import StarRating from 'react-native-star-rating';
+import StarRating from 'react-native-star-rating-widget';
 
 interface Appointment {
   appointmentId: number;
@@ -249,13 +249,11 @@ export default function MyAppointments() {
             <Text style={styles.modalTitle}>Rate Doctor</Text>
             
             <StarRating
-              disabled={false}
-              maxStars={5}
               rating={rating}
-              selectedStar={(rating) => setRating(rating)}
-              fullStarColor={theme.colors.primary}
+              onChange={(newRating: number) => setRating(newRating)}
               starSize={40}
-              containerStyle={styles.ratingContainer}
+              color={theme.colors.primary}
+              style={styles.ratingContainer}
             />
             
             <TextInput
