@@ -1,10 +1,9 @@
-import { DarkTheme, DefaultTheme, ThemeProvider as NavThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
+import { Slot } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
+import { useFonts } from 'expo-font';
 import { useColorScheme } from '@/hooks/useColorScheme';
-import { ThemeProvider } from './styles/themes'; // Your custom theme provider
-import AppNavigator from './AppNavigator'; // ✅ Import your custom navigator
+import { ThemeProvider } from './styles/themes';
+import { DarkTheme, DefaultTheme, ThemeProvider as NavThemeProvider } from '@react-navigation/native';
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -12,14 +11,12 @@ export default function RootLayout() {
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
   });
 
-  if (!loaded) {
-    return null; // Optional: splash screen while fonts load
-  }
+  if (!loaded) return null;
 
   return (
     <ThemeProvider>
       <NavThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <AppNavigator /> {/* ✅ Use your role-aware navigation here */}
+        <Slot /> {/* 👈 This is the new navigation entry point */}
         <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
       </NavThemeProvider>
     </ThemeProvider>

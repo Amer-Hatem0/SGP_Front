@@ -1,9 +1,24 @@
-import { useState } from 'react';
-import { View, Text, TextInput, Pressable, Alert } from 'react-native';
-import  useAuth from '../../../hooks/useAuth';
+import React, { useState } from 'react';
+import { 
+  View, 
+  ScrollView, 
+  Alert, 
+  KeyboardAvoidingView,
+  Platform,
+  ActivityIndicator,
+  TextInput,
+  Text,
+  Pressable
+} from 'react-native';
+import { useTheme, makeRegisterStyles } from '../../styles/themes';
 import { router } from 'expo-router';
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import API_BASE_URL from '../../../config/apiConfig';
+
 export default function RegisterScreen() {
+  const { theme } = useTheme();
+  const styles = makeRegisterStyles(theme);
   const [form, setForm] = useState({
     userName: '',
     email: '',
@@ -14,63 +29,154 @@ export default function RegisterScreen() {
     age: '',
     password: ''
   });
-  const { saveUser } = useAuth();
+  const [loading, setLoading] = useState(false);
 
-  const handleChange = (name: string, value: string) => {
-    setForm(prev => ({ ...prev, [name]: value }));
+  const handleChange = (field: string, value: string) => {
+    setForm(prev => ({ ...prev, [field]: value }));
   };
 
   const handleRegister = async () => {
-    try {
-      const res = await axios.post('http://localhost:5014/api/Account/Register', form);
-      
-      await saveUser({
-        token: res.data.token,
-        role: res.data.role || 'Patient'
-      });
+    if (!form.email || !form.password) {
+      Alert.alert('Error', 'Please fill all required fields');
+      return;
+    }
 
-      Alert.alert('Success', 'Registered successfully!');
-      router.replace(`/(app)/${res.data.role.toLowerCase()}/home`);
-    } catch (err) {
-      Alert.alert('Error', 'Registration failed. Please try again.');
+    setLoading(true);
+    try {
+      const res = await axios.post(`${API_BASE_URL}/Account/Register`, form);
+      
+      const token = res.data.token;
+      const decoded = JSON.parse(atob(token.split('.')[1]));
+      const role = decoded.role || 'Patient';
+      const userId = parseInt(decoded.sub);
+
+      await AsyncStorage.setItem('user', JSON.stringify({
+        token,
+        role,
+        userId,
+        email: form.email,
+        name: decoded.name || form.fullName || 'User'
+      }));
+
+      Alert.alert('Success', 'Account created successfully!');
+      router.replace(`../(app)/${role.toLowerCase()}/home`);
+    } catch (err: unknown) {
+      console.error("Registration error:", err);
+      let message = 'Registration failed. Please try again.';
+
+      if (axios.isAxiosError(err)) {
+        message = err.response?.data?.message || message;
+      }
+
+      Alert.alert('Registration Failed', message);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <View className="flex-1 p-6 bg-green-50">
-      <Text className="text-3xl font-bold text-center text-green-800 mb-6">Create Account</Text>
-      
-      <View className="flex flex-wrap flex-row justify-between">
-        {Object.entries(form).map(([key, value]) => (
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={styles.container}
+    >
+      <ScrollView 
+        contentContainerStyle={styles.scrollContent}
+        keyboardShouldPersistTaps="handled"
+      >
+        <View style={styles.formContainer}>
+          <Text style={styles.title}>Create Account</Text>
+
+          <View style={styles.inputRow}>
+            <TextInput
+              placeholder="Username"
+              placeholderTextColor={theme.colors.textSecondary}
+              value={form.userName}
+              onChangeText={(text) => handleChange('userName', text)}
+              style={styles.input}
+              autoCapitalize="none"
+            />
+            <TextInput
+              placeholder="Full Name"
+              placeholderTextColor={theme.colors.textSecondary}
+              value={form.fullName}
+              onChangeText={(text) => handleChange('fullName', text)}
+              style={styles.input}
+            />
+          </View>
+
+          <View style={styles.inputRow}>
+            <TextInput
+              placeholder="Email"
+              placeholderTextColor={theme.colors.textSecondary}
+              value={form.email}
+              onChangeText={(text) => handleChange('email', text)}
+              style={styles.input}
+              keyboardType="email-address"
+              autoCapitalize="none"
+            />
+            <TextInput
+              placeholder="Phone"
+              placeholderTextColor={theme.colors.textSecondary}
+              value={form.phoneNumber}
+              onChangeText={(text) => handleChange('phoneNumber', text)}
+              style={styles.input}
+              keyboardType="phone-pad"
+            />
+          </View>
+
+          <View style={styles.inputRow}>
+            <TextInput
+              placeholder="Gender"
+              placeholderTextColor={theme.colors.textSecondary}
+              value={form.gender}
+              onChangeText={(text) => handleChange('gender', text)}
+              style={styles.input}
+            />
+            <TextInput
+              placeholder="Age"
+              placeholderTextColor={theme.colors.textSecondary}
+              value={form.age}
+              onChangeText={(text) => handleChange('age', text)}
+              style={styles.input}
+              keyboardType="numeric"
+            />
+          </View>
+
           <TextInput
-            key={key}
-            placeholder={key.replace(/([A-Z])/g, ' $1').trim()}
-            value={value}
-            onChangeText={(text) => handleChange(key, text)}
-            className="w-[48%] mb-4 p-2 border border-green-300 rounded"
-            secureTextEntry={key === 'password'}
-            keyboardType={
-              key === 'email' ? 'email-address' :
-              key === 'phoneNumber' ? 'phone-pad' :
-              key === 'age' ? 'numeric' : 'default'
-            }
+            placeholder="Password"
+            placeholderTextColor={theme.colors.textSecondary}
+            value={form.password}
+            onChangeText={(text) => handleChange('password', text)}
+            style={[styles.input, styles.fullWidthInput]}
+            secureTextEntry
           />
-        ))}
-      </View>
 
-      <Pressable
-        onPress={handleRegister}
-        className="mt-6 w-full bg-green-700 p-3 rounded"
-      >
-        <Text className="text-white text-center">Sign Up</Text>
-      </Pressable>
+          <Pressable
+            onPress={handleRegister}
+            disabled={loading}
+            style={({ pressed }) => [
+              styles.registerButton,
+              pressed && styles.buttonPressed,
+              loading && styles.buttonDisabled
+            ]}
+          >
+            {loading ? (
+              <ActivityIndicator color="white" />
+            ) : (
+              <Text style={styles.buttonText}>Sign Up</Text>
+            )}
+          </Pressable>
 
-      <Pressable 
-        onPress={() => router.push('/login')}
-        className="mt-4"
-      >
-        <Text className="text-green-700 text-center">Already have an account? Login</Text>
-      </Pressable>
-    </View>
+          <View style={styles.linksContainer}>
+            <Pressable 
+              onPress={() => router.push('/(auth)/login')}
+              style={({ pressed }) => pressed && styles.linkPressed}
+            >
+              <Text style={styles.linkText}>Already have an account? Login</Text>
+            </Pressable>
+          </View>
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }

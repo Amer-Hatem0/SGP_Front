@@ -724,5 +724,163 @@ export const makeAppointmentStyles = (theme: Theme) => ({
     backgroundColor: theme.colors.textSecondary,
   } as ViewStyle,
 });
+
+export const makeRegisterStyles = (theme: Theme) => ({
+  container: {
+    flex: 1,
+    backgroundColor: theme.colors.background,
+  } as ViewStyle,
+  scrollContent: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    paddingBottom: theme.spacing.xl,
+  } as ViewStyle,
+  formContainer: {
+    marginHorizontal: theme.spacing.lg,
+    padding: theme.spacing.xl,
+    borderRadius: theme.radii.lg,
+    backgroundColor: theme.colors.card,
+    ...theme.shadows.md,
+  } as ViewStyle,
+  title: {
+    fontSize: theme.typography.xl,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: theme.spacing.lg,
+    color: theme.colors.primary,
+  } as TextStyle,
+  inputRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: theme.spacing.md,
+    gap: theme.spacing.md,
+  } as ViewStyle,
+  input: {
+    flex: 1,
+    height: 50,
+    borderWidth: 1,
+    borderColor: theme.colors.border,
+    borderRadius: theme.radii.md,
+    paddingHorizontal: theme.spacing.md,
+    fontSize: theme.typography.md,
+    color: theme.colors.text,
+    backgroundColor: theme.colors.background,
+  } as TextStyle & {
+    borderWidth?: number;
+    borderColor?: string;
+    borderRadius?: number;
+    backgroundColor?: string;
+  },
+  fullWidthInput: {
+    flex: 0,
+    width: '100%',
+  } as TextInputStyle,
+  registerButton: {
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: theme.radii.md,
+    backgroundColor: theme.colors.primary,
+    marginTop: theme.spacing.md,
+  } as ViewStyle,
+  buttonPressed: {
+    opacity: 0.8,
+  } as ViewStyle,
+  buttonDisabled: {
+    backgroundColor: theme.colors.disabled,
+  } as ViewStyle,
+  buttonText: {
+    color: 'white',
+    fontSize: theme.typography.md,
+    fontWeight: '600',
+  } as TextStyle,
+  linksContainer: {
+    marginTop: theme.spacing.lg,
+    alignItems: 'center',
+  } as ViewStyle,
+  linkText: {
+    color: theme.colors.primary,
+    fontSize: theme.typography.sm,
+  } as TextStyle,
+  linkPressed: {
+    opacity: 0.6,
+  } as ViewStyle,
+});
+
+export const makeForgotPasswordStyles = (theme: Theme) => ({
+  container: {
+    flex: 1,
+    backgroundColor: theme.colors.background,
+  } as ViewStyle,
+  scrollContent: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    paddingBottom: theme.spacing.xl,
+  } as ViewStyle,
+  formContainer: {
+    marginHorizontal: theme.spacing.lg,
+    padding: theme.spacing.xl,
+    borderRadius: theme.radii.lg,
+    backgroundColor: theme.colors.card,
+    ...theme.shadows.md,
+  } as ViewStyle,
+  title: {
+    fontSize: theme.typography.xl,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: theme.spacing.lg,
+    color: theme.colors.primary,
+  } as TextStyle,
+  input: {
+    height: 50,
+    borderWidth: 1,
+    borderColor: theme.colors.border,
+    borderRadius: theme.radii.md,
+    paddingHorizontal: theme.spacing.md,
+    marginBottom: theme.spacing.md,
+    fontSize: theme.typography.md,
+    color: theme.colors.text,
+    backgroundColor: theme.colors.background,
+  } as TextStyle & {
+    borderWidth?: number;
+    borderColor?: string;
+    borderRadius?: number;
+    backgroundColor?: string;
+  },
+  submitButton: {
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: theme.radii.md,
+    marginTop: theme.spacing.sm,
+  } as ViewStyle,
+  otpButton: {
+    backgroundColor: theme.colors.warning,
+  } as ViewStyle,
+  resetButton: {
+    backgroundColor: theme.colors.success,
+  } as ViewStyle,
+  buttonPressed: {
+    opacity: 0.8,
+  } as ViewStyle,
+  buttonDisabled: {
+    opacity: 0.6,
+  } as ViewStyle,
+  buttonText: {
+    color: 'white',
+    fontSize: theme.typography.md,
+    fontWeight: '600',
+  } as TextStyle,
+  linkText: {
+    color: theme.colors.primary,
+    fontSize: theme.typography.sm,
+    textAlign: 'center',
+    marginTop: theme.spacing.lg,
+  } as TextStyle,
+  linkPressed: {
+    opacity: 0.6,
+  } as ViewStyle,
+});
+
 // Type exports
 export type { Theme };
