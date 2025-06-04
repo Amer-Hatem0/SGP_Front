@@ -29,9 +29,21 @@ import VerifyPatients from './pages/supervisor/VerifyPatients';
 import SupervisorPerformance from './pages/supervisor/SupervisorPerformance';
 import SupervisorProfile from './pages/supervisor/SupervisorProfile';
 
-  
+
 
 import AdminHome from './pages/admin/AdminHome';
+import Users from './pages/admin/Users';
+import AdminAppointments from './pages/admin/AdminAppointments';
+import LeaveRequestsAdmin from './pages/admin/LeaveRequestsAdmin';
+import AdminReports from './pages/admin/AdminReports';
+import AdminFeedbacks from './pages/admin/AdminFeedbacks';
+import UserDetails from './pages/admin/UserDetails';
+
+
+
+
+
+
 import SupervisorHome from './pages/supervisor/SupervisorHome';
 import { getUserFromLocalStorage } from './utils/auth';
 import PatientSidebar from './components/PatientSidebar';
@@ -47,7 +59,7 @@ export default function App() {
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/register" element={<Register />} />
       <Route path="/ChatPage" element={<ChatPage />} />
-  <Route path="/verify-email" element={<VerifyEmail />} />
+      <Route path="/verify-email" element={<VerifyEmail />} />
 
 
 
@@ -71,15 +83,21 @@ export default function App() {
 
 
       <Route path="/admin/home" element={<AdminHome />} />
+      <Route path="/admin/users" element={<Users />} />
+      <Route path="/admin/appointments" element={<AdminAppointments />} />
+      <Route path="/admin/leave-requests" element={<LeaveRequestsAdmin />} />
+      <Route path="/admin/reports" element={<AdminReports />} />
+            <Route path="/admin/feedbacks" element={<AdminFeedbacks />} />
+              <Route path="/admin/user/:userId" element={<UserDetails />} />
 
 
       <Route path="/supervisor/home" element={<SupervisorDashboard />} />
-         <Route path="/supervisor/leave-requests" element={<LeaveRequest />} />
-           <Route path="/supervisor/assign-patient" element={<AssignPatient />} />
-            <Route path="/supervisor/verify-patients" element={<VerifyPatients />} />
-             <Route path="/supervisor/performance" element={<SupervisorPerformance />} />
-             <Route path="/supervisor/profile" element={<SupervisorProfile />} />
-    
+      <Route path="/supervisor/leave-requests" element={<LeaveRequest />} />
+      <Route path="/supervisor/assign-patient" element={<AssignPatient />} />
+      <Route path="/supervisor/verify-patients" element={<VerifyPatients />} />
+      <Route path="/supervisor/performance" element={<SupervisorPerformance />} />
+      <Route path="/supervisor/profile" element={<SupervisorProfile />} />
+
     </Routes>
   );
 }
