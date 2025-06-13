@@ -397,7 +397,33 @@ textInput: {
     paddingHorizontal: theme.spacing.md,
     paddingVertical: theme.spacing.sm,
     borderRadius: theme.radii.md
-  } as ViewStyle
+  } as ViewStyle,
+
+  welcomeCard: {
+  backgroundColor: theme.colors.card,
+  borderWidth: 1,
+  borderColor: theme.colors.border,
+  borderRadius: theme.radii.lg,
+  padding: theme.spacing.lg,
+  marginBottom: theme.spacing.lg,
+  ...theme.shadows.sm
+} as ViewStyle,
+
+cardTitle: {
+  fontSize: theme.typography.lg,
+  fontWeight: '600',
+  marginBottom: theme.spacing.sm
+} as TextStyle,
+
+statCard: {
+  backgroundColor: theme.colors.card,
+  padding: theme.spacing.lg,
+  borderRadius: theme.radii.md,
+  flexDirection: 'row',
+  alignItems: 'center',
+  gap: theme.spacing.md,
+  ...theme.shadows.sm
+} as ViewStyle
 });
 
 // Chat-specific styles
@@ -452,9 +478,10 @@ export const makeChatStyles = (theme: Theme) => ({
 
 export const makeMedicalStyles = (theme: Theme) => ({
   container: {
-    flexGrow: 1,
-    padding: theme.spacing.lg,
-  } as ViewStyle,
+  flexGrow: 1,
+  padding: theme.spacing.xl,
+  backgroundColor: theme.colors.background,
+} as ViewStyle,
   title: {
     fontSize: theme.typography.xl,
     fontWeight: 'bold',
@@ -462,22 +489,26 @@ export const makeMedicalStyles = (theme: Theme) => ({
     color: theme.colors.text,
   } as TextStyle,
   card: {
-    backgroundColor: theme.colors.card,
-    borderRadius: theme.radii.md,
-    padding: theme.spacing.lg,
-    marginBottom: theme.spacing.md,
-    ...theme.shadows.sm,
-  } as ViewStyle,
-  cardTitle: {
-    fontSize: theme.typography.lg,
-    fontWeight: '600',
-    marginBottom: theme.spacing.sm,
-    color: theme.colors.primary,
-  } as TextStyle,
-  cardValue: {
-    color: theme.colors.text,
-    fontWeight: 'normal',
-  } as TextStyle,
+  backgroundColor: theme.colors.card,
+  borderRadius: theme.radii.md,
+  padding: theme.spacing.lg,
+  marginBottom: theme.spacing.lg,
+  borderWidth: 1,
+  borderColor: theme.colors.border,
+  ...theme.shadows.sm,
+} as ViewStyle,
+
+cardTitle: {
+  fontSize: theme.typography.lg,
+  fontWeight: '600',
+  marginBottom: theme.spacing.sm,
+  color: theme.colors.primaryDark,
+} as TextStyle,
+
+cardValue: {
+  fontWeight: 'normal',
+  color: theme.colors.text,
+} as TextStyle,
   entry: {
     fontSize: theme.typography.md,
     marginBottom: theme.spacing.xs,
@@ -647,7 +678,7 @@ export const makeAppointmentStyles = (theme: Theme) => ({
   } as ViewStyle,
 
   rateButton: {
-    backgroundColor: theme.colors.primary,
+    backgroundColor: '#ffd700', // Keeping exact gold color
     paddingVertical: theme.spacing.sm,
     paddingHorizontal: theme.spacing.md,
     borderRadius: theme.radii.sm,
@@ -670,11 +701,12 @@ export const makeAppointmentStyles = (theme: Theme) => ({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: 'rgba(0,0,0,0.3)',
   } as ViewStyle,
 
   modalContent: {
     width: '90%',
+    maxWidth: 400,
     backgroundColor: theme.colors.card,
     borderRadius: theme.radii.lg,
     padding: theme.spacing.lg,
@@ -708,7 +740,7 @@ export const makeAppointmentStyles = (theme: Theme) => ({
 
   modalActions: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'center',
     gap: theme.spacing.md,
   } as ViewStyle,
 
@@ -723,6 +755,67 @@ export const makeAppointmentStyles = (theme: Theme) => ({
   cancelModalButton: {
     backgroundColor: theme.colors.textSecondary,
   } as ViewStyle,
+});
+
+// Add to themes.tsx
+export const makeDoctorStyles = (theme: Theme) => ({
+  container: {
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: theme.colors.background,
+  } as ViewStyle,
+
+  scrollContainer: {
+    flex: 1,
+    padding: theme.spacing.lg,
+  } as ViewStyle,
+
+  title: {
+    fontSize: theme.typography.xl,
+    fontWeight: 'bold',
+    marginBottom: theme.spacing.lg,
+    color: theme.colors.text,
+  } as TextStyle,
+
+  doctorCard: {
+    backgroundColor: theme.colors.card,
+    borderRadius: theme.radii.lg,
+    padding: theme.spacing.lg,
+    marginBottom: theme.spacing.lg,
+    ...theme.shadows.sm,
+    alignItems: 'center',
+  } as ViewStyle,
+
+  avatar: {
+    width: 90,
+    height: 90,
+    borderRadius: 45,
+    marginBottom: theme.spacing.md,
+  } as ImageStyle,
+
+  doctorName: {
+    fontWeight: 'bold',
+    fontSize: theme.typography.lg,
+    marginBottom: theme.spacing.xs,
+    color: theme.colors.text,
+  } as TextStyle,
+
+  bookButton: {
+    backgroundColor: theme.colors.primary,
+    paddingHorizontal: theme.spacing.lg,
+    paddingVertical: theme.spacing.md,
+    borderRadius: theme.radii.full,
+    marginTop: theme.spacing.md,
+  } as ViewStyle,
+
+  formInput: {
+    borderWidth: 1,
+    borderColor: theme.colors.border,
+    borderRadius: theme.radii.sm,
+    padding: theme.spacing.sm,
+    marginBottom: theme.spacing.sm,
+    width: '100%',
+  } as TextInputStyle,
 });
 
 export const makeRegisterStyles = (theme: Theme) => ({
@@ -880,6 +973,334 @@ export const makeForgotPasswordStyles = (theme: Theme) => ({
   linkPressed: {
     opacity: 0.6,
   } as ViewStyle,
+});
+
+// Add to your themes.tsx file
+export const makePatientHomeStyles = (theme: Theme) => ({
+  // Layout
+  container: {
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: theme.colors.background,
+  } as ViewStyle,
+
+  scrollContainer: {
+    flex: 1,
+    padding: theme.spacing.lg,
+    backgroundColor: theme.colors.background,
+  } as ViewStyle,
+
+  // Header
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: theme.spacing.xl,
+  } as ViewStyle,
+
+  welcomeText: {
+    fontSize: theme.typography.xl,
+    fontWeight: 'bold',
+    color: theme.colors.text,
+  } as TextStyle,
+
+  headerIcons: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: theme.spacing.md,
+  } as ViewStyle,
+
+  avatar: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    borderWidth: 2,
+    borderColor: theme.colors.avatarBorder,
+  } as ImageStyle,
+
+  // Stats Section
+  statsGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: theme.spacing.lg,
+    marginBottom: theme.spacing.xl,
+  } as ViewStyle,
+
+  statCard: {
+    width: '45%', // 2 columns
+    backgroundColor: theme.colors.card,
+    padding: theme.spacing.lg,
+    borderRadius: theme.radii.md,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: theme.spacing.md,
+    ...theme.shadows.sm,
+  } as ViewStyle,
+
+  statCount: {
+    fontSize: theme.typography.lg,
+    fontWeight: 'bold',
+    color: theme.colors.text,
+  } as TextStyle,
+
+  statLabel: {
+    color: theme.colors.textSecondary,
+    fontSize: theme.typography.sm,
+  } as TextStyle,
+
+  // Date Text
+  dateText: {
+    fontSize: theme.typography.md,
+    color: theme.colors.textSecondary,
+    marginBottom: theme.spacing.md,
+  } as TextStyle,
+
+  // Info Cards
+  infoCards: {
+    gap: theme.spacing.lg,
+    marginBottom: theme.spacing.xl,
+  } as ViewStyle,
+
+  welcomeCard: {
+    backgroundColor: theme.colors.card,
+    borderWidth: 1,
+    borderColor: theme.colors.border,
+    borderRadius: theme.radii.md,
+    padding: theme.spacing.lg,
+    ...theme.shadows.sm,
+    borderLeftWidth: 4, // Accent border
+  } as ViewStyle,
+
+  cardTitle: {
+    fontSize: theme.typography.lg,
+    fontWeight: '600',
+    marginBottom: theme.spacing.sm,
+  } as TextStyle,
+
+  cardText: {
+    fontSize: theme.typography.md,
+    color: theme.colors.text,
+  } as TextStyle,
+
+  emptyText: {
+    fontSize: theme.typography.md,
+    color: theme.colors.textSecondary,
+    fontStyle: 'italic',
+  } as TextStyle,
+});
+
+// Add to themes.tsx
+export const makeProfileStyles = (theme: Theme) => ({
+  container: {
+    flexDirection: 'row',
+    gap: theme.spacing.xl,
+    padding: theme.spacing.lg,
+  } as ViewStyle,
+
+  leftCard: {
+    backgroundColor: theme.colors.card,
+    padding: theme.spacing.lg,
+    borderRadius: theme.radii.lg,
+    alignItems: 'center',
+    maxWidth: 320,
+    ...theme.shadows.sm,
+  } as ViewStyle,
+
+  avatar: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    marginBottom: theme.spacing.md,
+  } as ImageStyle,
+
+  profileName: {
+    fontSize: theme.typography.xl,
+    fontWeight: 'bold',
+    marginTop: theme.spacing.md,
+    color: theme.colors.text,
+  } as TextStyle,
+
+  editButton: {
+    backgroundColor: theme.colors.primary,
+    padding: theme.spacing.md,
+    borderRadius: theme.radii.sm,
+    alignSelf: 'flex-end',
+  } as ViewStyle,
+});
+
+export const makeReportStyles = (theme: Theme) => ({
+  // Container
+  container: {
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: theme.colors.background,
+  } as ViewStyle,
+
+  // Scroll Content
+  scrollContent: {
+    flexGrow: 1,
+    padding: theme.spacing.lg,
+  } as ViewStyle,
+
+  // Title
+  title: {
+    fontSize: theme.typography.xl,
+    fontWeight: 'bold',
+    marginBottom: theme.spacing.lg,
+    color: theme.colors.text,
+  } as TextStyle,
+
+  // Upload Section
+  uploadSection: {
+    backgroundColor: theme.colors.card,
+    padding: theme.spacing.lg,
+    borderRadius: theme.radii.md,
+    marginBottom: theme.spacing.lg,
+    ...theme.shadows.sm,
+  } as ViewStyle,
+
+  uploadButton: {
+    backgroundColor: theme.colors.primary,
+    padding: theme.spacing.md,
+    borderRadius: theme.radii.sm,
+    alignItems: 'center',
+    marginBottom: theme.spacing.md,
+  } as ViewStyle,
+
+  uploadButtonPressed: {
+    backgroundColor: theme.colors.primaryDark,
+  } as ViewStyle,
+
+  uploadButtonText: {
+    color: 'white',
+    fontWeight: '500',
+  } as TextStyle,
+
+  // Inputs
+  textInput: {
+    borderWidth: 1,
+    borderColor: theme.colors.border,
+    borderRadius: theme.radii.sm,
+    padding: theme.spacing.sm,
+    marginBottom: theme.spacing.md,
+    color: theme.colors.text,
+    backgroundColor: theme.colors.background,
+  } as TextInputStyle,
+
+  // Message
+  messageSuccess: {
+    color: theme.colors.success,
+    textAlign: 'center',
+    marginBottom: theme.spacing.sm,
+  } as TextStyle,
+
+  messageError: {
+    color: theme.colors.error,
+    textAlign: 'center',
+    marginBottom: theme.spacing.sm,
+  } as TextStyle,
+
+  // Reports List
+  reportsList: {
+    gap: theme.spacing.md,
+  } as ViewStyle,
+
+  reportCard: {
+    backgroundColor: theme.colors.card,
+    padding: theme.spacing.md,
+    borderRadius: theme.radii.sm,
+    ...theme.shadows.sm,
+  } as ViewStyle,
+
+  reportFileName: {
+    fontSize: theme.typography.md,
+    fontWeight: '600',
+    color: theme.colors.text,
+    marginBottom: theme.spacing.xs,
+  } as TextStyle,
+
+  reportDescription: {
+    color: theme.colors.textSecondary,
+    marginBottom: theme.spacing.xs,
+  } as TextStyle,
+
+  reportDate: {
+    color: theme.colors.textSecondary,
+    fontSize: theme.typography.sm,
+  } as TextStyle,
+
+  // Actions
+  cardActions: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    marginTop: theme.spacing.sm,
+    gap: theme.spacing.md,
+  } as ViewStyle,
+
+  actionButtonText: {
+    color: theme.colors.primary,
+  } as TextStyle,
+
+  deleteButtonText: {
+    color: theme.colors.error,
+  } as TextStyle,
+
+  // Empty State
+  emptyText: {
+    textAlign: 'center',
+    color: theme.colors.textSecondary,
+    marginTop: theme.spacing.xl,
+  } as TextStyle,
+
+  // Modal
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.8)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  } as ViewStyle,
+
+  modalContent: {
+    width: '90%',
+    backgroundColor: theme.colors.card,
+    borderRadius: theme.radii.lg,
+    padding: theme.spacing.lg,
+  } as ViewStyle,
+
+  modalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: theme.spacing.md,
+  } as ViewStyle,
+
+  modalTitle: {
+    fontSize: theme.typography.lg,
+    fontWeight: 'bold',
+    color: theme.colors.text,
+  } as TextStyle,
+
+  modalCloseButton: {
+    fontSize: theme.typography.xl,
+  } as TextStyle,
+
+  modalImage: {
+    width: '100%',
+    height: 300,
+    resizeMode: 'contain',
+    marginBottom: theme.spacing.md,
+  } as ImageStyle,
+
+  shareButton: {
+    backgroundColor: theme.colors.primary,
+    padding: theme.spacing.md,
+    borderRadius: theme.radii.sm,
+    alignItems: 'center',
+  } as ViewStyle,
+
+  shareButtonText: {
+    color: 'white',
+    fontWeight: '500',
+  } as TextStyle,
 });
 
 // Type exports

@@ -1,8 +1,9 @@
-import { View, Text, ScrollView, TextInput, Pressable, Image } from 'react-native';
+import { View, Text,ActivityIndicator, ScrollView, TextInput, Pressable, Image } from 'react-native';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useTheme, makeStyles } from '../../../styles/themes';
+import { useTheme, makeStyles, makeProfileStyles, makeMedicalStyles } from '../../../styles/themes';
 import PatientSidebar from '../../../components/patient/Sidebar';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type Profile = {
   fullName: string;
@@ -24,25 +25,30 @@ export default function Profile() {
   const [form, setForm] = useState<Partial<Profile>>({});
   const { theme } = useTheme();
   const styles = makeStyles(theme);
+  const styles2 = makeProfileStyles(theme);
+  const [loading, setLoading] = useState(true);
   // ... (fetch logic same as web)
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const user = JSON.parse(localStorage.getItem('user') || '{}');
-        const token = user?.token;
-        const decoded = token ? JSON.parse(atob(token.split('.')[1])) : null;
-        const id = decoded?.userId || decoded?.sub;
+        const userData = await AsyncStorage.getItem('user');
+        if (!userData) throw new Error('User not found');
+        
+        const { token } = JSON.parse(userData);
+        const decoded = JSON.parse(atob(token.split('.')[1]));
+        const userId = parseInt(decoded.userId || decoded.sub);
 
-        if (!id || !token) throw new Error('No user ID or token found');
-
-        const res = await axios.get(`http://localhost:5014/api/Patient/Profile/${id}`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
+        const res = await axios.get(
+          `http://localhost:5014/api/Patient/Profile/${userId}`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
 
         setProfile(res.data);
         setForm(res.data);
       } catch (error) {
         console.error('Error fetching profile:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -51,23 +57,33 @@ export default function Profile() {
 
   const handleSave = async () => {
     try {
-      const user = JSON.parse(localStorage.getItem('user') || '{}');
-      const token = user?.token;
-      const decoded = token ? JSON.parse(atob(token.split('.')[1])) : null;
-      const id = decoded?.userId || decoded?.sub;
+      const userData = await AsyncStorage.getItem('user');
+      if (!userData) throw new Error('User not found');
+      
+      const { token } = JSON.parse(userData);
+      const decoded = JSON.parse(atob(token.split('.')[1]));
+      const userId = parseInt(decoded.userId || decoded.sub);
 
-      if (!id || !token) throw new Error('No user ID or token found');
+      await axios.put(
+        `http://localhost:5014/api/Patient/Profile/${userId}`,
+        form,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
 
-      await axios.put(`http://localhost:5014/api/Patient/Profile/${id}`, form, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-
-      setProfile(prev => prev ? { ...prev, ...form } : null);
+      setProfile(prev => ({ ...prev!, ...form }));
       setEditing(false);
     } catch (error) {
       console.error('Error saving profile:', error);
     }
   };
+
+  if (loading) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" color={theme.colors.primary} />
+      </View>
+    );
+  }
 
   const handleChange = <K extends keyof Profile>(key: K, value: Profile[K]) => {
     setForm(prev => ({ ...prev, [key]: value }));
@@ -91,7 +107,7 @@ export default function Profile() {
         </Text>
 
         {profile ? (
-          <View style={{ gap: theme.spacing.lg }}>
+          <View style={styles2.container}>
             <View style={styles.profileHeader}>
               <Image 
                 source={{ uri: 'https://bootdey.com/img/Content/avatar/avatar7.png' }} 

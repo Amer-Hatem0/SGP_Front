@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import { View, Text, ScrollView, Image, Pressable, TextInput } from 'react-native';
+import { View, Text, ScrollView, Image, Pressable, TextInput, Alert } from 'react-native';
 import axios from 'axios';
-import { useTheme, makeStyles } from '../../../styles/themes';
+import { useTheme, makeDoctorStyles } from '../../../styles/themes';
 import PatientSidebar from '../../../components/patient/Sidebar';
 import API_BASE_URL from '../../../../config/apiConfig';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type Doctor = {
   doctorId: number;
@@ -18,61 +19,72 @@ export default function Doctors() {
   const [bookingDoctorId, setBookingDoctorId] = useState<number | null>(null);
   const [appointmentData, setAppointmentData] = useState({ date: '', time: '' });
   const { theme } = useTheme();
-  const styles = makeStyles(theme);
+  const styles = makeDoctorStyles(theme);
 
   useEffect(() => {
     const fetchDoctors = async () => {
       try {
-        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        const userData = await AsyncStorage.getItem('user');
+        const { token } = JSON.parse(userData || '{}');
         const res = await axios.get(`${API_BASE_URL}/Patient/Doctors`, {
-          headers: { Authorization: `Bearer ${user.token}` }
+          headers: { Authorization: `Bearer ${token}` }
         });
         setDoctors(res.data);
       } catch (err) {
-        console.error('Failed to fetch doctors:', err);
+        Alert.alert("Error", "Failed to load doctors");
       }
     };
     fetchDoctors();
   }, []);
 
   const handleSubmit = async (doctorId: number) => {
-    // ... (same logic as web version)
-  };
+  try {
+    const userData = await AsyncStorage.getItem('user');
+    const { token } = JSON.parse(userData || '{}');
+    
+    // Add patient ID fetching logic (matches web version)
+    const decoded = JSON.parse(atob(token.split('.')[1]));
+    const userId = parseInt(decoded.userId || decoded.sub);
+    const patientRes = await axios.get(`${API_BASE_URL}/Patient/PatientIdByUserId/${userId}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+
+    await axios.post(`${API_BASE_URL}/Appointment/Book`, {
+      doctorId,
+      patientId: patientRes.data.patientId,
+      dateTime: new Date(`${appointmentData.date}T${appointmentData.time}`),
+      status: "Pending",
+      notes: "Booked from mobile app"
+    }, { headers: { Authorization: `Bearer ${token}` } });
+
+    Alert.alert("Success", "Appointment booked!");
+  } catch (error) {
+    Alert.alert("Error", "Booking failed");
+  }
+};
 
   return (
-    <View style={{ flex: 1, flexDirection: 'row' }}>
+    <View style={styles.container}>
       <PatientSidebar />
-      <ScrollView style={{ flex: 1, padding: theme.spacing.lg }}>
-        <Text style={{ fontSize: 24, fontWeight: 'bold', marginBottom: theme.spacing.lg }}>
-          Available Doctors
-        </Text>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <Text style={styles.title}>Available Doctors</Text>
 
         <View style={{ gap: theme.spacing.lg }}>
           {doctors.map((doc, index) => (
-            <View key={doc.doctorId} style={{
-              backgroundColor: theme.colors.card,
-              borderRadius: theme.spacing.md,
-              padding: theme.spacing.lg,
-              alignItems: 'center'
-            }}>
-              <Image
-                source={{ uri: `https://i.pravatar.cc/150?img=${index + 10}` }}
-                style={{ width: 80, height: 80, borderRadius: 40, marginBottom: theme.spacing.md }}
-              />
-              <Text style={{ fontWeight: 'bold', fontSize: 18 }}>{doc.fullName}</Text>
+            <View key={doc.doctorId} style={styles.doctorCard}>
+            <Image
+              source={{ uri: `https://i.pravatar.cc/150?img=${index + 10}` }}
+              style={styles.avatar}
+            />
+              <Text style={styles.doctorName}>{doc.fullName}</Text>
               <Text>Specialization: {doc.specialization || "N/A"}</Text>
               <Text>Gender: {doc.gender || "Not specified"}</Text>
               <Text>Email: {doc.email}</Text>
 
               <Pressable
                 onPress={() => setBookingDoctorId(doc.doctorId === bookingDoctorId ? null : doc.doctorId)}
-                style={{
-                  backgroundColor: theme.colors.primary,
-                  padding: theme.spacing.md,
-                  borderRadius: 20,
-                  marginTop: theme.spacing.md
-                }}
-              >
+                style={({ pressed }) => [styles.bookButton, pressed && { opacity: 0.8 }]}
+            >
                 <Text style={{ color: 'white' }}>
                   {bookingDoctorId === doc.doctorId ? 'Cancel' : 'Book Appointment'}
                 </Text>
@@ -81,21 +93,25 @@ export default function Doctors() {
               {bookingDoctorId === doc.doctorId && (
                 <View style={{ width: '100%', marginTop: theme.spacing.md }}>
                   <TextInput
-                    placeholder="Date"
-                    value={appointmentData.date}
-                    onChangeText={(text) => setAppointmentData({ ...appointmentData, date: text })}
-                    style={{ borderWidth: 1, padding: theme.spacing.sm, marginBottom: theme.spacing.sm }}
-                  />
+                  placeholder="Date (YYYY-MM-DD)"
+                  value={appointmentData.date}
+                  onChangeText={(text) => setAppointmentData({ ...appointmentData, date: text })}
+                  style={styles.formInput}
+                />
                   <TextInput
-                    placeholder="Time"
-                    value={appointmentData.time}
-                    onChangeText={(text) => setAppointmentData({ ...appointmentData, time: text })}
-                    style={{ borderWidth: 1, padding: theme.spacing.sm, marginBottom: theme.spacing.sm }}
-                  />
+                  placeholder="Time (HH:MM)"
+                  value={appointmentData.time}
+                  onChangeText={(text) => setAppointmentData({ ...appointmentData, time: text })}
+                  style={styles.formInput}
+                />
                   <Pressable
-                    onPress={() => handleSubmit(doc.doctorId)}
-                    style={{ backgroundColor: theme.colors.primary, padding: theme.spacing.md, borderRadius: 5 }}
-                  >
+                  onPress={() => handleSubmit(doc.doctorId)}
+                  style={({ pressed }) => [
+                    styles.bookButton, 
+                    pressed && { opacity: 0.8 },
+                    { borderRadius: theme.radii.sm }
+                  ]}
+                >
                     <Text style={{ color: 'white', textAlign: 'center' }}>Confirm</Text>
                   </Pressable>
                 </View>
