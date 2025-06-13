@@ -161,3 +161,8 @@
   border-radius: 20px;
   cursor: pointer;
 }
+.read-indicator {
+  color: #4caf50;
+  margin-left: 6px;
+  font-size: 14px;
+}

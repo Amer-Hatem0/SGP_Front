@@ -1,0 +1,52 @@
+import React, { useState } from 'react';
+import ChatPatientsList from '../../components/ChatPatientsList';
+import ChatBox from '../../components/ChatBox';
+import DoctorSidebar from '../../components/DoctorSidebar';
+ import axios from 'axios';
+import API_BASE_URL from '../../config/apiConfig';
+export default function DoctorChatPage() {
+  const [selectedPatientId, setSelectedPatientId] = useState(null);
+  const [selectedPatientName, setSelectedPatientName] = useState('');
+
+  const handleSelect = (id, name) => {
+    setSelectedPatientId(id);
+    setSelectedPatientName(name);
+     markAllAsReadFromPatient(id);
+  };
+const markAllAsReadFromPatient = async (patientId) => {
+  const currentUser = JSON.parse(localStorage.getItem('user'));
+  const token = currentUser?.token;
+
+  try {
+    await axios.put(`${API_BASE_URL}/Chat/MarkAllFromSenderAsRead/${patientId}`, {}, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  } catch (err) {
+    console.error("Failed to mark all messages as read from this patient", err);
+  }
+};
+
+  return (
+    <div className="chat-full-layout">
+      {/* <DoctorSidebar /> */}
+      <div className="chat-page-wrapper">
+        <div className="doctor-list-panel">
+          <h3 className="sidebar-title">Connected Patients</h3>
+          <ChatPatientsList
+            onSelectPatient={handleSelect}
+            selectedPatientId={selectedPatientId}
+          />
+        </div>
+        <div className="chat-main-panel">
+          {selectedPatientId ? (
+            <ChatBox receiverId={selectedPatientId} receiverName={selectedPatientName} />
+          ) : (
+            <div className="placeholder">
+              <p>Select a patient to start chatting</p>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}

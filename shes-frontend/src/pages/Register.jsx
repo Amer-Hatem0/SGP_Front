@@ -20,16 +20,22 @@ export default function Register() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleRegister = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.post('http://localhost:5014/api/Account/Register', form);
-      alert('Registered successfully');
-      navigate('/login');
-    } catch (err) {
-      alert('Registration failed');
-    }
-  };
+const handleRegister = async (e) => {
+  e.preventDefault();
+  try {
+    await axios.post('http://localhost:5014/api/Account/Register', form);
+    alert('Registered successfully. Check your email for OTP code.');
+    navigate('/verify-email', { state: { email: form.email } });
+  } catch (err) {
+  if (err.response) {
+    alert('Registration failed: ' + err.response.data.message);
+  } else {
+    alert('Registration failed: ' + err.message);
+  }
+}
+
+};
+
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-green-50">

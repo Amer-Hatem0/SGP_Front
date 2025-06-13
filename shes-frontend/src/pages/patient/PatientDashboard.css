@@ -618,7 +618,7 @@ text-align: center;
      
 }
 
-/* رفع وتحميل */
+ 
 .report-upload-form {
   background: #fff;
   border-radius: 12px;
@@ -659,7 +659,7 @@ text-align: center;
   background-color: #2563eb;
 }
 
-/* مربع البحث */
+ 
 .report-search {
   padding: 0.75rem;
   border-radius: 8px;
@@ -670,7 +670,7 @@ text-align: center;
   margin-left: 50px;
 }
 
-/* الشبكة */
+ 
 .report-grid {
   width: 95%;
   margin: auto;
@@ -680,7 +680,7 @@ text-align: center;
   margin-top: 1.5rem;
 }
 
-/* بطاقة التقرير */
+ 
 .report-card {
   background-color: #ffffff;
   padding: 1.25rem;
@@ -750,7 +750,7 @@ text-align: center;
   background-color: #dc2626;
 }
 
-/* المعاينة */
+ 
 .report-preview-overlay {
   position: fixed;
   inset: 0;

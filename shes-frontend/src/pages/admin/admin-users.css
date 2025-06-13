@@ -1,0 +1,14 @@
+.admin-users-main {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
+}
+
+.admin-users-title {
+  font-weight: 700;
+}
+
+.admin-users-table th,
+.admin-users-table td {
+  vertical-align: middle;
+}
