@@ -563,13 +563,13 @@ export const makeLoginStyles = (theme: Theme) => ({
   container: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: theme.colors.background,
+    backgroundColor: '#eff6ff',
   } as ViewStyle,
   formContainer: {
     marginHorizontal: theme.spacing.lg,
     padding: theme.spacing.xl,
     borderRadius: theme.radii.lg,
-    backgroundColor: theme.colors.card,
+    backgroundColor: 'white',
     ...theme.shadows.md,
   } as ViewStyle,
   title: {
@@ -577,12 +577,12 @@ export const makeLoginStyles = (theme: Theme) => ({
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: theme.spacing.lg,
-    color: theme.colors.primary,
+    color: '#1e40af',
   } as TextStyle,
   input: {
     height: 50,
     borderWidth: 1,
-    borderColor: theme.colors.border,
+    borderColor: '#93c5fd',
     borderRadius: theme.radii.md,
     paddingHorizontal: theme.spacing.md,
     marginBottom: theme.spacing.md,
@@ -595,7 +595,7 @@ export const makeLoginStyles = (theme: Theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: theme.radii.md,
-    backgroundColor: theme.colors.primary,
+    backgroundColor: '#1d4ed8',
     marginTop: theme.spacing.sm,
   } as ViewStyle,
   buttonPressed: {
@@ -615,7 +615,7 @@ export const makeLoginStyles = (theme: Theme) => ({
     marginTop: theme.spacing.lg,
   } as ViewStyle,
   linkText: {
-    color: theme.colors.primary,
+    color: '#1e40af',
     fontSize: theme.typography.sm,
     marginHorizontal: theme.spacing.sm,
   } as TextStyle,
@@ -919,7 +919,7 @@ export const makeRegisterStyles = (theme: Theme) => ({
 export const makeForgotPasswordStyles = (theme: Theme) => ({
   container: {
     flex: 1,
-    backgroundColor: theme.colors.background,
+    backgroundColor: '#fffbeb',
   } as ViewStyle,
   scrollContent: {
     flexGrow: 1,
@@ -930,7 +930,7 @@ export const makeForgotPasswordStyles = (theme: Theme) => ({
     marginHorizontal: theme.spacing.lg,
     padding: theme.spacing.xl,
     borderRadius: theme.radii.lg,
-    backgroundColor: theme.colors.card,
+    backgroundColor: 'white',
     ...theme.shadows.md,
   } as ViewStyle,
   title: {
@@ -938,18 +938,18 @@ export const makeForgotPasswordStyles = (theme: Theme) => ({
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: theme.spacing.lg,
-    color: theme.colors.primary,
+    color: '#b45309',
   } as TextStyle,
   input: {
     height: 50,
     borderWidth: 1,
-    borderColor: theme.colors.border,
+    borderColor: '#fcd34d',
     borderRadius: theme.radii.md,
     paddingHorizontal: theme.spacing.md,
     marginBottom: theme.spacing.md,
     fontSize: theme.typography.md,
     color: theme.colors.text,
-    backgroundColor: theme.colors.background,
+    backgroundColor: 'white',
   } as TextStyle & {
     borderWidth?: number;
     borderColor?: string;
@@ -962,6 +962,7 @@ export const makeForgotPasswordStyles = (theme: Theme) => ({
     alignItems: 'center',
     borderRadius: theme.radii.md,
     marginTop: theme.spacing.sm,
+    backgroundColor: '#d97706'
   } as ViewStyle,
   otpButton: {
     backgroundColor: theme.colors.warning,
@@ -981,7 +982,7 @@ export const makeForgotPasswordStyles = (theme: Theme) => ({
     fontWeight: '600',
   } as TextStyle,
   linkText: {
-    color: theme.colors.primary,
+    color: '#b45309',
     fontSize: theme.typography.sm,
     textAlign: 'center',
     marginTop: theme.spacing.lg,
@@ -1458,6 +1459,130 @@ messagesContent: {
 disabledButton: {
   opacity: 0.6,
 } as ViewStyle,
+});
+
+export const makeDoctorListStyles = (theme: Theme) => ({
+  container: {
+    flex: 1,
+    padding: theme.spacing.sm,
+    backgroundColor: theme.colors.background,
+  } as ViewStyle,
+
+  doctorItem: {
+    padding: theme.spacing.md,
+    borderRadius: theme.radii.md,
+    marginBottom: theme.spacing.sm,
+    borderWidth: 0.5,
+    borderColor: theme.colors.border,
+    backgroundColor: theme.colors.card,
+    ...theme.shadows.sm,
+  } as ViewStyle,
+
+  doctorItemPressed: {
+    backgroundColor: theme.colors.hover,
+  } as ViewStyle,
+
+  doctorName: {
+    fontSize: theme.typography.md,
+    fontWeight: '500',
+    color: theme.colors.text,
+    marginBottom: theme.spacing.xs,
+  } as TextStyle,
+
+  doctorSpecialty: {
+    fontSize: theme.typography.sm,
+    color: theme.colors.textSecondary,
+  } as TextStyle,
+
+  selectedDoctorName: {
+    color: 'white',
+  } as TextStyle,
+
+  selectedDoctorText: {
+    color: 'rgba(255,255,255,0.8)',
+  } as TextStyle,
+
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  } as ViewStyle,
+
+  errorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: theme.spacing.lg,
+  } as ViewStyle,
+
+  errorText: {
+    fontSize: theme.typography.md,
+    color: theme.colors.error,
+    textAlign: 'center',
+  } as TextStyle,
+});
+
+// Add to themes.tsx
+export const makeVerifyEmailStyles = (theme: Theme) => ({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: '#f0fdf4', // bg-green-50
+  } as ViewStyle,
+  card: {
+    marginHorizontal: 24, // lg spacing
+    padding: 40, // xl spacing
+    borderRadius: 12, // lg radius
+    backgroundColor: 'white',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 5, // Android shadow
+  } as ViewStyle,
+  title: {
+    fontSize: 24, // xl typography
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 16, // md spacing
+    color: '#166534', // text-green-800
+  } as TextStyle,
+  subtitle: {
+    fontSize: 14, // sm typography
+    textAlign: 'center',
+    marginBottom: 32, // xl spacing
+    color: '#6b7280', // text-gray-500
+  } as TextStyle,
+  input: {
+    height: 50,
+    borderWidth: 1,
+    borderColor: '#86efac', // border-green-300
+    borderRadius: 8, // md radius
+    paddingHorizontal: 16, // md spacing
+    marginBottom: 24, // lg spacing
+    fontSize: 16, // md typography
+    color: '#1f2937', // text-gray-800
+    backgroundColor: 'white',
+  } as TextInputStyle,
+  button: {
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 8, // md radius
+    backgroundColor: '#15803d', // bg-green-700
+  } as ViewStyle,
+  buttonPressed: {
+    opacity: 0.8,
+    backgroundColor: '#166534', // bg-green-800 (hover)
+  } as ViewStyle,
+  buttonDisabled: {
+    opacity: 0.6,
+  } as ViewStyle,
+  buttonText: {
+    color: 'white',
+    fontSize: 16, // md typography
+    fontWeight: '600',
+  } as TextStyle,
 });
 
 // Type exports

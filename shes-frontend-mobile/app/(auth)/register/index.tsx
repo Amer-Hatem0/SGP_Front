@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { 
-  View, 
-  ScrollView, 
-  Alert, 
+import {
+  View,
+  ScrollView,
+  Alert,
   KeyboardAvoidingView,
   Platform,
   ActivityIndicator,
@@ -10,15 +10,11 @@ import {
   Text,
   Pressable
 } from 'react-native';
-import { useTheme, makeRegisterStyles } from '../../styles/themes';
 import { router } from 'expo-router';
 import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import API_BASE_URL from '../../../config/apiConfig';
 
 export default function RegisterScreen() {
-  const { theme } = useTheme();
-  const styles = makeRegisterStyles(theme);
   const [form, setForm] = useState({
     userName: '',
     email: '',
@@ -43,23 +39,12 @@ export default function RegisterScreen() {
 
     setLoading(true);
     try {
-      const res = await axios.post(`${API_BASE_URL}/Account/Register`, form);
-      
-      const token = res.data.token;
-      const decoded = JSON.parse(atob(token.split('.')[1]));
-      const role = decoded.role || 'Patient';
-      const userId = parseInt(decoded.sub);
-
-      await AsyncStorage.setItem('user', JSON.stringify({
-        token,
-        role,
-        userId,
-        email: form.email,
-        name: decoded.name || form.fullName || 'User'
-      }));
-
-      Alert.alert('Success', 'Account created successfully!');
-      router.replace(`../(app)/${role.toLowerCase()}/home`);
+      await axios.post(`${API_BASE_URL}/Account/Register`, form);
+      Alert.alert('Success', 'Registered successfully. Check your email for OTP code.');
+      router.push({
+        pathname: '../(auth)/verify-email',
+        params: { email: form.email }
+      });
     } catch (err: unknown) {
       console.error("Registration error:", err);
       let message = 'Registration failed. Please try again.';
@@ -86,10 +71,10 @@ export default function RegisterScreen() {
         <View style={styles.formContainer}>
           <Text style={styles.title}>Create Account</Text>
 
-          <View style={styles.inputRow}>
+          <View style={styles.gridContainer}>
             <TextInput
               placeholder="Username"
-              placeholderTextColor={theme.colors.textSecondary}
+              placeholderTextColor="#9ca3af"
               value={form.userName}
               onChangeText={(text) => handleChange('userName', text)}
               style={styles.input}
@@ -97,17 +82,14 @@ export default function RegisterScreen() {
             />
             <TextInput
               placeholder="Full Name"
-              placeholderTextColor={theme.colors.textSecondary}
+              placeholderTextColor="#9ca3af"
               value={form.fullName}
               onChangeText={(text) => handleChange('fullName', text)}
               style={styles.input}
             />
-          </View>
-
-          <View style={styles.inputRow}>
             <TextInput
               placeholder="Email"
-              placeholderTextColor={theme.colors.textSecondary}
+              placeholderTextColor="#9ca3af"
               value={form.email}
               onChangeText={(text) => handleChange('email', text)}
               style={styles.input}
@@ -116,40 +98,43 @@ export default function RegisterScreen() {
             />
             <TextInput
               placeholder="Phone"
-              placeholderTextColor={theme.colors.textSecondary}
+              placeholderTextColor="#9ca3af"
               value={form.phoneNumber}
               onChangeText={(text) => handleChange('phoneNumber', text)}
               style={styles.input}
               keyboardType="phone-pad"
             />
-          </View>
-
-          <View style={styles.inputRow}>
             <TextInput
               placeholder="Gender"
-              placeholderTextColor={theme.colors.textSecondary}
+              placeholderTextColor="#9ca3af"
               value={form.gender}
               onChangeText={(text) => handleChange('gender', text)}
               style={styles.input}
             />
             <TextInput
+              placeholder="Date of Birth (YYYY-MM-DD)"
+              placeholderTextColor="#9ca3af"
+              value={form.dateOfBirth}
+              onChangeText={(text) => handleChange('dateOfBirth', text)}
+              style={styles.input}
+            />
+            <TextInput
               placeholder="Age"
-              placeholderTextColor={theme.colors.textSecondary}
+              placeholderTextColor="#9ca3af"
               value={form.age}
               onChangeText={(text) => handleChange('age', text)}
               style={styles.input}
               keyboardType="numeric"
             />
+            <TextInput
+              placeholder="Password"
+              placeholderTextColor="#9ca3af"
+              value={form.password}
+              onChangeText={(text) => handleChange('password', text)}
+              style={styles.input}
+              secureTextEntry
+            />
           </View>
-
-          <TextInput
-            placeholder="Password"
-            placeholderTextColor={theme.colors.textSecondary}
-            value={form.password}
-            onChangeText={(text) => handleChange('password', text)}
-            style={[styles.input, styles.fullWidthInput]}
-            secureTextEntry
-          />
 
           <Pressable
             onPress={handleRegister}
@@ -180,3 +165,85 @@ export default function RegisterScreen() {
     </KeyboardAvoidingView>
   );
 }
+
+const styles = {
+  container: {
+    flex: 1,
+    backgroundColor: '#f0fdf4', // bg-green-50
+  } as const,
+  scrollContent: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    paddingBottom: 20,
+  } as const,
+  formContainer: {
+    backgroundColor: 'white',
+    borderRadius: 12, // rounded-xl
+    padding: 40, // p-10
+    marginHorizontal: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 5, // shadow-lg
+    maxWidth: 500, // max-w-lg
+    alignSelf: 'center',
+    width: '90%',
+  } as const,
+  title: {
+    fontSize: 24, // text-3xl
+    fontWeight: '800', // font-extrabold
+    textAlign: 'center',
+    marginBottom: 24, // mb-6
+    color: '#166534', // text-green-800
+  } as const,
+  gridContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    gap: 16, // gap-4
+    marginBottom: 24, // mt-6 equivalent
+  } as const,
+  input: {
+    width: '48%', // grid-cols-2
+    height: 40, // p-2 height
+    borderWidth: 1,
+    borderColor: '#86efac', // border-green-300
+    borderRadius: 8, // rounded
+    padding: 8, // p-2
+    marginBottom: 0,
+    fontSize: 14,
+  } as const,
+  registerButton: {
+    width: '100%',
+    height: 48, // py-3
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 8, // rounded
+    backgroundColor: '#15803d', // bg-green-700
+    marginTop: 24, // mt-6
+  } as const,
+  buttonPressed: {
+    backgroundColor: '#166534', // hover:bg-green-800
+  } as const,
+  buttonDisabled: {
+    opacity: 0.7,
+  } as const,
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '600',
+  } as const,
+  linksContainer: {
+    marginTop: 16, // mt-4
+    alignItems: 'center',
+  } as const,
+  linkText: {
+    fontSize: 14, // text-sm
+    color: '#15803d', // text-green-700
+  } as const,
+  linkPressed: {
+    opacity: 0.7, // hover:underline equivalent
+    textDecorationLine: 'underline',
+  } as const,
+};

@@ -97,6 +97,7 @@ export default function LoginScreen() {
         <Text style={styles.title}>Welcome Back</Text>
         
         <TextInput
+          autoFocus
           placeholder="Email Address"
           placeholderTextColor={theme.colors.textSecondary}
           value={email}

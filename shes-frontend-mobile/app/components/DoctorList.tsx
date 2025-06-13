@@ -1,7 +1,7 @@
 // app/components/chat/DoctorList.tsx
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
-import { useTheme } from '../styles/themes';
+import { useTheme, makeDoctorListStyles } from '../styles/themes';
 import axios from 'axios';
 import API_BASE_URL from '../../config/apiConfig';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -10,6 +10,7 @@ interface Doctor {
   doctorID: number;
   userId: number;
   fullName: string;
+  specialty?: string;
   // Add other doctor properties as needed
 }
 
@@ -20,6 +21,7 @@ interface DoctorListProps {
 
 export default function DoctorList({ onSelectDoctor, selectedDoctorId }: DoctorListProps) {
   const { theme } = useTheme();
+  const styles = makeDoctorListStyles(theme);
   const [doctors, setDoctors] = useState<Doctor[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -66,64 +68,40 @@ export default function DoctorList({ onSelectDoctor, selectedDoctorId }: DoctorL
   }
 
   return (
-    <View style={styles.container}>
-      {doctors.map(doc => (
-        <TouchableOpacity
-          key={doc.doctorID}
+  <View style={styles.container}>
+    {doctors.map(doctor => (
+      <TouchableOpacity
+        key={doctor.doctorID}
+        style={[
+          styles.doctorItem,
+          selectedDoctorId === doctor.userId && {
+            backgroundColor: theme.colors.primary,
+            borderColor: theme.colors.primaryDark
+          }
+        ]}
+        onPress={() => onSelectDoctor(doctor.userId, doctor.fullName)}
+        activeOpacity={0.7}
+      >
+        <Text
           style={[
-            styles.doctorItem,
-            selectedDoctorId === doc.userId && { 
-              backgroundColor: theme.colors.primary,
-              borderColor: theme.colors.primary
-            }
+            styles.doctorName,
+            selectedDoctorId === doctor.userId && styles.selectedDoctorName
           ]}
-          onPress={() => onSelectDoctor(doc.userId, doc.fullName)}
-          activeOpacity={0.7}
         >
-          <Text 
+          {doctor.fullName}
+        </Text>
+        {doctor.specialty && (
+          <Text
             style={[
-              styles.doctorName,
-              selectedDoctorId === doc.userId && { color: 'white' }
+              styles.doctorSpecialty,
+              selectedDoctorId === doctor.userId && styles.selectedDoctorText
             ]}
           >
-            {doc.fullName}
+            {doctor.specialty}
           </Text>
-        </TouchableOpacity>
-      ))}
-    </View>
-  );
+        )}
+      </TouchableOpacity>
+    ))}
+  </View>
+);
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 8,
-  },
-  doctorItem: {
-    padding: 16,
-    borderRadius: 8,
-    marginBottom: 8,
-    borderWidth: 1,
-    borderColor: '#e0e0e0',
-    backgroundColor: 'white',
-  },
-  doctorName: {
-    fontSize: 16,
-    color: '#333',
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  errorContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 16,
-  },
-  errorText: {
-    fontSize: 16,
-    textAlign: 'center',
-  },
-});
