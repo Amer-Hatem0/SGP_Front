@@ -39,6 +39,9 @@ type Theme = {
     buttonOutline: string;
     cancelButton: string;
     editButton: string;
+    sentBubble: string;
+    receivedBubble: string;
+    headerBg: string;
   };
   spacing: {
     xxs: number;
@@ -84,7 +87,7 @@ const lightTheme: Theme = {
     // Base
     text: '#263238',
     textSecondary: '#666',
-    primary: '#25a6e9',
+    primary: '#007bff', // was 25a6e9
     primaryDark: '#1B4C77',
     secondary: '#26c6da',
     error: '#ef5350',
@@ -96,10 +99,11 @@ const lightTheme: Theme = {
     // Surfaces
     card: '#ffffff',
     modal: '#ffffff',
-    header: '#ffffff',
+    header: '#d63b3b',
     
     // Interactive
-    border: '#dee2e6',
+    //border: '#dee2e6',
+    border: '#e5e5ea',
     hover: 'rgba(0,0,0,0.05)',
     active: 'rgba(0,0,0,0.1)',
     disabled: '#adb5bd',
@@ -109,7 +113,10 @@ const lightTheme: Theme = {
     buttonPrimary: '#25a6e9',
     buttonOutline: '#25a6e9',
     cancelButton: '#ef5350',
-    editButton: 'teal'
+    editButton: 'teal',
+    sentBubble: '#007bff',
+    receivedBubble: '#e5e5ea',
+    headerBg: '#d63b3b'
   },
   spacing: {
     xxs: 4,
@@ -431,13 +438,14 @@ export const makeChatStyles = (theme: Theme) => ({
   wrapper: {
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: theme.colors.background
+    backgroundColor: theme.colors.header
   } as ViewStyle,
   doctorPanel: {
     width: 300,
     backgroundColor: theme.colors.card,
     borderRightWidth: 0.5,
-    borderRightColor: theme.colors.border
+    borderRightColor: theme.colors.border,
+    padding: theme.spacing.md
   } as ViewStyle,
   doctorListContainer: {
     paddingBottom: theme.spacing.md
@@ -467,13 +475,21 @@ export const makeChatStyles = (theme: Theme) => ({
   } as TextStyle,
   // Responsive variants
   smallScreen: {
-    wrapper: {
-      flexDirection: 'column'
-    } as ViewStyle,
-    doctorPanel: {
-      width: '100%'
-    } as ViewStyle
-  }
+  wrapper: {
+    flexDirection: 'column',
+  } as ViewStyle,
+  doctorPanel: {
+    width: '100%',
+    borderRightWidth: 0,
+    borderBottomWidth: 1,
+    borderBottomColor: theme.colors.border,
+  } as ViewStyle,
+  chatPanel: {
+    height: '100%',
+  } as ViewStyle,
+  } as const,
+
+  
 });
 
 export const makeMedicalStyles = (theme: Theme) => ({
@@ -1301,6 +1317,147 @@ export const makeReportStyles = (theme: Theme) => ({
     color: 'white',
     fontWeight: '500',
   } as TextStyle,
+});
+
+// Add to themes.tsx
+export const makeChatBoxStyles = (theme: Theme) => ({
+  // Container
+  container: {
+    flex: 1,
+    backgroundColor: theme.colors.background,
+  } as ViewStyle,
+
+  // Header
+  header: {
+    padding: theme.spacing.md,
+    borderBottomWidth: 1,
+    borderBottomColor: theme.colors.border,
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    backgroundColor: theme.colors.card,
+  } as ViewStyle,
+
+  // Messages
+  messagesContainer: {
+    flex: 1,
+    padding: theme.spacing.sm,
+    backgroundColor: theme.colors.background,
+  } as ViewStyle,
+
+  messageContainer: {
+    marginBottom: theme.spacing.sm,
+  } as ViewStyle,
+
+  sentContainer: {
+    alignItems: 'flex-end',
+  } as ViewStyle,
+
+  receivedContainer: {
+    alignItems: 'flex-start',
+  } as ViewStyle,
+
+  // Bubbles
+  bubble: {
+    paddingHorizontal: theme.spacing.md,
+    paddingVertical: theme.spacing.sm,
+    borderRadius: theme.radii.lg,
+    maxWidth: '80%',
+  } as ViewStyle,
+
+  sentBubble: {
+    backgroundColor: theme.colors.sentBubble,
+  } as ViewStyle,
+
+  receivedBubble: {
+    backgroundColor: theme.colors.receivedBubble,
+  } as ViewStyle,
+
+  // Text
+  sentText: {
+    color: 'white',
+    fontSize: theme.typography.md,
+  } as TextStyle,
+
+  receivedText: {
+    color: theme.colors.text,
+    fontSize: theme.typography.md,
+  } as TextStyle,
+
+  timeText: {
+    fontSize: theme.typography.xs,
+    marginTop: theme.spacing.xs,
+    textAlign: 'right',
+    opacity: 0.7,
+    color: theme.colors.textSecondary
+  } as TextStyle,
+
+  // Input
+  inputContainer: {
+    flexDirection: 'row',
+    padding: theme.spacing.sm,
+    borderTopWidth: 1,
+    borderTopColor: theme.colors.border,
+    backgroundColor: theme.colors.card,
+    alignItems: 'center',
+  } as ViewStyle,
+
+  input: {
+    flex: 1,
+    minHeight: 40,
+    maxHeight: 120,
+    borderRadius: theme.radii.lg,
+    marginRight: theme.spacing.sm,
+    borderWidth: 1,
+    borderColor: theme.colors.border,
+    paddingHorizontal: theme.spacing.md,
+    paddingTop: theme.spacing.sm,
+    fontSize: theme.typography.md,
+    color: theme.colors.text,
+    backgroundColor: theme.colors.background,
+  } as TextInputStyle,
+
+  sendButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: theme.colors.primary,
+  } as ViewStyle,
+
+  // Status
+  readIndicator: {
+    color: theme.colors.success,
+    marginLeft: theme.spacing.xs,
+    fontSize: theme.typography.sm,
+  } as TextStyle,
+  // Add these to makeChatBoxStyles in themes.tsx
+backButton: {
+  position: 'absolute',
+  left: theme.spacing.md,
+  padding: theme.spacing.xs,
+} as ViewStyle,
+
+headerText: {
+  fontSize: theme.typography.lg,
+  fontWeight: '600',
+} as TextStyle,
+
+loadingContainer: {
+  flex: 1,
+  justifyContent: 'center',
+  alignItems: 'center',
+} as ViewStyle,
+
+messagesContent: {
+  paddingVertical: theme.spacing.sm,
+  paddingHorizontal: theme.spacing.md,
+} as ViewStyle,
+
+disabledButton: {
+  opacity: 0.6,
+} as ViewStyle,
 });
 
 // Type exports

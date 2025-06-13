@@ -5,12 +5,16 @@ import {
   Text, 
   ScrollView,
   SafeAreaView,
-  useWindowDimensions 
+  useWindowDimensions ,
+  StyleSheet
 } from 'react-native';
 import { useTheme, makeStyles, makeChatStyles } from '../../styles/themes';
 import DoctorList from '../../components/DoctorList';
 import ChatBox from '../../components/chat/ChatBox';
 import PatientSidebar from '../../components/patient/Sidebar';
+import axios from 'axios';
+import API_BASE_URL from '../../../config/apiConfig';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function ChatScreen() {
   const { theme } = useTheme();
@@ -26,29 +30,46 @@ export default function ChatScreen() {
   const handleDoctorSelect = (id: number, name: string) => {
     setSelectedDoctor({ id, name });
   };
+  const markAllAsReadFromDoctor = async (doctorId: number) => {
+    try {
+      const userData = await AsyncStorage.getItem('user');
+      if (!userData) return;
+      
+      const token = JSON.parse(userData).token;
+      await axios.put(
+        `${API_BASE_URL}/Chat/MarkAllFromSenderAsRead/${doctorId}`, 
+        {}, 
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+    } catch (err) {
+      console.error("Failed to mark messages as read", err);
+    }
+  };
 
   const isSmallScreen = width < 768;
-
+   const responsiveStyles = isSmallScreen ? chatStyles.smallScreen : {};
   return (
-    <SafeAreaView style={styles.patientContainer}>
+    <SafeAreaView style={chatStyles.wrapper}>
       {!isSmallScreen && <PatientSidebar />}
       
-      <View style={chatStyles.wrapper}>
+      <View style={[chatStyles.wrapper,chatStyles.smallScreen.wrapper]}>
         {(!isSmallScreen || !selectedDoctor.id) && (
-          <View style={chatStyles.doctorPanel}>
+          <View style={[chatStyles.doctorPanel,chatStyles.smallScreen.doctorPanel]}>
             <Text style={chatStyles.sidebarTitle}>
               The doctor 🩺
             </Text>
             <ScrollView contentContainerStyle={chatStyles.doctorListContainer}>
               <DoctorList 
-                onSelectDoctor={handleDoctorSelect} 
+                onSelectDoctor={(id,name)=>{
+                  handleDoctorSelect(id,name);
+                markAllAsReadFromDoctor(id);} }
                 selectedDoctorId={selectedDoctor?.id} 
               />
             </ScrollView>
           </View>
         )}
 
-        <View style={chatStyles.chatPanel}>
+        <View style={[chatStyles.chatPanel,chatStyles.smallScreen.chatPanel]}>
           {selectedDoctor.id ? (
             <ChatBox 
               receiverId={selectedDoctor.id} 

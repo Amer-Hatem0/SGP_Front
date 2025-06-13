@@ -11,7 +11,7 @@ import {
   Platform,
   ActivityIndicator
 } from 'react-native';
-import { useTheme } from '../../styles/themes';
+import { useTheme, makeChatBoxStyles } from '../../styles/themes';
 import axios from 'axios';
 import API_BASE_URL from '../../../config/apiConfig';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -22,6 +22,7 @@ interface Message {
   senderUserID: number;
   content: string;
   sentAt: string;
+  isRead?: number;
 }
 
 interface ChatBoxProps {
@@ -32,6 +33,7 @@ interface ChatBoxProps {
 
 export default function ChatBox({ receiverId, receiverName, onBack }: ChatBoxProps) {
   const { theme } = useTheme();
+  const styles = makeChatBoxStyles(theme);
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState('');
   const [isLoading, setIsLoading] = useState(true);
@@ -79,6 +81,26 @@ export default function ChatBox({ receiverId, receiverName, onBack }: ChatBoxPro
     }
   };
 
+  const markAllUnreadAsRead = async (msgs: Message[]) => {
+    try {
+      const userData = await AsyncStorage.getItem('user');
+      if (!userData) return;
+      
+      const token = JSON.parse(userData).token;
+      for (const msg of msgs) {
+        if (msg.isRead === 0 && msg.senderUserID === receiverId) {
+          await axios.put(
+            `${API_BASE_URL}/Chat/MarkAsRead/${msg.messageID}`,
+            {},
+            { headers: { Authorization: `Bearer ${token}` } }
+          );
+        }
+      }
+    } catch (err) {
+      console.error("Failed to mark messages as read", err);
+    }
+  };
+
   const sendMessage = async () => {
     if (!newMessage.trim() || !senderId) return;
     
@@ -119,9 +141,15 @@ export default function ChatBox({ receiverId, receiverName, onBack }: ChatBoxPro
     return () => clearInterval(interval);
   }, [receiverId, senderId]);
 
+  useEffect(() => {
+    if (messages.length > 0) {
+      markAllUnreadAsRead(messages);
+    }
+  }, [messages]);
+
   if (error) {
     return (
-      <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
+      <View style={styles.container}>
         <Text style={{ color: theme.colors.error }}>{error}</Text>
       </View>
     );
@@ -129,193 +157,111 @@ export default function ChatBox({ receiverId, receiverName, onBack }: ChatBoxPro
 
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={[styles.container, { backgroundColor: theme.colors.background }]}
-      keyboardVerticalOffset={90}
-    >
-      <View style={[styles.header, { backgroundColor: theme.colors.card }]}>
-        {onBack && (
-          <TouchableOpacity 
-            style={styles.backButton}
-            onPress={onBack}
-          >
-            <Ionicons name="arrow-back" size={24} color={theme.colors.text} />
-          </TouchableOpacity>
-        )}
-        <Text style={[styles.headerText, { color: theme.colors.text }]}>
-          👤 {receiverName || 'الطبيب'}
-        </Text>
-      </View>
-
-      {isLoading && messages.length === 0 ? (
-        <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color={theme.colors.primary} />
-        </View>
-      ) : (
-        <ScrollView
-          ref={scrollViewRef}
-          style={styles.messagesContainer}
-          contentContainerStyle={styles.messagesContent}
-          onContentSizeChange={scrollToBottom}
-          showsVerticalScrollIndicator={false}
+    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    style={styles.container}
+    keyboardVerticalOffset={90}
+  >
+      {/* Header */}
+    <View style={styles.header}>
+      {onBack && (
+        <TouchableOpacity 
+          style={styles.backButton}
+          onPress={onBack}
         >
-          {messages.map((msg) => (
+          <Ionicons name="arrow-back" size={24} color={theme.colors.text} />
+        </TouchableOpacity>
+      )}
+        <Text style={[styles.headerText, { color: theme.colors.text }]}>
+        👤 {receiverName || 'الطبيب'}
+      </Text>
+    </View>
+
+      {/* Messages Area */}
+    {isLoading && messages.length === 0 ? (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color={theme.colors.primary} />
+      </View>
+    ) : (
+      <ScrollView
+        ref={scrollViewRef}
+        style={styles.messagesContainer}
+        contentContainerStyle={styles.messagesContent}
+        onContentSizeChange={scrollToBottom}
+        showsVerticalScrollIndicator={false}
+      >
+        {messages.map((msg) => (
+          <View
+            key={msg.messageID}
+            style={[
+              styles.messageContainer,
+              msg.senderUserID === senderId 
+                ? styles.sentContainer 
+                : styles.receivedContainer
+            ]}
+          >
             <View
-              key={msg.messageID}
               style={[
-                styles.messageContainer,
-                msg.senderUserID === senderId ? styles.sentContainer : styles.receivedContainer
+                styles.bubble,
+                msg.senderUserID === senderId
+                  ? styles.sentBubble
+                  : styles.receivedBubble
               ]}
             >
-              <View
-                style={[
-                  styles.bubble,
-                  msg.senderUserID === senderId
-                    ? { backgroundColor: theme.colors.primary }
-                    : { backgroundColor: theme.colors.border }
-                ]}
-              >
-                <Text
-                  style={msg.senderUserID === senderId ? styles.sentText : styles.receivedText}
-                >
-                  {msg.content}
-                </Text>
-                <Text style={styles.timeText}>
-                  {new Date(new Date(msg.sentAt).getTime() + 3 * 60 * 60 * 1000)
-                    .toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                </Text>
-              </View>
+              <Text style={
+                msg.senderUserID === senderId 
+                  ? styles.sentText 
+                  : styles.receivedText
+              }>
+                {msg.content}
+              </Text>
+              <Text style={[
+                styles.timeText,
+                msg.senderUserID === senderId 
+                  ? { color: 'rgba(255,255,255,0.7)' }
+                  : { color: theme.colors.textSecondary }
+              ]}>
+                {new Date(new Date(msg.sentAt).getTime() + 3 * 60 * 60 * 1000)
+                  .toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+              </Text>
             </View>
-          ))}
-        </ScrollView>
-      )}
+            {msg.isRead === 1 && (
+              <Text style={styles.readIndicator}>✓✓</Text>
+            )}
+            {msg.isRead === 0 && (
+              <Text style={styles.readIndicator}>✓</Text>
+            )}
+          </View>
+        ))}
+      </ScrollView>
+    )}
 
-      <View style={[styles.inputContainer, { borderTopColor: theme.colors.border }]}>
-        <TextInput
-          style={[
-            styles.input,
-            {
-              borderColor: theme.colors.border,
-              color: theme.colors.text,
-              backgroundColor: theme.colors.card
-            }
-          ]}
-          placeholder="Write your message here..."
-          placeholderTextColor={theme.colors.textSecondary}
-          value={newMessage}
-          onChangeText={setNewMessage}
-          onSubmitEditing={sendMessage}
-          editable={!isLoading}
-          multiline
-        />
-        <TouchableOpacity
-          style={[
-            styles.sendButton,
-            { backgroundColor: theme.colors.primary },
-            isLoading && styles.disabledButton
-          ]}
-          onPress={sendMessage}
-          disabled={isLoading}
-        >
-          {isLoading ? (
-            <ActivityIndicator color="white" />
-          ) : (
-            <Ionicons name="send" size={20} color="white" />
-          )}
-        </TouchableOpacity>
-      </View>
-    </KeyboardAvoidingView>
+    {/* Input Area */}
+    <View style={styles.inputContainer}>
+      <TextInput
+        style={styles.input}
+        placeholder="Write your message here..."
+        placeholderTextColor={theme.colors.textSecondary}
+        value={newMessage}
+        onChangeText={setNewMessage}
+        onSubmitEditing={sendMessage}
+        editable={!isLoading}
+        multiline
+      />
+      <TouchableOpacity
+        style={[
+          styles.sendButton,
+          isLoading && styles.disabledButton
+        ]}
+        onPress={sendMessage}
+        disabled={isLoading}
+      >
+        {isLoading ? (
+          <ActivityIndicator color="white" />
+        ) : (
+          <Ionicons name="send" size={20} color="white" />
+        )}
+      </TouchableOpacity>
+    </View>
+  </KeyboardAvoidingView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  header: {
-    padding: 16,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  backButton: {
-    position: 'absolute',
-    left: 16,
-    padding: 4,
-  },
-  headerText: {
-    fontSize: 18,
-    fontWeight: '600',
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  messagesContainer: {
-    flex: 1,
-  },
-  messagesContent: {
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-  },
-  messageContainer: {
-    marginBottom: 8,
-  },
-  sentContainer: {
-    alignItems: 'flex-end',
-  },
-  receivedContainer: {
-    alignItems: 'flex-start',
-  },
-  bubble: {
-    paddingHorizontal: 14,
-    paddingVertical: 10,
-    borderRadius: 18,
-    maxWidth: '80%',
-  },
-  sentText: {
-    color: 'white',
-    fontSize: 16,
-  },
-  receivedText: {
-    color: 'black',
-    fontSize: 16,
-  },
-  timeText: {
-    fontSize: 12,
-    marginTop: 4,
-    textAlign: 'right',
-    opacity: 0.7,
-    color: 'rgba(255,255,255,0.7)',
-  },
-  inputContainer: {
-    flexDirection: 'row',
-    padding: 12,
-    borderTopWidth: StyleSheet.hairlineWidth,
-    backgroundColor: 'white',
-    alignItems: 'center',
-  },
-  input: {
-    flex: 1,
-    minHeight: 40,
-    maxHeight: 120,
-    borderRadius: 20,
-    marginRight: 12,
-    borderWidth: StyleSheet.hairlineWidth,
-    paddingHorizontal: 16,
-    paddingTop: 10,
-    fontSize: 16,
-  },
-  sendButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  disabledButton: {
-    opacity: 0.6,
-  },
-});
