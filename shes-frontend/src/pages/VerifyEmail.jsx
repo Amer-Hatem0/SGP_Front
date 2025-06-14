@@ -15,6 +15,7 @@ export default function VerifyEmail() {
         email,
         code: otp
       });
+
       alert('Email verified successfully!');
       navigate('/login');
     } catch (err) {

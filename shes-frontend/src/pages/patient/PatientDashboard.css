@@ -198,6 +198,9 @@
   margin-top: 0 !important;
   
  }
+ .patient-main{
+  margin: auto;
+ }
 .topbar-left h2 {
   margin: 0;
   font-size: 1.2rem;
@@ -853,3 +856,8 @@ text-align: center;
   font-size: 1rem;
 }
 
+
+
+.dropdown-menu1{
+  margin-left: -200px !important;
+}

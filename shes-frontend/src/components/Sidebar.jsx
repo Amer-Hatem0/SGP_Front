@@ -5,7 +5,7 @@ import {
 } from 'lucide-react';
 
 const navItems = [
-  { to: "/admin/home", label: "Dashboard", icon: Home },
+  { to: "/admin/home", label: "Home", icon: Home },
   { to: "/admin/users", label: "Users", icon: Users },
   { to: "/admin/appointments", label: "Appointments", icon: Calendar },
   { to: "/admin/reports", label: "Reports", icon: FileText },
@@ -37,8 +37,19 @@ const Sidebar = () => {
         ))}
         <li className="admin-side-nav-item mt-4 pt-3 border-top">
           <Link to="/logout" className="admin-side-link d-flex align-items-center gap-2 text-danger text-decoration-none px-3 py-2">
-            <LogOut size={18} />
-            <span>Logout</span>
+    
+            
+          
+               {/* <button className="admin-side-link d-flex align-items-center gap-2 text-danger text-decoration-none px-3 py-2 bg-white b-none"
+         
+            onClick={() => {
+              localStorage.removeItem('token');
+              localStorage.removeItem('adminName');
+              window.location.href = '/login';
+            }}
+          >        <LogOut size={18} />
+             <span>Logout</span>
+          </button> */}
           </Link>
         </li>
       </ul>

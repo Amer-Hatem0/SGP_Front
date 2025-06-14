@@ -58,11 +58,11 @@
 //   );
 // }
 import React, { useEffect, useState } from 'react';
-import PatientSidebar from '../../components/PatientSidebar';
 import axios from 'axios';
 import API_BASE_URL from '../../config/apiConfig';
-import './PatientDashboard.css';
+import './PatientDashboard.css'; 
 import PatientNavbar from '../../components/PatientNavbar';
+import PatientSidebar from '../../components/PatientSidebar';
 
 export default function PatientHome() {
   const [fullName, setFullName] = useState('');
@@ -117,47 +117,67 @@ export default function PatientHome() {
   }, []);
 
   const nextAppointment = appointments.length > 0
-    ? appointments.sort((a, b) => new Date(a.appointmentDate) - new Date(b.appointmentDate))[0]
+    ? [...appointments].sort((a, b) => new Date(a.appointmentDate) - new Date(b.appointmentDate))[0]
     : null;
 
   return (
-    <div className="patient-container-full">
-      <PatientSidebar />
+    <>
+      <PatientNavbar />
 
+      <div className="container-fluid">
+        <div className="row">
+          {/* <nav className="col-md-2 d-none d-md-block bg-light sidebar py-4">
+            <PatientSidebar />
+          </nav> */}
 
-      <main className="PatientHome-main p-8">
+          <main className="col-md-10 patient-main ms-sm-auto px-md-4 py-5">
+            <div className="d-flex justify-content-between align-items-center mb-4">
+              <h2 className="fw-bold text-primary">Welcome, {fullName}</h2>
+              <p className="text-muted mb-0">Today is {new Date().toLocaleDateString()}</p>
+            </div>
 
-        <h1 className="PatientHome-title text-2xl font-bold mb-4">Welcome, {fullName}</h1>
-        <p className="PatientHome-date text-gray-600 mb-8">Today is {new Date().toLocaleDateString()}</p>
+            <div className="row g-4">
+              {/* Next Appointment */}
+              <div className="col-md-4">
+                <div className="card shadow-sm border-left-primary h-100">
+                  <div className="card-body">
+                    <h5 className="card-title text-primary fw-semibold">Next Appointment</h5>
+                    {nextAppointment ? (
+                      <p className="card-text">{new Date(nextAppointment.appointmentDate).toLocaleString()}</p>
+                    ) : (
+                      <p className="text-muted">No upcoming appointments</p>
+                    )}
+                  </div>
+                </div>
+              </div>
 
-        <div className="PatientHome-cards grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="PatientHome-card bg-white shadow rounded p-5 border">
-            <h3 className="text-lg font-semibold text-blue-600 mb-2">Next Appointment</h3>
-            {nextAppointment ? (
-              <p className="text-gray-700">{new Date(nextAppointment.appointmentDate).toLocaleString()}</p>
-            ) : (
-              <p className="text-gray-500">No upcoming appointments</p>
-            )}
-          </div>
+              {/* Medical Reports */}
+              <div className="col-md-4">
+                <div className="card shadow-sm border-left-success h-100">
+                  <div className="card-body">
+                    <h5 className="card-title text-success fw-semibold">Medical Reports</h5>
+                    <p className="card-text">{reports.length} report(s)</p>
+                  </div>
+                </div>
+              </div>
 
-          <div className="PatientHome-card bg-white shadow rounded p-5 border">
-            <h3 className="text-lg font-semibold text-green-600 mb-2">Medical Reports</h3>
-            <p className="text-gray-700">{reports.length} report(s)</p>
-          </div>
-
-          <div className="PatientHome-card bg-white shadow rounded p-5 border">
-            <h3 className="text-lg font-semibold text-purple-600 mb-2">Recent Diagnosis</h3>
-            {history.length > 0 ? (
-              <p className="text-gray-700">{history[0].diagnosis}</p>
-            ) : (
-              <p className="text-gray-500">No history available</p>
-            )}
-          </div>
-
-
-
+              {/* Recent Diagnosis */}
+              <div className="col-md-4">
+                <div className="card shadow-sm border-left-purple h-100">
+                  <div className="card-body">
+                    <h5 className="card-title text-purple fw-semibold">Recent Diagnosis</h5>
+                    {history.length > 0 ? (
+                      <p className="card-text">{history[0].diagnosis}</p>
+                    ) : (
+                      <p className="text-muted">No history available</p>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </main>
         </div>
-      </main>
-    </div>
+      </div>
+    </>
   );
 }

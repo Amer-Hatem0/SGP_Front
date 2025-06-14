@@ -12,3 +12,150 @@
 .admin-users-table td {
   vertical-align: middle;
 }
+
+
+
+
+/* Responsive Drawer */
+.drawer-sidebar {
+  position: fixed;
+  top: 0;
+  right: -300px; /* مخفي خارج الشاشة */
+  width: 300px;
+  height: 100%;
+  background-color: white;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1050;
+  transition: right 0.3s ease;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.drawer-sidebar.open {
+  right: 0;
+}
+
+.drawer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 1040;
+}
+
+.drawer-header {
+  border-bottom: 1px solid #e9ecef;
+}
+
+/* Hover Effect for Cards */
+.transition-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+}
+
+/* تحسين تنسيق الخطوط على الشاشات الصغيرة */
+@media (max-width: 576px) {
+  .card-text.fs-4 {
+    font-size: 1.2rem !important;
+  }
+}
+
+.fixed-sidebar-container .admin-side-wrapper {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  max-height: 100vh;
+}@media (min-width: 992px) { /* فقط على الشاشات المتوسطة والكبيرة */
+  .fixed-sidebar-container .admin-side-wrapper {
+    position: fixed;
+    top: 80px;
+    left: 0;
+    height: 100vh;
+    width: 250px; /* حسب عرض Sidebar الخاص بك */
+    overflow-y: auto;
+    z-index: 1030;
+  }
+
+  /* إضافة هامش للمحتوى الرئيسي حتى لا يختفي تحت Sidebar */
+ 
+}/* تثبيت النافبار */
+.fixed-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1050;
+  width: 100%;
+}
+
+ 
+
+/* تثبيت السايدبار */
+.fixed-sidebar-container .admin-side-wrapper {
+  position: fixed;
+  top: 103px;
+  left: 0;
+  height: 100vh;
+  width: 250px;
+  overflow-y: auto;
+  z-index: 1030;
+}
+
+/* Responsive Drawer */
+.drawer-sidebar {
+  position: fixed;
+  top: 0;
+  right: -300px;
+  width: 300px;
+  height: 100%;
+  background-color: white;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1050;
+  transition: right 0.3s ease;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.drawer-sidebar.open {
+  right: 0;
+}
+
+.drawer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 1040;
+}
+
+.drawer-header {
+  border-bottom: 1px solid #e9ecef;
+}
+
+/* Hover Effect for Cards */
+.transition-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+}
+
+/* تحسين تنسيق الخطوط على الشاشات الصغيرة */
+@media (max-width: 576px) {
+  .card-text.fs-4 {
+    font-size: 1.2rem !important;
+  }
+}
+
+.ccccccc{
+  background-color: #0d6efd;
+  color: #000;
+  
+}
