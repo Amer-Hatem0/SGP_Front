@@ -57,6 +57,7 @@
   color: white;
   font-size: 1.2rem;
   cursor: pointer;
+  margin-left: 70px;
 }
 
 .patient-logo {
@@ -101,8 +102,15 @@
   padding: 32px;
   overflow-y: auto;
    min-height: 80vh; 
+  
 }
-
+.text-muted1{
+    color: #077e47 !important;
+}
+.patient-main1{
+  background-color: #f9f9f9;
+  height: 100vh;
+}
 .patient-header {
   display: flex;
   justify-content: space-between;
@@ -146,7 +154,7 @@
   box-shadow: 0 2px 6px rgba(0,0,0,0.05);
   transition: transform 0.2s;
 }
-
+ 
 .patient-card:hover {
   transform: translateY(-4px);
 }

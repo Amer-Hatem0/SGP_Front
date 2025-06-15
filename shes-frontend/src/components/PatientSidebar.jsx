@@ -25,7 +25,7 @@ export default function PatientSidebar() {
             ) : (
               <>
                 ➕ Hospital
-                <button className="collapse-btn" onClick={() => setCollapsed(true)}>
+                <button className="collapse-btn " onClick={() => setCollapsed(true)}>
                   <FaBars />
                 </button>
               </>

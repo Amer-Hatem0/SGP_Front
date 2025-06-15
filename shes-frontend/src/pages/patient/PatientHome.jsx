@@ -61,19 +61,28 @@ export default function PatientHome() {
   const nextAppointment = appointments.length > 0
     ? [...appointments].sort((a, b) => new Date(a.appointmentDate) - new Date(b.appointmentDate))[0]
     : null;
+const today = new Date();
 
+const options = {
+  weekday: 'long',    
+  year: 'numeric',
+  month: 'long',     
+  day: 'numeric'
+};
+
+const formattedDate = today.toLocaleDateString('en-US', options);
   return (
-    <>
+    <div className=" patient-main1">
       <PatientNavbar />
 
-      <div className="container-fluid">
+      <div className="container-fluid ">
         <div className="row">
      
 
           <main className="col-md-10 patient-main ms-sm-auto px-md-4 py-5">
-            <div className="d-flex justify-content-between align-items-center mb-4">
+            <div className="d-flex justify-content-between align-items-center mb-5 mt-5">
               <h2 className="fw-bold text-primary">Welcome, {fullName}</h2>
-              <p className="text-muted mb-0">Today is {new Date().toLocaleDateString()}</p>
+              <p className="text-muted1 mb-0">  Today is {formattedDate}</p>
             </div>
 
             <div className="row g-4">
@@ -118,6 +127,6 @@ export default function PatientHome() {
           </main>
         </div>
       </div>
-    </>
+    </div>
   );
 }
