@@ -1,10 +1,13 @@
-import { Stack } from 'expo-router';
+import { Slot } from 'expo-router';
+import { ThemeProvider } from './styles/themes';
+import { AuthProvider } from '../context/AuthContext';
 
-const StackLayout = () =>{
-
-  return(
-    <Stack>
-      <Stack.Screen name='(app)'/>
-    </Stack>
-  )
+export default function RootLayout() {
+  return (
+    <AuthProvider>
+      <ThemeProvider>
+        <Slot /> {/* Renders whatever comes next: (auth), (app), etc */}
+      </ThemeProvider>
+    </AuthProvider>
+  );
 }
