@@ -3,7 +3,7 @@ import axios from 'axios';
 import PatientSidebar from '../../components/PatientSidebar';
 import './PatientDashboard.css';
 import PatientNavbar from '../../components/PatientNavbar';
-
+import API_BASE_URL from '../../config/apiConfig';
 export default function Profile() {
   const [profile, setProfile] = useState(null);
   const [editing, setEditing] = useState(false);
@@ -19,7 +19,7 @@ export default function Profile() {
         const decoded = JSON.parse(atob(token.split('.')[1]));
         const id = decoded?.userId || decoded?.sub;
 
-        const res = await axios.get(`http://localhost:5014/api/Patient/Profile/${id}`, {
+        const res = await axios.get(`${API_BASE_URL}/Patient/Profile/${id}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
 
@@ -57,19 +57,19 @@ export default function Profile() {
         formData.append("ProfileImage", profileImage);
       }
 
-      const res = await axios.put(`http://localhost:5014/api/Patient/Profile/${id}`, formData, {
+      const res = await axios.put(`${API_BASE_URL}/Patient/Profile/${id}`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data'
         }
       });
 
-      // تحديث حالة الصورة مباشرة بعد الحفظ
+ 
       setProfile(prev => ({
         ...form,
         imageUrl: profileImage 
-          ? URL.createObjectURL(profileImage) // استخدام الصورة المحملة مؤقتًا
-          : prev.imageUrl // أو البقاء على الصورة القديمة إذا لم يتم تغييرها
+          ? URL.createObjectURL(profileImage)  
+          : prev.imageUrl  
       }));
 
       setEditing(false);
@@ -91,12 +91,12 @@ export default function Profile() {
               <div className="prfile-patient-left-card">
        <img
                   src={
-                    previewUrl || // إذا كان هناك صورة معاينة
-                    (profile.imageUrl && !profileImage) // أو إذا كانت هناك صورة ملف تعريف ولم يتم تغييرها
+                    previewUrl || 
+                    (profile.imageUrl && !profileImage) 
                       ? profile.imageUrl.startsWith('blob:') 
                         ? profile.imageUrl 
                         : `http://localhost:5014${profile.imageUrl}`
-                      : 'https://bootdey.com/img/Content/avatar/avatar7.png' // صورة افتراضية
+                      : 'https://bootdey.com/img/Content/avatar/avatar7.png' 
                   }
                   alt="avatar"
                   className="prfile-patient-avatar"

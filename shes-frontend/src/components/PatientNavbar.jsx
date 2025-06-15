@@ -157,7 +157,7 @@ export default function PatientNavbar() {
                     <FaUser className="me-2" /> My Profile
                   </Link> */}
                   <Link 
-                    to="/settings" 
+                    to="/patient/profile" 
                     className={`dropdown-item ${darkMode ? 'text-light hover-dark' : 'text-dark hover-light'}`}
                     onClick={() => setShowDropdown(false)}
                   >

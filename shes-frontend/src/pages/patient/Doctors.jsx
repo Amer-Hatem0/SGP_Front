@@ -92,11 +92,7 @@ const handleSubmit = async (e, doctorId) => {
             <div className="doctor-initial-avatar">
   {doc.fullName.charAt(0).toUpperCase()}
 </div>
-  {/* <img
-                src={`https://i.pravatar.cc/150?img=${index + 10}`}
-                alt="doctor"
-                className="doctor-avatar"
-              /> */}
+ 
               <div className="doctor-info">
                 <h3>{doc.fullName}</h3>
                 
