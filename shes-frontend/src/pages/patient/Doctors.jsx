@@ -3,6 +3,7 @@ import axios from 'axios';
 import './PatientDashboard.css';
 import PatientSidebar from '../../components/PatientSidebar';
 import API_BASE_URL from '../../config/apiConfig';
+import PatientNavbar from '../../components/PatientNavbar';
 export default function Doctors() {
   const [doctors, setDoctors] = useState([]);
   const [bookingDoctorId, setBookingDoctorId] = useState(null);
@@ -77,21 +78,25 @@ const handleSubmit = async (e, doctorId) => {
 };
 
 
-
+ 
   return (
+    <>  <PatientNavbar />
     <div className="patient-container-full">
-      <PatientSidebar />
+  
       
       <main className="doctor-main">
         <h2 className="doctor-title">Available Doctors</h2>
         <div className="doctor-grid">
           {doctors.map((doc, index) => (
             <div key={index} className="doctor-card">
-              <img
+            <div className="doctor-initial-avatar">
+  {doc.fullName.charAt(0).toUpperCase()}
+</div>
+  {/* <img
                 src={`https://i.pravatar.cc/150?img=${index + 10}`}
                 alt="doctor"
                 className="doctor-avatar"
-              />
+              /> */}
               <div className="doctor-info">
                 <h3>{doc.fullName}</h3>
                 
@@ -126,6 +131,6 @@ const handleSubmit = async (e, doctorId) => {
           ))}
         </div>
       </main>
-    </div>
+    </div></>
   );
 }

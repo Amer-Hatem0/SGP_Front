@@ -168,7 +168,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import PatientSidebar from '../../components/PatientSidebar';
 import API_BASE_URL from '../../config/apiConfig';
-
+import PatientNavbar from '../../components/PatientNavbar';
 export default function ReportManager() {
   const [reports, setReports] = useState([]);
   const [file, setFile] = useState(null);
@@ -297,10 +297,12 @@ export default function ReportManager() {
   };
 
   return (
+    <> 
+      <PatientNavbar />
     <div className="patient-container-full">
-      <PatientSidebar />
-      <main className="p-6 flex flex-col gap-6 w-full">
-        <h2 className="text-2xl font-bold">Medical Reports</h2>
+     
+      <main className="p-6 flex mt-5 flex-col gap-6 w-full">
+        <h2 className="text-2xl   pb-5 font-bold">Medical Reports</h2>
 
         <form onSubmit={handleUpload} className="report-upload-form">
           <input
@@ -378,5 +380,6 @@ export default function ReportManager() {
 
       </main>
     </div>
+    </>
   );
 }

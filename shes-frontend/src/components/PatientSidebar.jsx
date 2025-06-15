@@ -36,7 +36,7 @@ export default function PatientSidebar() {
         <nav className="patient-nav">
           <Link to="/patient/home" className="patient-nav-link">
             <FaTachometerAlt />
-            {!collapsed && <span>Dashboard</span>}
+            {!collapsed && <span>Home</span>}
           </Link>
           <Link to="/patient/profile" className="patient-nav-link">
             <FaUser />

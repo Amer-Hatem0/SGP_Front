@@ -187,13 +187,11 @@
 .patient-sidebar.collapsed ~ .patient-topbar {
   width: calc(100% - 120px);
 }
- main{
-  margin-top: 90px;
- }
+ 
   main h2{
  font-size: 1.8rem !important;
   font-weight: bold !important;
-  color: #2b4f81 !important;
+  color: #0d6efd !important;
   margin-left: 20px;
   margin-top: 0 !important;
   
@@ -260,12 +258,18 @@
   max-width: 320px;
   text-align: center;
   box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+ 
 }
-
+.prfile-patient-left-card img{
+ margin-top: 20px;
+ width: 220px; 
+ height: 180px;
+margin-bottom: 30px;
+}
 .prfile-patient-avatar {
   width: 120px;
   border-radius: 50%;
-  margin-bottom: 16px;
+ 
 }
 
 .prfile-patient-name {
@@ -277,11 +281,13 @@
 .prfile-patient-role {
   color: #888;
   font-size: 14px;
+  margin-top: 20px;
 }
 
 .prfile-patient-location {
   color: #555;
   margin-bottom: 12px;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 .prfile-patient-buttons {
@@ -467,6 +473,7 @@
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 24px;
+  color: #0d6efd !important;
 }
 
 .doctor-grid {
@@ -501,21 +508,42 @@
   border-radius: 50%;
   margin-bottom: 12px;
 }
+.doctor-initial-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #0d6efd; /* يمكنك تغيير اللون كما تريد */
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-right: 1rem;
 
+}
 .doctor-info {
   flex-grow: 1;
   text-align: center;
   margin-bottom: 12px;
+  padding-top: 20px;
 }
+.doctor-info h3{
 
+  padding: 20px;
+  font-family: 'Times New Roman', Times, serif;
+  font-weight: bold;
+}
 .doctor-book-btn {
-  background-color: #25a6e9;
+  background-color: #0a7e48;
   color: white;
   border: none;
   padding: 10px 20px;
   border-radius: 999px;
   font-weight: 500;
   cursor: pointer;
+  font-weight: 600;
 }
 
 .doctor-book-btn:hover {
@@ -736,7 +764,7 @@ text-align: center;
 }
 
 .download-btn {
-  background-color: #2563eb;
+  background-color: #077e47;
   color: white;
 }
 

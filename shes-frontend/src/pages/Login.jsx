@@ -81,6 +81,7 @@ export default function Login() {
 
       const token = res.data.token;
       const decoded = JSON.parse(atob(token.split('.')[1]));
+console.log("🔍 Decoded token:", decoded);
 
       const role = decoded.role || 'Patient';
       const userId = parseInt(decoded.sub);

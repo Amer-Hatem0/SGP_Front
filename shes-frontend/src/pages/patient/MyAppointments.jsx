@@ -4,7 +4,7 @@ import PatientSidebar from '../../components/PatientSidebar';
 import API_BASE_URL from '../../config/apiConfig';
 import ReactStars from "react-stars";
 import './PatientDashboard.css';
-
+import PatientNavbar from '../../components/PatientNavbar';
 export default function MyAppointments() {
     const [appointments, setAppointments] = useState([]);
     const [showModal, setShowModal] = useState(false);
@@ -120,8 +120,9 @@ const handleSubmit = async () => {
     const showRateButton = (statusName) => statusName === "Completed";
 
     return (
+        <> <PatientNavbar />
         <div className="patient-container-full">
-            <PatientSidebar />
+        
             <main className="doctor-main">
                 <h2 className="doctor-title">My Appointments</h2>
                 <div className="appointments-table">
@@ -204,7 +205,7 @@ const handleSubmit = async () => {
                 )}
 
             </main>
-        </div>
+        </div></>
     );
 }
 

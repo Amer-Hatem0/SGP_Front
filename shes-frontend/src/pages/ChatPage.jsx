@@ -42,7 +42,7 @@ const handleDoctorSelect = (id, name) => {
           {selectedDoctorId ? (
             <ChatBox receiverId={selectedDoctorId} receiverName={selectedDoctorName} />
           ) : (
-            <div className="placeholder">
+            <div className="placeholde">
            <p>Choose a doctor to start the conversation</p>
             </div>
           )}

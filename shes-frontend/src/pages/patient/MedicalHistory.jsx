@@ -3,7 +3,7 @@ import axios from 'axios';
 import PatientSidebar from '../../components/PatientSidebar';
 import API_BASE_URL from '../../config/apiConfig';
 import './PatientDashboard.css';
-
+import PatientNavbar from '../../components/PatientNavbar';
 export default function MedicalHistory() {
   const [history, setHistory] = useState([]);
 
@@ -33,8 +33,9 @@ export default function MedicalHistory() {
   }, []);
 
   return (
+    <>  <PatientNavbar />
     <div className="patient-container-full">
-      <PatientSidebar />
+     
       <main className="MedicalHistory-container">
         <h2 className="MedicalHistory-title">Medical History</h2>
 
@@ -54,6 +55,6 @@ export default function MedicalHistory() {
           )}
         </div>
       </main>
-    </div>
+    </div></>
   );
 }

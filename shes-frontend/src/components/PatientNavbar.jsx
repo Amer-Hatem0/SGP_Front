@@ -44,7 +44,7 @@ export default function PatientNavbar() {
   }, []);
 
   const navLinks = [
-    { path: "/patient/home", icon: <FaTachometerAlt />, label: "Dashboard" },
+    { path: "/patient/home", icon: <FaTachometerAlt />, label: "Home" },
     { path: "/patient/profile", icon: <FaUser />, label: "Profile" },
     { path: "/patient/doctors", icon: <FaStethoscope />, label: "Doctors" },
     { path: "/patient/appointments", icon: <FaCalendarAlt />, label: "Appointments" },
@@ -60,7 +60,7 @@ export default function PatientNavbar() {
           {/* Logo and Mobile Menu Toggle */}
           <div className="d-flex align-items-center">
             <Link to="/patient/home" className="navbar-brand">
-              <img src={logo} alt="Wellness Logo" style={{ height: '30px' }} />
+              <img src={logo} alt="Wellness Logo" style={{ height: '60px' , width:'200px'}} />
             </Link>
           </div>
 
@@ -102,7 +102,7 @@ export default function PatientNavbar() {
             </button>
 
             {/* Notification Bell (hidden on mobile when menu is open) */}
-            {!showMobileMenu && (
+            {/* {!showMobileMenu && (
               <div className="position-relative me-2">
                 <button 
                   className={`btn btn-sm ${darkMode ? 'btn-outline-light' : 'btn-outline-secondary'} rounded-circle p-2`}
@@ -114,7 +114,7 @@ export default function PatientNavbar() {
                   </span>
                 </button>
               </div>
-            )}
+            )} */}
 
             {/* User Dropdown (hidden on mobile when menu is open) */}
             {!showMobileMenu && (
@@ -136,12 +136,12 @@ export default function PatientNavbar() {
                     {initial}
                   </div>
                   <span className={`ms-2 d-none d-md-inline ${darkMode ? 'text-light' : 'text-dark'}`}>
-                    {name}
+                    {fullName}
                   </span>
                 </button>
 
                 <div 
-                  className={`dropdown-menu dropdown-menu-end mt-2 shadow ${showDropdown ? 'show' : ''} ${darkMode ? 'bg-dark border-secondary' : 'bg-white border-light'}`}
+                  className={`dropdown-menu dropdown-menu1 dropdown-menu-end mt-2 shadow ${showDropdown ? 'show' : ''} ${darkMode ? 'bg-dark border-secondary' : 'bg-white border-light'}`}
                   style={{ minWidth: '220px' }}
                 >
                   <div className="dropdown-header px-3 py-2">
@@ -149,13 +149,13 @@ export default function PatientNavbar() {
                     <small className={`${darkMode ? 'text-light' : 'text-muted'}`}>{role}</small>
                   </div>
                   <div className="dropdown-divider" />
-                  <Link 
+                  {/* <Link 
                     to="/patient/profile" 
                     className={`dropdown-item ${darkMode ? 'text-light hover-dark' : 'text-dark hover-light'}`}
                     onClick={() => setShowDropdown(false)}
                   >
                     <FaUser className="me-2" /> My Profile
-                  </Link>
+                  </Link> */}
                   <Link 
                     to="/settings" 
                     className={`dropdown-item ${darkMode ? 'text-light hover-dark' : 'text-dark hover-light'}`}
