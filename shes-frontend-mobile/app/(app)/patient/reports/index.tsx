@@ -5,7 +5,6 @@ import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 import axios from 'axios';
 import { useTheme, makeReportStyles } from '../../../styles/themes';
-import PatientSidebar from '../../../components/patient/Sidebar';
 import API_BASE_URL from '../../../../config/apiConfig';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -185,7 +184,6 @@ export default function ReportManager() {
 
   return (
   <View style={styles.container}>
-    <PatientSidebar />
     
     <ScrollView 
       style={styles.scrollContent}

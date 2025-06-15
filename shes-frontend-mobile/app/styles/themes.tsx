@@ -242,7 +242,9 @@ export const makeStyles = (theme: Theme) => ({
   // ======================
   patientContainer: {
     flex: 1,
-    backgroundColor: theme.colors.background
+    backgroundColor: theme.colors.background,
+    paddingTop: 80,  // For navbar
+      paddingBottom: 100  // For tabbar
   } as ViewStyle,
 
   // ======================
@@ -294,7 +296,8 @@ export const makeStyles = (theme: Theme) => ({
   avatar: {
     width: 120,
     height: 120,
-    borderRadius: theme.radii.full,
+    borderRadius: 60,
+    marginBottom: theme.spacing.md,
     borderWidth: 2,
     borderColor: theme.colors.avatarBorder
   } as ImageStyle,
@@ -505,13 +508,23 @@ export const makeMedicalStyles = (theme: Theme) => ({
     color: theme.colors.text,
   } as TextStyle,
   card: {
-  backgroundColor: theme.colors.card,
+  // backgroundColor: theme.colors.card,
+  // borderRadius: theme.radii.md,
+  // padding: theme.spacing.lg,
+  // marginBottom: theme.spacing.lg,
+  // borderWidth: 1,
+  // borderColor: theme.colors.border,
+  // ...theme.shadows.sm,
+  width: '100%',
+  marginVertical: theme.spacing.sm,
+  padding: theme.spacing.md,
   borderRadius: theme.radii.md,
-  padding: theme.spacing.lg,
-  marginBottom: theme.spacing.lg,
-  borderWidth: 1,
-  borderColor: theme.colors.border,
-  ...theme.shadows.sm,
+  backgroundColor: theme.colors.card,
+  shadowColor: theme.colors.buttonOutline,
+  shadowOffset: { width: 0, height: 2 },
+  shadowOpacity: 0.1,
+  shadowRadius: 4,
+  elevation: 3 // Android shadow
 } as ViewStyle,
 
 cardTitle: {
@@ -536,8 +549,8 @@ cardValue: {
   } as TextStyle,
   emptyText: {
     textAlign: 'center',
-    marginTop: theme.spacing.xl,
-    fontSize: theme.typography.md,
+    marginTop: theme.spacing.xxl,
+    fontSize: theme.typography.lg,
     color: theme.colors.textSecondary,
   } as TextStyle,
   loadingContainer: {
@@ -633,7 +646,8 @@ export const makeAppointmentStyles = (theme: Theme) => ({
 
   scrollContent: {
     flexGrow: 1,
-    padding: theme.spacing.lg,
+    paddingTop: 80,  // For navbar
+    paddingBottom: 100  // For tabbar
   } as ViewStyle,
 
   loadingContainer: {
@@ -783,7 +797,8 @@ export const makeDoctorStyles = (theme: Theme) => ({
 
   scrollContainer: {
     flex: 1,
-    padding: theme.spacing.lg,
+    paddingTop: 80,  // For navbar
+      paddingBottom: 100  // For tabbar
   } as ViewStyle,
 
   title: {
@@ -998,12 +1013,14 @@ export const makePatientHomeStyles = (theme: Theme) => ({
   container: {
     flex: 1,
     flexDirection: 'row',
+    paddingTop:0,
     backgroundColor: theme.colors.background,
   } as ViewStyle,
 
   scrollContainer: {
     flex: 1,
-    padding: theme.spacing.lg,
+    paddingTop: 80,  // For navbar
+      paddingBottom: 100,  // For tabbar
     backgroundColor: theme.colors.background,
   } as ViewStyle,
 
@@ -1149,8 +1166,10 @@ export const makeReportStyles = (theme: Theme) => ({
   // Container
   container: {
     flex: 1,
-    flexDirection: 'row',
+    // flexDirection: 'row',
     backgroundColor: theme.colors.background,
+    paddingTop: 80,  // For navbar
+      paddingBottom: 100  // For tabbar
   } as ViewStyle,
 
   // Scroll Content
@@ -1585,5 +1604,51 @@ export const makeVerifyEmailStyles = (theme: Theme) => ({
   } as TextStyle,
 });
 
+export const makeDoctorSidebarStyles = (theme: Theme)=>({
+  container: {
+    width: 240,
+    height: '100%',
+    backgroundColor: '#1e293b',
+    paddingVertical: 32,
+    paddingHorizontal: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 2, height: 0 },
+    shadowOpacity: 0.1,
+    shadowRadius: 12,
+    elevation: 3,
+  } as ViewStyle,
+  title: {
+    fontSize: 24,
+    fontWeight: '700',
+    textAlign: 'center',
+    color: '#38bdf8',
+    marginBottom: 32,
+  } as TextStyle,
+  nav: {
+    flexDirection: 'column',
+    gap: 12,
+  } as ViewStyle,
+  link: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderRadius: 10,
+    fontSize: 16,
+    color: '#cbd5e1',
+  } as ViewStyle & {
+    fontSize?: number;
+    color?: string;
+  },
+  activeLink: {
+    backgroundColor: '#38bdf8',
+    color: '#1e293b',
+    fontWeight: '600',
+  } as ViewStyle & {
+    color?: string;
+    fontWeight?: TextStyle['fontWeight'];
+  },
+});
 // Type exports
 export type { Theme };

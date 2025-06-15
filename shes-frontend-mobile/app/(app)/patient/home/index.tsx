@@ -1,7 +1,6 @@
 import { View, Text, ScrollView, TextInput, Image, Pressable } from 'react-native';
 import { useTheme, makePatientHomeStyles } from '../../../styles/themes';
 import { FontAwesome5 } from '@expo/vector-icons';
-import PatientSidebar from '../../../components/patient/Sidebar';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import API_BASE_URL from '../../../../config/apiConfig';
@@ -90,11 +89,10 @@ export default function PatientHome() {
 
   return (
     <View style={styles.container}>
-      <PatientSidebar />
       
       <ScrollView style={styles.scrollContainer}>
         {/* Header */}
-        <View style={styles.header}>
+        {/* <View style={styles.header}>
           <Text style={styles.welcomeText}>Welcome, {fullName}</Text>
           <View style={styles.headerIcons}>
             <Pressable>
@@ -108,7 +106,7 @@ export default function PatientHome() {
               style={styles.avatar}
             />
           </View>
-        </View>
+        </View> */}
 
         {/* Stats Grid */}
         <View style={styles.statsGrid}>

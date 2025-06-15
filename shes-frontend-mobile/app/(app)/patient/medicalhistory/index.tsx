@@ -12,7 +12,6 @@ import { useTheme, makeStyles, makeMedicalStyles } from '../../../styles/themes'
 import axios from 'axios';
 import API_BASE_URL from '../../../../config/apiConfig';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import PatientSidebar from '../../../components/patient/Sidebar';
 
 interface MedicalEntry {
   diagnosis: string;
@@ -83,8 +82,7 @@ export default function MedicalHistory() {
   }
 
   return (
-    <SafeAreaView style={styles.patientContainer}>
-      <PatientSidebar />
+    <View style={styles.patientContainer}>
       <ScrollView 
         contentContainerStyle={medicalStyles.container}
         showsVerticalScrollIndicator={false}
@@ -120,7 +118,7 @@ export default function MedicalHistory() {
           ))
         )}
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 

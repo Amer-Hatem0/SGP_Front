@@ -99,9 +99,12 @@ export default function Profile() {
   ];
 
   return (
-    <View style={{ flex: 1, flexDirection: 'row' }}>
-      <PatientSidebar />
-      <ScrollView style={{ flex: 1, padding: theme.spacing.lg }}>
+    <View style={{ flex: 1}}>
+      <ScrollView style={{ flex: 1,
+       paddingTop: 80,  // For navbar
+      paddingBottom: 100,  // For tabbar
+      paddingHorizontal: theme.spacing.lg }}>
+
         <Text style={{ fontSize: 24, fontWeight: 'bold', marginBottom: theme.spacing.lg }}>
           Patient Profile
         </Text>

@@ -14,7 +14,6 @@ import {
   ViewStyle
 } from 'react-native';
 import { useTheme, makeAppointmentStyles } from '../../../styles/themes';
-import PatientSidebar from '../../../components/patient/Sidebar';
 import axios from 'axios';
 import API_BASE_URL from '../../../../config/apiConfig';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -179,7 +178,6 @@ export default function MyAppointments() {
 
   return (
     <View style={styles.container}>
-      <PatientSidebar />
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <Text style={styles.title}>My Appointments</Text>
 

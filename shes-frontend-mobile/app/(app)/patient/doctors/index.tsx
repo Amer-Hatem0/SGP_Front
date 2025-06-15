@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { View, Text, ScrollView, Image, Pressable, TextInput, Alert } from 'react-native';
 import axios from 'axios';
 import { useTheme, makeDoctorStyles } from '../../../styles/themes';
-import PatientSidebar from '../../../components/patient/Sidebar';
 import API_BASE_URL from '../../../../config/apiConfig';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -65,7 +64,6 @@ export default function Doctors() {
 
   return (
     <View style={styles.container}>
-      <PatientSidebar />
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <Text style={styles.title}>Available Doctors</Text>
 
