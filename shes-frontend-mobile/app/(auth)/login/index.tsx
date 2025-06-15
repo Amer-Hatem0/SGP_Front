@@ -63,12 +63,6 @@ export default function LoginScreen() {
         case 'Doctor':
           router.replace('/(app)/doctor/home');
           break;
-        case 'Supervisor':
-          router.replace('/(app)/supervisor/home');
-          break;
-        case 'Admin':
-          router.replace('/(app)/admin/home');
-          break;
         default:
           router.replace('/(auth)/login');
       }
