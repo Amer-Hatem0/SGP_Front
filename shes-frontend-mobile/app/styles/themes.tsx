@@ -21,7 +21,7 @@ type Theme = {
     warning: string;
     info: string;
     background: string;
-    
+    backgroundSecondary: string;
     // Surfaces
     card: string;
     modal: string;
@@ -95,6 +95,7 @@ const lightTheme: Theme = {
     warning: '#ff9800',
     info: '#007bff',
     background: '#f1f3f6',
+    backgroundSecondary: '#e0e0e0',
     
     // Surfaces
     card: '#ffffff',

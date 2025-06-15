@@ -72,7 +72,7 @@ export default function ChatScreen() {
         <View style={[chatStyles.chatPanel,chatStyles.smallScreen.chatPanel]}>
           {selectedDoctor.id ? (
             <ChatBox 
-              receiverId={selectedDoctor.id} 
+              receiverId={(selectedDoctor.id).toString()} 
               receiverName={selectedDoctor.name} 
               onBack={isSmallScreen ? () => setSelectedDoctor({ id: null, name: '' }) : undefined}
             />

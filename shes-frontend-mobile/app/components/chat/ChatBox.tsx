@@ -26,7 +26,7 @@ interface Message {
 }
 
 interface ChatBoxProps {
-  receiverId: number;
+  receiverId: string;
   receiverName: string;
   onBack?: () => void;
 }
@@ -88,7 +88,7 @@ export default function ChatBox({ receiverId, receiverName, onBack }: ChatBoxPro
       
       const token = JSON.parse(userData).token;
       for (const msg of msgs) {
-        if (msg.isRead === 0 && msg.senderUserID === receiverId) {
+        if (msg.isRead === 0 && msg.senderUserID === parseInt(receiverId)) {
           await axios.put(
             `${API_BASE_URL}/Chat/MarkAsRead/${msg.messageID}`,
             {},
