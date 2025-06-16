@@ -15,15 +15,14 @@ import {
   ArcElement
 } from 'chart.js';
 
-import './admin-users.css'; // ملف CSS يحتوي على التنسيق الثابت
-
+import './admin-users.css'; 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend, ArcElement);
 
 const AdminDashboard = () => {
   const [stats, setStats] = useState(null);
   const token = localStorage.getItem('token');
   const [adminName, setAdminName] = useState('Admin');
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // حالة.drawer
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); 
 
   const fetchStats = async () => {
     try {
@@ -37,7 +36,7 @@ const AdminDashboard = () => {
   };
 
   useEffect(() => {
-    const storedName = localStorage.getItem('adminName'); // يمكنك استبداله بطلب فعلي
+    const storedName = localStorage.getItem('adminName'); 
     if (storedName) {
       setAdminName(storedName);
     }
@@ -94,7 +93,7 @@ const AdminDashboard = () => {
         </div>
 
         {/* Main Page Content */}
-        <main className="flex-grow-1 p-3 p-md-4 overflow-auto">
+        <main className="mainAdmin flex-grow-1 p-3 p-md-4 overflow-auto">
           <div className="container-fluid px-4 py-3 mb-4 bg-white rounded shadow-sm">
             <h2 className="mb-1 text-primary fw-bold display-6">Admin Dashboard</h2>
             <p className="text-muted">Welcome back, {adminName} 👋 Here's what's happening today.</p>

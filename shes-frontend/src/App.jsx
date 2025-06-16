@@ -76,7 +76,7 @@ export default function App() {
       <Route path="/doctor/patient-management" element={< PatientManagement />} />
       <Route path="/doctor/patient-details" element={< PatientDetails />} />
       <Route path="/doctor/leave-schedule" element={< LeaveAndSchedule />} />
-      <Route path="/doctor/RescheduleAppointments" element={< RescheduleAppointments />} />
+      <Route path="/doctor/reschedule-appointments" element={< RescheduleAppointments />} />
       <Route path="/doctor/Notifications" element={<Notifications />} />
       <Route path="/doctor/chat" element={<DoctorChatPage />} />
 

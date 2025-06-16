@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import API_BASE_URL from '../../config/apiConfig';
  import DoctorSidebar from '../../components/DoctorSidebar';
-
+import Navbar from '../../components/DrNavbar';
 export default function Notifications() {
   const [notifications, setNotifications] = useState([]);
   const token = JSON.parse(localStorage.getItem('user'))?.token;
@@ -38,6 +38,10 @@ export default function Notifications() {
   };
 
   return (
+      <>
+            <Navbar />
+           
+
     <div className="notifications-container">
    <DoctorSidebar />
         <div className="nc">
@@ -64,6 +68,6 @@ export default function Notifications() {
 </ul>
 
       )}
-    </div></div>
+    </div></div> </>
   );
 }

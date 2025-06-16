@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import DoctorSidebar from '../../components/DoctorSidebar';
 import API_BASE_URL from '../../config/apiConfig';
-
+import Navbar from '../../components/DrNavbar';
 export default function LeaveRequestPage() {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -34,15 +34,18 @@ export default function LeaveRequestPage() {
 
     try {
     const res = await axios.post(`${API_BASE_URL}/Doctor/RequestLeave`, {
-  doctorId: 0, // سيتم تجاهله واستبداله في السيرفر
+ 
   reason,
-  startDate,
-  endDate,
+startDate: new Date(startDate).toISOString(),
+endDate: new Date(endDate).toISOString(),
+
   submittedAt: new Date().toISOString(), // إضافة التاريخ الحالي
-  status: "Pending" // حتى لو يتم تجاهلها في السيرفر
+ 
 }, {
   headers: { Authorization: `Bearer ${token}` }
 });
+
+ 
 
 
       if (res.status === 200) {
@@ -52,10 +55,13 @@ export default function LeaveRequestPage() {
         setReason('');
         fetchLeaveRequests(); 
       }
-    } catch (err) {
-      console.error(err);
-      alert('❌ Failed to submit leave request.');
-    }
+    }catch (err) {
+  console.error(err.response?.data);
+  alert(`❌ Failed: ${err.response?.data?.Message} ${err.response?.data?.Errors?.join(', ')}`);
+}
+
+
+   
   };
 
   const handleDelete = async (id) => {
@@ -75,7 +81,11 @@ export default function LeaveRequestPage() {
 
 
   return (
+    <>
+        <Navbar />
+      
     <div className="LeaveRequestPage-container">
+      
       <DoctorSidebar />
       <main className="LeaveRequestPage-main">
         <h1 className="LeaveRequestPage-title">Request Leave</h1>
@@ -144,6 +154,6 @@ export default function LeaveRequestPage() {
 </table>
 
       </main>
-    </div>
+    </div>  </>
   );
 }

@@ -83,15 +83,17 @@ const handleSubmit = async () => {
         const user = JSON.parse(localStorage.getItem('user'));
         const token = user.token;
 
-     const feedbackPayload = {
-    FeedbackID: 0,
-     DoctorID: selectedAppointment.DoctorID || selectedAppointment.doctorID,
-    PatientID: selectedAppointment.PatientID || selectedAppointment.patientID,
-    DoctorUserID: selectedAppointment.DoctorUserID || selectedAppointment.DoctorID || selectedAppointment.doctorId || selectedAppointment.doctorID,
-     Rating: Math.round(rating),
-    Comments: comment,
-    SubmittedAt: new Date().toISOString()
+   const feedbackPayload = {
+ 
+  DoctorID: selectedAppointment.DoctorID || selectedAppointment.doctorID,
+  PatientID: selectedAppointment.PatientID || selectedAppointment.patientID,
+  DoctorUserID: selectedAppointment.DoctorUserID || selectedAppointment.DoctorID || selectedAppointment.doctorId || selectedAppointment.doctorID,
+  Rating: Math.round(rating),
+  Comment: comment,           
+  Date: new Date().toISOString()  
 };
+
+ 
 
 
         console.log('Payload:', feedbackPayload);

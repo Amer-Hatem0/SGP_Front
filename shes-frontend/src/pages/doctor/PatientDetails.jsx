@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import DoctorSidebar from '../../components/DoctorSidebar';
 import API_BASE_URL from '../../config/apiConfig';
-
+import Navbar from '../../components/DrNavbar';
 export default function PatientDetails() {
   const [patientId, setPatientId] = useState('');
   const [patients, setPatients] = useState([]);
@@ -59,6 +59,9 @@ export default function PatientDetails() {
   };
 
   return (
+      <div className=" ">
+            <Navbar />
+          
     <div className="PatientDetails-container">
       <DoctorSidebar />
       <main className="PatientDetails-main">
@@ -175,6 +178,6 @@ export default function PatientDetails() {
           box-shadow: 0 0 20px rgba(0,0,0,0.2);
         }
       `}</style>
-    </div>
+    </div>  </div>
   );
 }

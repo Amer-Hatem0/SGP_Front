@@ -1,47 +1,152 @@
+/* General Styles */
 .DoctorSidebar-container {
- position: fixed;
- top: 0;
- left: 0;
-  width: 240px;
+  width: 250px;
+  background-color: #f8f9fa;  
+  color: #343a40; 
   height: 100vh;
-  background-color: #1e293b;
-  color: white;
+  padding: 1rem 0;
   display: flex;
   flex-direction: column;
-  padding: 2rem 1.2rem;
-  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.1);
-  /* z-index: 999; */
+  align-items: center;
+  margin-top: 64px;
 }
 
 .DoctorSidebar-title {
-  font-size: 1.7rem;
-  font-weight: 700;
-  text-align: center;
-  color: #38bdf8;
+  font-size: 2rem;
   margin-bottom: 2rem;
+  color: #3b82f6; 
 }
 
 .DoctorSidebar-nav {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 1rem;
+  width: 100%;
 }
 
+/* Link Styles */
 .DoctorSidebar-link {
   display: flex;
   align-items: center;
-  gap: 0.8rem;
-  padding: 0.75rem 1rem;
-  border-radius: 10px;
-  font-size: 1rem;
-  color: #cbd5e1;
+  gap: 1rem;
+  padding: 0.75rem 1.5rem;
   text-decoration: none;
-  transition: all 0.25s ease-in-out;
+  color: #343a40; 
+  transition: all 0.3s ease;
 }
 
-.DoctorSidebar-link:hover,
-.DoctorSidebar-link.DoctorSidebar-active {
-  background-color: #38bdf8;
-  color: #1e293b;
-  font-weight: 600;
+.DoctorSidebar-link:hover {
+  background-color: #e9ecef; 
+  color: #007bff; 
+}
+
+.DoctorSidebar-active {
+  background-color: #3b82f6;  
+  color: #fff; 
+}
+
+
+
+
+
+
+
+
+/* ************* */
+/* DoctorNavbar */
+/* ********** */
+
+ 
+.DoctorNavbar-container1 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, #0d6efd, #4fa8f2);
+  padding: 1rem 2rem;
+  color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 1000;
+  height: 64px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+.DoctorNavbar-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.DoctorNavbar-links {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.DoctorNavbar-link {
+  color: white;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.DoctorNavbar-link:hover,
+.DoctorNavbar-link.active {
+  color: #ffd700;
+}
+
+.logout-btn {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.DoctorNavbar-toggle {
+  display: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+}
+ 
+.DoctorNavbar-mobile-menu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  background: #0d6efd;
+  height: 100%;
+  width: 260px;
+  padding: 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  z-index: 999;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.DoctorNavbar-mobile-menu .DoctorNavbar-link {
+  font-size: 1.1rem;
+  color: white;
+}
+
+@media (max-width: 992px) {
+  .desktop-only {
+    display: none;
+  }
+
+  .DoctorNavbar-toggle {
+    display: block;
+  }
+ 
+
+}
+@media (max-width: 992px) {
+  .DoctorSidebar-container {
+    display: none;
+  }
 }

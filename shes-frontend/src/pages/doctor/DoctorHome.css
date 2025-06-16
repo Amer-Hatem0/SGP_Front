@@ -3,8 +3,8 @@
   display: flex;
   min-height: 100vh;
   font-family: 'Segoe UI', sans-serif;
-  background-color: #fff;
-  width: 90vw;
+background-color: #f4f7fc;
+   
   padding-left: 50px;
   padding-right: 50px;
   overflow: hidden;
@@ -92,8 +92,20 @@
   margin-left: 240px; /* equal to sidebar width */
   padding: 2rem;
   width: calc(100% - 240px);
+  background-color: #f4f7fc;
+}
+.DRMAIN{
+ 
+margin-left: 250px;
+}
+@media (max-width: 992px) {
+  
+  .DRMAIN {
+  margin-left: 0px !important; 
+    margin-top: 0px;
 }
 
+}
 /* Header */
 .DrHome-header {
   display: flex;
@@ -126,6 +138,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 1.5rem;
+  
 }
 
 .DrHome-card {
@@ -134,7 +147,7 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  background-color: #f4f7fc;
+  background-color: #ffffff;
   border-radius: 12px;
   padding: 1.2rem 1.5rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
@@ -188,7 +201,8 @@
 .TasksAndHistory-container {
   display: flex;
   min-height: 100vh;
-  background-color: #f8fafc;
+background-color: #f1f5f9;
+  margin: auto;
  
 }
 
@@ -197,8 +211,10 @@
   padding: 2rem 3rem;
   width: 100%;
   font-family: 'Segoe UI', sans-serif;
-  background-color: #f9fbfe;
-  margin-left: 500px;
+background-color: #f1f5f9;
+  margin-left: 250px;
+  margin-top: 80px;
+   
 }
 
 .TasksAndHistory-title {
@@ -309,7 +325,7 @@
 .PatientManagement-container {
   display: flex;
   min-height: 100vh;
-  background-color: #f9fafb;
+background-color: #f1f5f9;
   font-family: 'Segoe UI', sans-serif;
 }
 
@@ -372,13 +388,16 @@
 /*  */
 /* patient-details */
 /*  */ 
+ 
 .PatientDetails-container {
   display: flex;
-  min-height: 100vh;
-  background-color: #eaeaea;
+ margin-top: 120px;
+background-color: #f1f5f9;
   font-family: 'Segoe UI', sans-serif;
   width: 70vw;
- margin-left: 300px;
+ margin-left: 350px;
+border-radius: 20px;
+ 
 }
 
  
@@ -514,6 +533,7 @@
 
 .LeaveRequestPage-container {
   display: flex;
+  
   min-height: 100vh;
   background-color: #f1f5f9;
 }
@@ -693,12 +713,12 @@
     align-items: center;
   padding: 20px;
   width: 100vw !important;
- 
+ margin-top: 100px;
  
 }
 
 .nc{
-    background-color: #eeeeee;
+ background-color: #f1f5f9;
     width: 20%;
     padding: 30px;
      border-radius: 25px;
@@ -753,3 +773,284 @@
  
 
  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Fixed Navbar */
+.fixed-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1050;
+  width: 100%;
+}
+
+main {
+  margin-top: 70px;
+  /* margin-left: 250px; */
+}
+
+.fixed-sidebar-container .admin-side-wrapper,
+.d-none.d-lg-block .admin-side-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 250px;
+  overflow-y: auto;
+  z-index: 1030;
+}
+
+/* Responsive Drawer */
+.drawer-sidebar {
+  position: fixed;
+  top: 0;
+  right: -300px;
+  width: 300px;
+  height: 100%;
+  background-color: white;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1050;
+  transition: right 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.drawer-sidebar.open {
+  right: 0;
+}
+
+.drawer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 1040;
+}
+
+.drawer-header {
+  border-bottom: 1px solid #e9ecef;
+}
+
+/* Doctor Home Cards Styles */
+.DrHome-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: #ffffff;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.DrHome-welcome h3 {
+  margin: 0;
+  font-weight: bold;
+  color: #212529;
+}
+
+.DrHome-icons span {
+  font-size: 1.5rem;
+  margin-left: 1.5rem;
+  position: relative;
+}
+
+.DrHome-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 10px;
+  height: 10px;
+  background-color: red;
+  border-radius: 50%;
+}
+
+.DrHome-badge-green {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 10px;
+  height: 10px;
+  background-color: green;
+  border-radius: 50%;
+}
+
+.DrHome-unread-count {
+  position: absolute;
+  top: -5px;
+  right: -10px;
+  background-color: red;
+  color: white;
+  font-size: 10px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.DrHome-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem;
+}
+
+.DrHome-card {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: transform 0.2s ease-in-out;
+}
+
+.DrHome-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.DrHome-stat-number {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.DrHome-stat-label {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.DrHome-rating {
+  font-size: 0.9rem;
+  color: #888;
+}
+
+
+
+
+
+
+
+
+
+ 
+
+ 
+
+
+
+
+
+.PatientManagement-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.PatientManagement-main {
+  flex: 1;
+  padding: 2rem;
+}
+
+.PatientManagement-title {
+  font-size: 2rem;
+  color: #343a40;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.PatientManagement-form {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  max-width: 800px;
+  margin: auto;
+}
+
+.PatientManagement-label {
+  display: block;
+  margin-top: 1rem;
+  font-weight: bold;
+  color: #495057;
+}
+
+.PatientManagement-input {
+  width: 100%;
+  padding: 0.6rem;
+  margin-top: 0.3rem;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.horizontal-group {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.half-width {
+  flex: 1;
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+  gap: 1rem;
+}
+
+.PatientManagement-button {
+  padding: 0.7rem 1.2rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-note {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-note:hover {
+  background-color: #0056b3;
+}
+
+.btn-upload {
+  background-color: #28a745;
+  color: white;
+}
+
+.btn-upload:hover {
+  background-color: #1e7e34;
+}
+
+.PatientManagement-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}

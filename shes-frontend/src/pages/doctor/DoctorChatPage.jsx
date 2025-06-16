@@ -4,6 +4,7 @@ import ChatBox from '../../components/ChatBox';
 import DoctorSidebar from '../../components/DoctorSidebar';
  import axios from 'axios';
 import API_BASE_URL from '../../config/apiConfig';
+import Navbar from '../../components/DrNavbar';
 export default function DoctorChatPage() {
   const [selectedPatientId, setSelectedPatientId] = useState(null);
   const [selectedPatientName, setSelectedPatientName] = useState('');
@@ -27,8 +28,10 @@ const markAllAsReadFromPatient = async (patientId) => {
 };
 
   return (
+    <div className="chat-sidbar">    <Navbar />
     <div className="chat-full-layout">
       {/* <DoctorSidebar /> */}
+  
       <div className="chat-page-wrapper">
         <div className="doctor-list-panel">
           <h3 className="sidebar-title">Connected Patients</h3>
@@ -41,12 +44,12 @@ const markAllAsReadFromPatient = async (patientId) => {
           {selectedPatientId ? (
             <ChatBox receiverId={selectedPatientId} receiverName={selectedPatientName} />
           ) : (
-            <div className="placeholder">
+            <div className="placeholde">
               <p>Select a patient to start chatting</p>
             </div>
           )}
         </div>
       </div>
-    </div>
+    </div></div>
   );
 }

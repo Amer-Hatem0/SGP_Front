@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import DoctorSidebar from '../../components/DoctorSidebar';
 import API_BASE_URL from '../../config/apiConfig';
- 
+ import Navbar from '../../components/DrNavbar';
 export default function TasksAndHistory() {
   const [workHistory, setWorkHistory] = useState([]);
   const [dailyTasks, setDailyTasks] = useState(null);
@@ -31,6 +31,9 @@ export default function TasksAndHistory() {
   }, []);
 
   return (
+      <>
+            <Navbar />
+          
     <div className="TasksAndHistory-container">
       <DoctorSidebar />
       <main className="TasksAndHistory-main">
@@ -96,6 +99,6 @@ export default function TasksAndHistory() {
           </table>
         </div>
       </main>
-    </div>
+    </div>  </>
   );
 }
