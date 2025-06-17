@@ -6,7 +6,9 @@
   
   margin-top: 64px;
 }
-
+.chatpatient{
+  margin-top: 0;
+}
 .chat-page-wrapper {
   display: flex;
   flex: 1;

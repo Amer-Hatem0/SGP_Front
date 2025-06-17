@@ -44,7 +44,7 @@ const AdminNavbar = ({ onMenuToggle, isSidebarOpen }) => {
 
         {/* Mobile Toggle Button */}
         <button
-          className="btn btn-outline-light d-lg-none"
+          className="qq btn   d-lg-none"
           onClick={onMenuToggle}
           aria-label="Toggle menu"
         >

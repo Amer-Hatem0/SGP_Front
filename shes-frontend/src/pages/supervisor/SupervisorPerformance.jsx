@@ -63,15 +63,12 @@ export default function SupervisorPerformance() {
     };
 
     return (
+    <>   <SupervisorSidebar isOpen={sidebarOpen} />
+        
         <div className={`d-flex ${sidebarOpen ? '' : 'sidebar-closed'}`}>
-            <SupervisorSidebar isOpen={sidebarOpen} />
+         
             <div className="flex-grow-1">
-                <nav className="navbar navbar-light bg-white border-bottom px-4 py-3 shadow-sm">
-                    <button className="btn btn-outline-primary me-3" onClick={() => setSidebarOpen(!sidebarOpen)}>
-                        {sidebarOpen ? '❮' : '❯'}
-                    </button>
-                    <h4 className="mb-0">Performance Dashboard</h4>
-                </nav>
+            
                 <div className="container mt-5">
                     <div className="card shadow p-4">
                         <Bar data={chartData} options={options} />
@@ -109,6 +106,6 @@ export default function SupervisorPerformance() {
                     </div>
                 </div>
             </div>
-        </div>
+        </div>    </>
     );
 }

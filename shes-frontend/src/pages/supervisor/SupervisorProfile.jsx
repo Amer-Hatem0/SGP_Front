@@ -47,16 +47,12 @@ export default function SupervisorProfile() {
   };
 
   return (
+        <>   <SupervisorSidebar isOpen={sidebarOpen} />
+         
     <div className={`d-flex ${sidebarOpen ? '' : 'sidebar-closed'}`} style={{ minHeight: '100vh' }}>
-      <SupervisorSidebar isOpen={sidebarOpen} />
-
+     
       <div className="flex-grow-1 bg-light">
-        <nav className="navbar navbar-light bg-white border-bottom px-4 py-3 shadow-sm">
-          <button className="btn btn-outline-primary me-3" onClick={toggleSidebar}>
-            {sidebarOpen ? '❮' : '❯'}
-          </button>
-          <h4 className="mb-0">Supervisor Profile</h4>
-        </nav>
+     
 
         <div className="container-fluid py-5">
           <div className="row justify-content-center">
@@ -107,6 +103,6 @@ export default function SupervisorProfile() {
           </div>
         </div>
       </div>
-    </div>
+    </div>    </>
   );
 }

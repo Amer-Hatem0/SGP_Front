@@ -38,17 +38,12 @@ export default function LeaveRequests() {
   };
 
   return (
+        <>   <SupervisorSidebar isOpen={sidebarOpen} />
+          
     <div className={`d-flex ${sidebarOpen ? '' : 'sidebar-closed'}`}>
-      <SupervisorSidebar isOpen={sidebarOpen} />
-
+     
       <div className="flex-grow-1">
-        {/* Navbar */}
-        <nav className="navbar navbar-light bg-white border-bottom px-4 py-3 shadow-sm">
-          <button className="btn btn-outline-primary me-3" onClick={() => setSidebarOpen(!sidebarOpen)}>
-            {sidebarOpen ? '❮' : '❯'}
-          </button>
-          <h4 className="mb-0">Leave Requests</h4>
-        </nav>
+     
 
         {/* Table */}
         <div className="container-fluid mt-4 px-4">
@@ -98,6 +93,6 @@ export default function LeaveRequests() {
           </table>
         </div>
       </div>
-    </div>
+    </div>   </>
   );
 }

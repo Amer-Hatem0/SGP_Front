@@ -31,7 +31,7 @@ const handleDoctorSelect = (id, name) => {
 
 
   return (
-    <div className="chat-full-layout">
+    <div className="chat-full-layout chatpatient">
       <PatientSidebar />
       <div className="chat-page-wrapper">
         <div className="doctor-list-panel">

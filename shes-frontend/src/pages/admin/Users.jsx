@@ -146,7 +146,7 @@ const Users = () => {
         </div>
 
         {/* Main Page Content */}
-        <main className="flex-grow-1 p-3 p-md-4 overflow-auto">
+        <main className="flex-grow-1 ma p-3 p-md-4 overflow-auto">
           <div className="d-flex justify-content-between align-items-center mb-4">
             <h2 className="admin-users-title text-primary">Manage Users</h2>
             <div className="d-flex gap-2">

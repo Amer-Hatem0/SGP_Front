@@ -17,7 +17,7 @@ const Sidebar = () => {
   const location = useLocation();
 
   return (
-    <div className="admin-side-wrapper d-flex flex-column p-4 shadow vh-100 bg-white">
+    <div className="admin-side-wrapper asw d-flex flex-column p-4 shadow vh-100 bg-white">
       <h2 className="admin-side-title mb-4 text-primary fw-bold fs-4">SHES Admin</h2>
       <ul className="admin-side-nav list-unstyled flex-grow-1">
         {navItems.map(({ to, label, icon: Icon }) => (

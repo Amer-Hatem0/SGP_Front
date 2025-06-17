@@ -1,9 +1,9 @@
 
 .patient-container-full {
   display: flex;
-  height: 100vh;
+  
   width: 100vw;
-  background-color: #f1f3f6;
+  background-color: #f9fbfc;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   overflow: hidden;
 }
@@ -253,7 +253,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 32px;
-  background-color: #f1f3f6;
+ 
   padding: 20px;
   border-radius: 12px;
 }
@@ -843,7 +843,7 @@ text-align: center;
 .MedicalHistory-container {
   padding: 2rem;
   width: 100%;
-  background-color: #f5f8fb;
+  background-color: #f9fbfc;
   min-height: 100vh;
 }
 
@@ -895,5 +895,7 @@ text-align: center;
 
 
 .dropdown-menu1{
-  margin-left: -200px !important;
+  margin-left: -100px !important;
+
+ 
 }

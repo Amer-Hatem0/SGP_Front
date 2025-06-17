@@ -51,7 +51,7 @@ const AdminReports = () => {
         </div>
 
         {/* Main Page Content */}
-        <main className="flex-grow-1 p-3 p-md-4 overflow-auto">
+        <main className="flex-grow-1 ma p-3 p-md-4 overflow-auto">
           <h2 className="mb-4 text-primary fw-bold">Uploaded Medical Reports</h2>
 
           {loading ? (

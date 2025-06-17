@@ -93,7 +93,7 @@ const AdminDashboard = () => {
         </div>
 
         {/* Main Page Content */}
-        <main className="mainAdmin flex-grow-1 p-3 p-md-4 overflow-auto">
+        <div className="mainAdmin ma flex-grow-1 p-3 p-md-4 overflow-auto">
           <div className="container-fluid px-4 py-3 mb-4 bg-white rounded shadow-sm">
             <h2 className="mb-1 text-primary fw-bold display-6">Admin Dashboard</h2>
             <p className="text-muted">Welcome back, {adminName} 👋 Here's what's happening today.</p>
@@ -172,7 +172,7 @@ const AdminDashboard = () => {
               </div>
             </div>
           </div>
-        </main>
+        </div>
       </div>
 
       {/* Responsive Drawer Sidebar */}

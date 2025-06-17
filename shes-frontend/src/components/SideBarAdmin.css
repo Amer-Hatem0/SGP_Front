@@ -1,8 +1,4 @@
-.admin-side-wrapper {
-  width: 250px;
-  background: #ffffff;
-  transition: all 0.3s ease-in-out;
-}
+ 
 
 .admin-side-title {
   letter-spacing: 1px;
@@ -16,9 +12,25 @@
 .admin-side-link svg {
   flex-shrink: 0;
 }
- .admin-side-wrapper {
+ /* .admin-side-wrapper {
   position: sticky;
   top: 0;
   height: 100vh;
   overflow-y: auto;
+} */
+
+
+
+
+.admin-side-wrapper1 {
+  width: 250px;
+  background: #bd2828;
+  transition: all 0.3s ease-in-out;
+  margin-top: 170px !important;
+  height: 500px !important;
+}
+
+.qq i{
+  color: black !important;
+  background-color: #000000 !important;
 }

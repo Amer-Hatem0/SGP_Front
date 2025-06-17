@@ -1,29 +1,29 @@
+ 
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import DoctorSidebar from '../../components/DoctorSidebar';
-import API_BASE_URL from '../../config/apiConfig';
 import Navbar from '../../components/DrNavbar';
+import API_BASE_URL from '../../config/apiConfig';
 
-export default function RescheduleAppointments() {
+export default function DoctorAppointments() {
   const [appointments, setAppointments] = useState([]);
   const [rescheduleData, setRescheduleData] = useState({});
   const token = JSON.parse(localStorage.getItem('user'))?.token;
-  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchAppointments = async () => {
-      try {
-        const res = await axios.get(`${API_BASE_URL}/Doctor/MyAppointments`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        setAppointments(res.data);
-      } catch (err) {
-        console.error(err);
-      }
-    };
     fetchAppointments();
   }, []);
+
+  const fetchAppointments = async () => {
+    try {
+      const res = await axios.get(`${API_BASE_URL}/Doctor/MyAppointments`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setAppointments(res.data);
+    } catch (err) {
+      console.error('Error fetching appointments:', err);
+    }
+  };
 
   const handleChange = (id, field, value) => {
     setRescheduleData(prev => ({
@@ -47,10 +47,11 @@ export default function RescheduleAppointments() {
       }, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      alert('Reschedule request submitted.');
+      alert('✅ Reschedule request sent.');
+      fetchAppointments();
     } catch (err) {
       console.error(err);
-      alert('Error submitting request.');
+      alert('❌ Failed to submit request.');
     }
   };
 
@@ -59,78 +60,89 @@ export default function RescheduleAppointments() {
       await axios.put(`${API_BASE_URL}/Doctor/MarkAppointmentCompleted/${id}`, {}, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      alert('Appointment marked as completed.');
-      navigate('/doctor/home');
+      alert('✅ Appointment marked as completed.');
+      fetchAppointments();
     } catch (err) {
       console.error(err);
-      alert('Failed to update appointment status.');
+      alert('❌ Failed to mark as completed.');
     }
   };
 
   return (
     <>
       <Navbar />
-      <div className="Reschedule-container">
+      <div className="d-flex">
         <DoctorSidebar />
-        <main className="Reschedule-main">
-          <h2 className="Reschedule-title">Request Appointment Reschedule</h2>
+        <div className="container mt-4">
+          <h4 className="fw-bold mb-4">My Appointments</h4>
 
-          {appointments.length === 0 && <p>No appointments found.</p>}
-
-          <ul className="Reschedule-list">
-            {appointments.map(app => {
-              const isCompleted = app.statusName === 'Completed';
-              return (
-                <li key={app.appointmentId} className="Reschedule-item">
-                  <strong>Patient:</strong> {app.patientName}<br />
-                  <strong>Date:</strong> {new Date(app.appointmentDate).toLocaleString()}<br />
-                  <strong>Status:</strong> {app.statusName}<br />
-
-                  <div className="Reschedule-form">
-                    <input
-                      type="datetime-local"
-                      value={rescheduleData[app.appointmentId]?.newDate || ''}
-                      onChange={(e) =>
-                        handleChange(app.appointmentId, 'newDate', e.target.value)
-                      }
-                      className="Reschedule-input"
-                      disabled={isCompleted}
-                    />
-                    <input
-                      type="text"
-                      placeholder="Reason for reschedule"
-                      value={rescheduleData[app.appointmentId]?.reason || ''}
-                      onChange={(e) =>
-                        handleChange(app.appointmentId, 'reason', e.target.value)
-                      }
-                      className="Reschedule-input"
-                      disabled={isCompleted}
-                    />
-                    <button
-                      className="Reschedule-button"
-                      onClick={() => submitReschedule(app.appointmentId)}
-                      disabled={isCompleted}
-                    >
-                      Submit Reschedule
-                    </button>
-
-                    <button
-                      className="Reschedule-button"
-                      style={{
-                        backgroundColor: isCompleted ? 'gray' : 'green',
-                        marginLeft: '10px'
-                      }}
-                      onClick={() => markAsCompleted(app.appointmentId)}
-                      disabled={isCompleted}
-                    >
-                      Mark as Completed
-                    </button>
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
-        </main>
+          {appointments.length === 0 ? (
+            <p className="text-muted">No appointments found.</p>
+          ) : (
+            <table className="table table-bordered table-hover shadow-sm">
+              <thead className="table-light">
+                <tr>
+                  <th>#</th>
+                  <th>Patient</th>
+                  <th>Date & Time</th>
+                  <th>Status</th>
+                  <th>Reschedule</th>
+                  <th>Complete</th>
+                </tr>
+              </thead>
+              <tbody>
+                {appointments.map((app, i) => {
+                  const disabled = app.statusName === 'Completed';
+                  return (
+                    <tr key={app.appointmentId}>
+                      <td>{i + 1}</td>
+                      <td>{app.patientName}</td>
+                      <td>{new Date(app.appointmentDate).toLocaleString()}</td>
+                      <td>
+                        <span className={`badge bg-${app.statusName === 'Completed' ? 'success' : app.statusName === 'Rescheduled' ? 'warning text-dark' : 'secondary'}`}>
+                          {app.statusName}
+                        </span>
+                      </td>
+                      <td>
+                        <input
+                          type="datetime-local"
+                          value={rescheduleData[app.appointmentId]?.newDate || ''}
+                          onChange={(e) => handleChange(app.appointmentId, 'newDate', e.target.value)}
+                          className="form-control form-control-sm mb-1"
+                          disabled={disabled}
+                        />
+                        <input
+                          type="text"
+                          placeholder="Reason"
+                          value={rescheduleData[app.appointmentId]?.reason || ''}
+                          onChange={(e) => handleChange(app.appointmentId, 'reason', e.target.value)}
+                          className="form-control form-control-sm mb-1"
+                          disabled={disabled}
+                        />
+                        <button
+                          className="btn btn-sm btn-primary"
+                          disabled={disabled}
+                          onClick={() => submitReschedule(app.appointmentId)}
+                        >
+                          Submit
+                        </button>
+                      </td>
+                      <td>
+                        <button
+                          className="btn btn-sm btn-success"
+                          onClick={() => markAsCompleted(app.appointmentId)}
+                          disabled={disabled}
+                        >
+                          Mark Done
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          )}
+        </div>
       </div>
     </>
   );
