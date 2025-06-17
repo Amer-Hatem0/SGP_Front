@@ -205,7 +205,7 @@ const styles = {
     marginBottom: 24, // mt-6 equivalent
   } as const,
   input: {
-    width: '48%', // grid-cols-2
+    width: '100%', // grid-cols-2
     height: 40, // p-2 height
     borderWidth: 1,
     borderColor: '#86efac', // border-green-300
@@ -233,6 +233,10 @@ const styles = {
     color: 'white',
     fontSize: 16,
     fontWeight: '600',
+    backgroundColor: '#15803d',
+    padding: 12,
+    textAlign: 'center',
+    borderRadius: 8
   } as const,
   linksContainer: {
     marginTop: 16, // mt-4

@@ -7,6 +7,8 @@ interface User {
   token: string;
   role: string;
   userId?: string | number;
+  name: string;
+  email: string;
 }
 
 interface TokenData {
@@ -118,6 +120,7 @@ export default function useAuth() {
 
   return {
     user,
+    setUser,
     loading,
     tokenData,
     saveUser,

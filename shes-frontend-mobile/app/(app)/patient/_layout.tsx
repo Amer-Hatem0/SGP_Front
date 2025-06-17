@@ -8,17 +8,12 @@ import { Slot } from 'expo-router';
 export default function PatientLayout() {
   return (
     <View style={{ flex: 1 }}>
-      {/* Top Navigation Bar */}
       <PatientNavbar />
-
-      {/* Main content area with sidebar and screen content */}
       <View style={{ flex: 1, flexDirection: 'row' }}>
-        {/* Sidebar */}
-        <PatientSidebar />
-
-        {/* Page Content */}
+        {/* Sidebar here is just UI, not a navigator */}
+        <PatientSidebar /> 
         <View style={{ flex: 1, backgroundColor: '#f8fafc' }}>
-          <Slot />
+          <Slot /> {/* Page content */}
         </View>
       </View>
     </View>

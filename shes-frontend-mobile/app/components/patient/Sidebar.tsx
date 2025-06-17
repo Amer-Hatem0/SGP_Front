@@ -1,24 +1,17 @@
 // components/patient/Sidebar.tsx
-import React, { useState } from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { MaterialIcons, Ionicons } from '@expo/vector-icons';
+import React, { useState, useEffect } from 'react';
+import { View, TouchableOpacity, Text, StyleSheet, ScrollView } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../../styles/themes';
-import PatientHome from '../../(app)/patient/home';
-import PatientProfile from '../../(app)/patient/profile';
-import PatientDoctors from '../../(app)/patient/doctors';
-import PatientAppointments from '../../(app)/patient/appointments';
-import PatientReports from '../../(app)/patient/reports';
-import PatientChat from '../../(app)/chat/chatscreen';
-import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-const Tab = createBottomTabNavigator();
+import { useRouter } from 'expo-router';
 
 export default function PatientSidebar() {
   const { theme } = useTheme();
+  const router = useRouter();
   const [user, setUser] = useState({ name: 'Patient' });
 
-  React.useEffect(() => {
+  useEffect(() => {
     const loadUser = async () => {
       const userData = await AsyncStorage.getItem('user');
       if (userData) setUser(JSON.parse(userData));
@@ -26,153 +19,73 @@ export default function PatientSidebar() {
     loadUser();
   }, []);
 
-  return (
-    <Tab.Navigator
-      screenOptions={({ route }) => ({
-        tabBarActiveTintColor: theme.colors.primary,
-        tabBarInactiveTintColor: theme.colors.textSecondary,
-        tabBarStyle: {
-          paddingBottom: 5,
-          height: 60,
-          backgroundColor: theme.colors.card,
-          borderTopWidth: StyleSheet.hairlineWidth,
-          borderTopColor: theme.colors.border,
-        },
-        headerShown: false,
-        tabBarIcon: ({ color, size }) => {
-          let iconName: keyof typeof Ionicons.glyphMap = 'home'; // Default fallback
+  // Sidebar navigation items info
+  
+type PatientRoute =
+  | "/patient/home"
+  | "/patient/profile"
+  | "/patient/doctors"
+  | "/patient/appointments"
+  | "/patient/reports"
+  | "/patient/chat";
 
+const navItems: { name: string; icon: keyof typeof Ionicons.glyphMap; route: PatientRoute }[] = [
+  { name: 'Home', icon: 'home', route: '/patient/home' },
+  { name: 'Profile', icon: 'person', route: '/patient/profile' },
+  { name: 'Doctors', icon: 'medkit', route: '/patient/doctors' },
+  { name: 'Appointments', icon: 'calendar', route: '/patient/appointments' },
+  { name: 'Reports', icon: 'folder', route: '/patient/reports' },
+  { name: 'Chat', icon: 'chatbubbles', route: '/patient/chat' },
+];
 
-          if (route.name === 'Home') {
-            iconName = 'home';
-          } else if (route.name === 'Profile') {
-            iconName = 'person';
-          } else if (route.name === 'Doctors') {
-            iconName = 'medkit';
-          } else if (route.name === 'Appointments') {
-            iconName = 'calendar';
-          } else if (route.name === 'Reports') {
-            iconName = 'folder';
-          } else if (route.name === 'Chat') {
-            iconName = 'chatbubbles';
-          }
-
-          return <Ionicons name={iconName} size={size} color={color} />;
-        },
-        tabBarLabel: ({ focused, color }) => {
-          let label = route.name;
-          if (route.name === 'Appointments') label = 'Appts';
-          if (route.name === 'Medical History') label = 'History';
-
-          return (
-            <Text style={{ 
-              color, 
-              fontSize: 12,
-              marginBottom: 3 
-            }}>
-              {label}
-            </Text>
-          );
-        },
-      })}
-    >
-      <Tab.Screen 
-        name="Home" 
-        component={PatientHome}
-      />
-      <Tab.Screen 
-        name="Profile" 
-        component={PatientProfile}
-      />
-      <Tab.Screen 
-        name="Doctors" 
-        component={PatientDoctors}
-      />
-      <Tab.Screen 
-        name="Appointments" 
-        component={PatientAppointments}
-      />
-      <Tab.Screen 
-        name="Reports" 
-        component={PatientReports}
-      />
-      <Tab.Screen 
-        name="Chat" 
-        component={PatientChat}
-      />
-    </Tab.Navigator>
-  );
-}
-
-// For the collapsible sidebar alternative (if needed)
-export function PatientCollapsibleSidebar() {
-  const { theme } = useTheme();
-  const [collapsed, setCollapsed] = useState(false);
-  const [user, setUser] = useState({ name: 'Patient' });
-
-  React.useEffect(() => {
-    const loadUser = async () => {
-      const userData = await AsyncStorage.getItem('user');
-      if (userData) setUser(JSON.parse(userData));
-    };
-    loadUser();
-  }, []);
+  // Optional: You could get current path and highlight selected item if you want.
 
   return (
-    <View style={[styles.sidebarContainer, { 
-      width: collapsed ? 70 : 240,
-      backgroundColor: theme.colors.card 
-    }]}>
-      <View style={styles.sidebarHeader}>
-        {collapsed ? (
-          <TouchableOpacity 
-            onPress={() => setCollapsed(false)}
-            style={styles.sidebarButton}
+    <View style={[styles.sidebarContainer, { backgroundColor: theme.colors.card }]}>
+      <Text style={[styles.welcomeText, { color: theme.colors.text }]}>
+        Hello, {String(user?.name || 'Patient')}
+      </Text>
+      <ScrollView>
+        {navItems.map(({ name, icon, route }) => (
+          <TouchableOpacity
+            key={name}
+            style={styles.navItem}
+            onPress={() => router.push(route)}
           >
-            <Ionicons name="chevron-forward" size={24} color={theme.colors.text} />
+            <Ionicons name={icon} size={24} color={theme.colors.text} style={styles.navIcon} />
+            <Text style={[styles.navLabel, { color: theme.colors.text }]}>{name}</Text>
           </TouchableOpacity>
-        ) : (
-          <>
-            <Text style={[styles.sidebarTitle, { color: theme.colors.text }]}>
-              ➕ Hospital
-            </Text>
-            <TouchableOpacity 
-              onPress={() => setCollapsed(true)}
-              style={styles.sidebarButton}
-            >
-              <Ionicons name="menu" size={24} color={theme.colors.text} />
-            </TouchableOpacity>
-          </>
-        )}
-      </View>
-
-      {/* Navigation links would be implemented using React Navigation's drawer navigator */}
+        ))}
+      </ScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   sidebarContainer: {
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    bottom: 0,
-    zIndex: 100,
+    width: 220,
+    paddingTop: 40,
+    paddingHorizontal: 16,
     borderRightWidth: StyleSheet.hairlineWidth,
+    borderRightColor: '#ccc',
+    flex: 1,
   },
-  sidebarHeader: {
-    height: 60,
+  welcomeText: {
+    fontSize: 18,
+    fontWeight: '600',
+    marginBottom: 20,
+  },
+  navItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    borderBottomWidth: StyleSheet.hairlineWidth,
+    paddingVertical: 14,
+    borderRadius: 6,
+    marginBottom: 10,
   },
-  sidebarTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
+  navIcon: {
+    marginRight: 12,
   },
-  sidebarButton: {
-    padding: 8,
+  navLabel: {
+    fontSize: 16,
   },
 });

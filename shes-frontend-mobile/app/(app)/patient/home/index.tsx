@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import API_BASE_URL from '../../../../config/apiConfig';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import {decode} from 'base-64';
 interface Appointment {
   appointmentDate: string; // using string for ISO date responses
   // other properties can be added as needed
@@ -36,8 +36,17 @@ export default function PatientHome() {
         
         const user = JSON.parse(userString);
         const token = user.token;
-        const decoded = JSON.parse(atob(token.split('.')[1]));
-        const userId = parseInt(decoded.userId || decoded.sub);
+        const decoded = JSON.parse(decode(token.split('.')[1]));
+        const rawUserId = decoded.userId || decoded.sub;
+        console.log("Decoded token:", decoded);
+        if (!rawUserId) {
+          throw new Error("User ID not found in token");
+        }
+
+        const userId = parseInt(rawUserId);
+        if (isNaN(userId)) {
+          throw new Error("User ID is not a number");
+        }
 
         // Get profile
         const profileRes = await axios.get(`${API_BASE_URL}/Patient/Profile/${userId}`, {

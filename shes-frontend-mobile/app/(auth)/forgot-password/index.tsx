@@ -92,7 +92,7 @@ export default function ForgotPasswordScreen() {
           <Text style={styles.title}>Reset Password</Text>
 
           <TextInput
-            placeholder="Username"
+            placeholder="Email"
             placeholderTextColor={theme.colors.textSecondary}
             value={username}
             onChangeText={setUsername}

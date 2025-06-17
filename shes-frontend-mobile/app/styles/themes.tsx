@@ -595,6 +595,7 @@ export const makeLoginStyles = (theme: Theme) => ({
   } as TextStyle,
   input: {
     height: 50,
+    width: '100%', // Ensure full width
     borderWidth: 1,
     borderColor: '#93c5fd',
     borderRadius: theme.radii.md,
@@ -606,6 +607,7 @@ export const makeLoginStyles = (theme: Theme) => ({
   } as TextInputStyle,
   loginButton: {
     height: 50,
+    width: '100%', // CRUCIAL FIX - Add width
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: theme.radii.md,
@@ -622,6 +624,15 @@ export const makeLoginStyles = (theme: Theme) => ({
     color: 'white',
     fontSize: theme.typography.md,
     fontWeight: '600',
+    padding: theme.spacing.md,
+    width: '100%', // CRUCIAL FIX - Add width
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
+    borderRadius: theme.radii.md,
+    backgroundColor: '#1d4ed8',
+    marginTop: theme.spacing.sm,
+    
   } as TextStyle,
   linksContainer: {
     flexDirection: 'row',
@@ -918,6 +929,9 @@ export const makeRegisterStyles = (theme: Theme) => ({
     color: 'white',
     fontSize: theme.typography.md,
     fontWeight: '600',
+    borderRadius: theme.radii.md,
+    backgroundColor: theme.colors.primary,
+    padding: theme.spacing.md,
   } as TextStyle,
   linksContainer: {
     marginTop: theme.spacing.lg,
@@ -996,6 +1010,10 @@ export const makeForgotPasswordStyles = (theme: Theme) => ({
     color: 'white',
     fontSize: theme.typography.md,
     fontWeight: '600',
+    textAlign: 'center',
+    borderRadius: theme.radii.md,
+    backgroundColor: theme.colors.primary,
+    padding: theme.spacing.md,
   } as TextStyle,
   linkText: {
     color: '#b45309',
