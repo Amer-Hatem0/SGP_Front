@@ -33,12 +33,12 @@ const handleDoctorSelect = (id, name) => {
   return (
     <div className="chat-full-layout chatpatient">
       <PatientSidebar />
-      <div className="chat-page-wrapper">
+      <div className="chat-page-wrapper chattting">
         <div className="doctor-list-panel">
           <h3 className="sidebar-title"> The doctor  🩺</h3>
           <DoctorList onSelectDoctor={handleDoctorSelect} selectedDoctorId={selectedDoctorId} />
         </div>
-        <div className="chat-main-panel">
+        <div className="chat-main-panel chattting">
           {selectedDoctorId ? (
             <ChatBox receiverId={selectedDoctorId} receiverName={selectedDoctorName} />
           ) : (

@@ -16,6 +16,8 @@ export default function PatientDetails() {
       const res = await axios.get(`${API_BASE_URL}/Doctor/PatientFullHistory/${patientId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
+      console.log("Fetched history:", res.data);
+
       setHistory(res.data);
     } catch (err) {
       console.error(err);
@@ -28,6 +30,8 @@ export default function PatientDetails() {
       const res = await axios.get(`${API_BASE_URL}/Doctor/PatientReports/${patientId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
+      
+
       setReports(res.data);
     } catch (err) {
       console.error(err);

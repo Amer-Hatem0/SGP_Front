@@ -90,15 +90,8 @@ const Footer = () => {
         {/* Footer Bottom */}
         <div className="footer-btm py-4 mt-5">
           <div className="row align-items-center justify-content-between">
-            <div className="col-lg-6">
-              <div className="copyright">
-                &copy; Copyright Reserved to <span className="text-color">Novena</span> by{' '}
-                <a href="https://themefisher.com/"  target="_blank" rel="noopener noreferrer">
-                  Themefisher
-                </a>
-              </div>
-            </div>
-            <div className="col-lg-6">
+            
+            <div className="col-lg-12">
               <div className="subscribe-form text-lg-right mt-5 mt-lg-0">
                 <form action="#" className="subscribe">
                   <input type="text" className="form-control" placeholder="Your Email address" />

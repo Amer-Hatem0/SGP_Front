@@ -15,6 +15,7 @@ export default function Doctors() {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [selectedTimeForConfirm, setSelectedTimeForConfirm] = useState(null);
 
+  // أيام الأسبوع (من الأحد للسبت ما عدا الجمعة كما في الكود الأصلي)
   const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Saturday'];
   const today = new Date();
 
@@ -22,21 +23,28 @@ export default function Doctors() {
   const generateWeekDays = () => {
     const startOfWeek = new Date(today);
     startOfWeek.setDate(today.getDate() + (weekOffset * 7));
-    const dayOfWeek = startOfWeek.getDay();
-    const diffToSunday = startOfWeek.getDate() - dayOfWeek;
-    const firstDayOfCurrentWeek = new Date(startOfWeek.setDate(diffToSunday));
+    // Set to start of day to ensure consistent comparison for "isPast"
+    startOfWeek.setHours(0, 0, 0, 0); 
+    const dayOfWeek = startOfWeek.getDay(); // 0 for Sunday, 1 for Monday, etc.
+    
+    // Adjust startOfWeek to be the first day (Sunday) of the current logical week
+    // This correctly handles cases where `today` is not Sunday.
+    const firstDayOfCurrentWeek = new Date(startOfWeek);
+    firstDayOfCurrentWeek.setDate(startOfWeek.getDate() - dayOfWeek);
 
     return daysOfWeek.map((day, index) => {
       const currentDate = new Date(firstDayOfCurrentWeek);
       currentDate.setDate(firstDayOfCurrentWeek.getDate() + index);
-      const isPast =
-        weekOffset === 0 && currentDate < new Date(today.setHours(0, 0, 0, 0));
+      
+      // Check if the current date is in the past compared to today (start of today)
+      const isPast = currentDate.setHours(0,0,0,0) < today.setHours(0,0,0,0); 
+
       return {
-        name: day.slice(0, 3),
+        name: day.slice(0, 3), // e.g., "Sun", "Mon"
         date: currentDate,
         disabled: isPast,
         active: selectedDay?.date?.toDateString() === currentDate.toDateString(),
-        formatted: currentDate.toISOString().split('T')[0],
+        formatted: currentDate.toISOString().split('T')[0], // e.g., "2025-06-18"
       };
     });
   };
@@ -67,96 +75,110 @@ export default function Doctors() {
   // Handle Book button click
   const handleBookClick = (doctorId) => {
     setBookingDoctorId(doctorId);
-    setSelectedDay(null);
-    setTimeSlots([]);
-    setBookedTimes([]);
+    setSelectedDay(null); // Reset selected day
+    setTimeSlots([]); // Clear time slots
+    setBookedTimes([]); // Clear booked times
     setShowBookingModal(true);
   };
 
-  // تحديد اليوم المطلوب وعرض الأوقات
   const handleDayClick = async (day) => {
     if (day.disabled) return;
 
     setSelectedDay(day);
+    setTimeSlots([]); // Clear previous slots while loading
+    setBookedTimes([]); // Clear previous booked times while loading
 
-    // توليد جميع الأوقات من 9:00 إلى 2:30
     const times = [];
     let current = new Date(day.date);
-    current.setHours(9, 0, 0, 0);
+    current.setHours(9, 0, 0, 0); // Start at 9:00 AM
 
+    // Generate time slots from 9:00 AM to 2:30 PM (14:30)
     while (current.getHours() < 14 || (current.getHours() === 14 && current.getMinutes() <= 30)) {
       times.push(new Date(current));
-      current.setMinutes(current.getMinutes() + 30);
+      current.setMinutes(current.getMinutes() + 30); // Increment by 30 minutes
     }
 
     try {
       const user = JSON.parse(localStorage.getItem('user'));
       const token = user.token;
 
-      // استدعاء endpoint لجلب المواعيد المحجوزة
       const appointmentsRes = await axios.get(
         `${API_BASE_URL}/Appointment/GetDoctorAppointments/${bookingDoctorId}?date=${day.formatted}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      // احفظ كل وقت محجوز كـ عدد دقائق منذ بداية اليوم
-      const bookedTimes = appointmentsRes.data.map(a => {
-        const d = new Date(a.dateTime);
-        return d.getHours() * 60 + d.getMinutes();
-      });
+const bookedTimesFormatted = appointmentsRes.data.map(a => {
+  const d = new Date(a.dateTime);
+  const hours = d.getHours().toString().padStart(2, '0');
+  const minutes = d.getMinutes().toString().padStart(2, '0');
+  return `${hours}:${minutes}`; // مثال: "14:30"
+});
+
+
+
       setTimeSlots(times);
-      setBookedTimes(bookedTimes);
+      setBookedTimes(bookedTimesFormatted); // Store the formatted booked times
 
     } catch (error) {
       console.error('Failed to fetch booked times:', error);
       setTimeSlots(times);
-      setBookedTimes([]);
+      setBookedTimes([]); // In case of error, treat no times as booked
     }
   };
 
-  // تأكيد الحجز
+  // تأكيد الحجز - Prepare for confirmation modal
   const handleSubmit = (e, doctorId, selectedTime) => {
     e.preventDefault();
     setSelectedTimeForConfirm(selectedTime);
     setShowConfirmModal(true);
   };
 
+  // Execute the booking after confirmation
   const confirmBooking = async () => {
     const doctorId = bookingDoctorId;
-    const selectedTime = selectedTimeForConfirm;
+    const selectedTime = selectedTimeForConfirm; // This is a Date object (local time)
 
     try {
       const user = JSON.parse(localStorage.getItem('user'));
       const token = user.token;
 
+      // Extract userId from token (assuming token is JWT)
       const decoded = JSON.parse(atob(token.split('.')[1]));
       const userIdFromToken = parseInt(decoded.userId || decoded.sub);
 
+      // Fetch PatientId using UserId
       const patientRes = await axios.get(
         `${API_BASE_URL}/Patient/PatientIdByUserId/${userIdFromToken}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       const actualPatientId = patientRes.data.patientId;
 
-      const formattedDateTime = selectedTime.toISOString();
+      // Convert selectedTime (local Date object) to ISO string (UTC) for backend
+const adjustedDate = new Date(selectedTime);
+adjustedDate.setDate(adjustedDate.getDate() - 1); // 🔴 خصم يوم كامل
+const formattedDateTime = new Date(adjustedDate.getTime() - adjustedDate.getTimezoneOffset() * 60000).toISOString();
+
+
 
       await axios.post(
         `${API_BASE_URL}/Appointment/Book`,
         {
           doctorId,
           patientId: actualPatientId,
-          dateTime: formattedDateTime,
+          dateTime: formattedDateTime, // Send as UTC ISO string
           status: 'Pending',
           notes: 'Booked from patient panel',
         },
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      // أضف وقت الحجز الجديد إلى قائمة المحجوزين بالدقائق
+      // Add the newly booked time to the list of booked times (in local 'HH:MM' format)
       setBookedTimes((prev) => [
         ...prev,
-        selectedTime.getHours() * 60 + selectedTime.getMinutes()
+        selectedTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })
       ]);
+
+      // Close modals and reset
       setShowConfirmModal(false);
       setSelectedTimeForConfirm(null);
       setShowBookingModal(false);
@@ -235,24 +257,34 @@ export default function Doctors() {
             {/* Available time slots */}
             {selectedDay && (
               <div>
-                <h6>Available Slots on {selectedDay.formatted}</h6>
+                <h6>Available Slots on {selectedDay.date.toLocaleDateString()}</h6> {/* Display full formatted date */}
                 <div className="slots d-flex flex-wrap gap-2">
-                  {timeSlots.map((slot, i) => {
-                    const slotValue = slot.getHours() * 60 + slot.getMinutes();
-                    const booked = bookedTimes.includes(slotValue);
-                    return (
-                      <button
-                        key={i}
-                        className={`slot-btn ${booked ? 'booked' : 'available'}`}
-                        disabled={booked}
-                        title={booked ? 'هذا الوقت محجوز بالفعل' : 'احجز هذا الوقت'}
-                        onClick={(e) => !booked && handleSubmit(e, bookingDoctorId, slot)}
-                      >
-                        {booked ? 'Booked' : slot.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                      </button>
-                    );
-                  })}
+                  {timeSlots.length > 0 ? (
+                    timeSlots.map((slot, i) => {
+                      // Get the time string in HH:MM format for comparison
+                    const hours = slot.getHours().toString().padStart(2, '0');
+const minutes = slot.getMinutes().toString().padStart(2, '0');
+const slotStr = `${hours}:${minutes}`;
+  const booked = bookedTimes.includes(slotStr);
+                      
+                      return (
+                        <button
+                          key={i}
+                          className={`slot-btn ${booked ? 'booked' : 'available'}`}
+                          disabled={booked}
+                          title={booked ? 'This time is already booked' : 'Book this time'}
+                          onClick={(e) => !booked && handleSubmit(e, bookingDoctorId, slot)}
+                        >
+                        {slotStr}
+  {booked && <span style={{ marginLeft: '5px', fontWeight: 'bold' }}> (محجوز)</span>}
+                        </button>
+                      );
+                    })
+                  ) : (
+                    <p>No time slots available for this day, or still loading.</p>
+                  )}
                 </div>
+
               </div>
             )}
 
@@ -268,7 +300,7 @@ export default function Doctors() {
         <div className="modal-overlay">
           <div className="modal-content">
             <h5>Confirm Booking</h5>
-            <p>Are you sure you want to book this time?</p>
+            <p>Are you sure you want to book an appointment for {selectedTimeForConfirm?.toLocaleDateString()} at {selectedTimeForConfirm?.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}?</p>
             <div className="d-flex justify-content-between mt-3">
               <button className="btn btn-danger" onClick={() => setShowConfirmModal(false)}>Cancel</button>
               <button className="btn btn-success" onClick={confirmBooking}>Confirm</button>
@@ -312,6 +344,9 @@ export default function Doctors() {
           transition: all 0.2s ease;
           background-color: #e9ecef;
           color: #333;
+          display: flex; /* Added for better alignment of text and "محجوز" */
+          align-items: center; /* Added for better alignment */
+          justify-content: center; /* Added for better alignment */
         }
         .slot-btn.available:hover {
           background-color: #28a745;

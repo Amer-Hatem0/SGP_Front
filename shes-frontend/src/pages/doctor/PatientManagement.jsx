@@ -26,6 +26,9 @@ export default function PatientManagement() {
         headers: { Authorization: `Bearer ${token}` }
       });
       alert('Note added successfully.');
+       setNote('');
+    setDiagnosis('');
+    setTreatment('');
     } catch (err) {
       console.error(err);
       alert('Error adding note.');
@@ -88,95 +91,103 @@ return (
     <Navbar />
     <div className="PatientManagement-container">
       <DoctorSidebar />
-      <main className="PatientManagement-main">
-        <h1 className="PatientManagement-title">Patient Management</h1>
+     <main className="PatientManagement-main">
+  <h1 className="PatientManagement-title">Patient Management</h1>
 
-        <div className="PatientManagement-form">
-          {/* Patient Selection */}
-          <label className="PatientManagement-label">Select Patient</label>
-          <select
-            className="PatientManagement-input"
-            value={patientId}
-            onChange={(e) => setPatientId(e.target.value)}
-          >
-            <option value="">-- Choose Patient --</option>
-            {patients.map(p => (
-              <option key={p.patientId} value={p.patientId}>
-                {p.fullName} ({p.gender})
-              </option>
-            ))}
-          </select>
+  {/* Patient Selection */}
+  <div className="mb-3">
+    <label className="PatientManagement-label">Select Patient</label>
+    <select
+      className="PatientManagement-input"
+      value={patientId}
+      onChange={(e) => setPatientId(e.target.value)}
+    >
+      <option value="">-- Choose Patient --</option>
+      {patients.map((p) => (
+        <option key={p.patientId} value={p.patientId}>
+          {p.fullName} ({p.gender})
+        </option>
+      ))}
+    </select>
+  </div>
 
-          {/* Note Selection */}
-          <label className="PatientManagement-label">Select Note:</label>
-          <select
-            className="PatientManagement-input"
-            value={note}
-            onChange={(e) => setNote(e.target.value)}
-          >
-            <option value="">-- Choose Note --</option>
-            <option value="Follow-up Required">Follow-up Required</option>
-            <option value="Patient is Stable">Patient is Stable</option>
-            <option value="Needs Imaging">Needs Imaging</option>
-            <option value="Medication Adjustment">Medication Adjustment</option>
-          </select>
+  {/* Grid layout for Notes and Reports */}
+  <div className="row">
+    {/* Notes Section */}
+    <div className="col-lg-6 col-md-12 mb-4">
+      <div className="card shadow p-3">
+        <h5 className="mb-3">Add Patient Note</h5>
 
-          {/* Diagnosis Input */}
-          <input
-            type="text"
-            placeholder="Diagnosis"
-            className="PatientManagement-input"
-            value={diagnosis}
-            onChange={(e) => setDiagnosis(e.target.value)}
-          />
+        <label className="PatientManagement-label">Select Note:</label>
+        <select
+          className="PatientManagement-input"
+          value={note}
+          onChange={(e) => setNote(e.target.value)}
+        >
+          <option value="">-- Choose Note --</option>
+          <option value="Follow-up Required">Follow-up Required</option>
+          <option value="Patient is Stable">Patient is Stable</option>
+          <option value="Needs Imaging">Needs Imaging</option>
+          <option value="Medication Adjustment">Medication Adjustment</option>
+        </select>
 
-          {/* Horizontal Row for Report & Treatment */}
-          <div className="horizontal-group">
-            <input
-              type="text"
-              placeholder="Treatment"
-              className="PatientManagement-input half-width"
-              value={treatment}
-              onChange={(e) => setTreatment(e.target.value)}
-            />
+        <input
+          type="text"
+          placeholder="Diagnosis"
+          className="PatientManagement-input mt-2"
+          value={diagnosis}
+          onChange={(e) => setDiagnosis(e.target.value)}
+        />
 
-            <input
-              type="text"
-              placeholder="Report Description"
-              className="PatientManagement-input half-width"
-              value={reportDescription}
-              onChange={(e) => setReportDescription(e.target.value)}
-            />
-          </div>
+        <input
+          type="text"
+          placeholder="Treatment"
+          className="PatientManagement-input mt-2"
+          value={treatment}
+          onChange={(e) => setTreatment(e.target.value)}
+        />
 
-          {/* Upload Section */}
-          <label className="PatientManagement-label">Upload Report (PDF/Image)</label>
-          <input
-            type="file"
-            className="PatientManagement-input"
-            onChange={(e) => setReportFile(e.target.files[0])}
-          />
+        <button
+          className="PatientManagement-button btn-note mt-3"
+          onClick={handleAddNote}
+          disabled={!patientId}
+        >
+          Add Note
+        </button>
+      </div>
+    </div>
 
-          {/* Buttons */}
-          <div className="button-group">
-            <button
-              className="PatientManagement-button btn-note"
-              onClick={handleAddNote}
-              disabled={!patientId}
-            >
-              Add Note
-            </button>
+    {/* Report Section */}
+    <div className="col-lg-6 col-md-12 mb-4">
+      <div className="card shadow p-3">
+        <h5 className="mb-3">Upload Medical Report</h5>
 
-            <button
-              className="PatientManagement-button btn-upload"
-              onClick={handleUploadReport}
-              disabled={!patientId || !reportFile}
-            >
-              Upload Report
-            </button>
-          </div>
-        </div>
-      </main>
+        <input
+          type="file"
+          className="PatientManagement-input"
+          onChange={(e) => setReportFile(e.target.files[0])}
+        />
+
+        <input
+          type="text"
+          placeholder="Report Description"
+          className="PatientManagement-input mt-2"
+          value={reportDescription}
+          onChange={(e) => setReportDescription(e.target.value)}
+        />
+
+        <button
+          className="PatientManagement-button btn-upload mt-3"
+          onClick={handleUploadReport}
+          disabled={!patientId || !reportFile}
+        >
+          Upload Report
+        </button>
+      </div>
+    </div>
+  </div>
+</main>
+
     </div>
   </>
 );

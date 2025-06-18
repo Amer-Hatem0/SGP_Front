@@ -21,6 +21,7 @@
   border-right: 1px solid #ddd;
   overflow-y: auto;
   padding: 15px;
+  margin-top: 40px;
 }
 
 .chat-main-panel {
@@ -54,4 +55,9 @@
 .otpBody{
  padding: 20px;
  
+}
+
+.chattting{
+  background-color: #fff !important;
+  margin-top: -30px !important;
 }

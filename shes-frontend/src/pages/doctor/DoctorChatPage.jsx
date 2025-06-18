@@ -28,21 +28,24 @@ const markAllAsReadFromPatient = async (patientId) => {
 };
 
   return (
-    <div className="chat-sidbar">    <Navbar />
-    <div className="chat-full-layout">
+    <div className="chat-sidbar"> 
+      <Navbar />
+    <div className=" chatdr">
       {/* <DoctorSidebar /> */}
-  
-      <div className="chat-page-wrapper">
-        <div className="doctor-list-panel">
+   
+      <div className="chat-page-wrapper">  
+        <div className="doctor-list-panel mt-5 pt-5">
+          
+        
           <h3 className="sidebar-title">Connected Patients</h3>
           <ChatPatientsList
             onSelectPatient={handleSelect}
             selectedPatientId={selectedPatientId}
           />
         </div>
-        <div className="chat-main-panel">
+        <div className="chat-main-panel  ">
           {selectedPatientId ? (
-            <ChatBox receiverId={selectedPatientId} receiverName={selectedPatientName} />
+            <ChatBox className="drchattting" receiverId={selectedPatientId} receiverName={selectedPatientName} />
           ) : (
             <div className="placeholde">
               <p>Select a patient to start chatting</p>

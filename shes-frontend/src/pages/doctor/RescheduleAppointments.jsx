@@ -73,7 +73,7 @@ export default function DoctorAppointments() {
       <Navbar />
       <div className="d-flex">
         <DoctorSidebar />
-        <div className="container mt-4">
+        <div className="myappoint container  ">
           <h4 className="fw-bold mb-4">My Appointments</h4>
 
           {appointments.length === 0 ? (
@@ -97,7 +97,8 @@ export default function DoctorAppointments() {
                     <tr key={app.appointmentId}>
                       <td>{i + 1}</td>
                       <td>{app.patientName}</td>
-                      <td>{new Date(app.appointmentDate).toLocaleString()}</td>
+                      <td>{new Date(new Date(app.appointmentDate).getTime() + 3 * 60 * 60 * 1000).toLocaleString()}</td>
+
                       <td>
                         <span className={`badge bg-${app.statusName === 'Completed' ? 'success' : app.statusName === 'Rescheduled' ? 'warning text-dark' : 'secondary'}`}>
                           {app.statusName}

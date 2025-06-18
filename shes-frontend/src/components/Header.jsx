@@ -1,78 +1,127 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import logo from './logo.png';
 
+const navLinks = [
+  { to: '/home', label: 'Home' },
+  { to: '/about', label: 'About' },
+  { to: '/services', label: 'Services' },
+  { to: '/doctors', label: 'Doctors' },
+  { to: '/contact', label: 'Contact' },
+];
+
 const Header = () => {
   const location = useLocation();
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  // Close drawer on link click
+  const handleLinkClick = () => setDrawerOpen(false);
 
   return (
-    <header>
-      <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
-        <div className="container d-flex justify-content-between align-items-center">
-          {/* Logo */}
-          <Link className="navbar-brand" to="/">
-            <img src={logo} alt="Logo" height="60" width="160" />
-          </Link>
+    <>
+      <header>
+        <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+          <div className="container d-flex align-items-center justify-content-between">
+            {/* Logo */}
+               <img src={logo} alt="Logo" height="70" width="200" className="d-inline-block align-text-top" />
+           
+            {/* Hamburger Icon for mobile/medium screens */}
+            <button
+              className="d-lg-none btn"
+              style={{ fontSize: 28 }}
+              aria-label="Open menu"
+              onClick={() => setDrawerOpen(true)}
+            >
+              <span className="bi bi-list"></span>
+            
+            </button>
 
-          {/* Toggle button for small screens */}
-          <button
-            className="navbar-toggler d-lg-none"
-            type="button"
-            data-bs-toggle="offcanvas"
-            data-bs-target="#mobileMenu"
-            aria-controls="mobileMenu"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-
-          {/* Desktop Menu */}
-          <div className="d-none d-lg-flex align-items-center gap-4">
-            <ul className="navbar-nav d-flex flex-row gap-3 mb-0">
-              {['/home', '/about', '/services', '/doctors', '/contact'].map((path, idx) => {
-                const labels = ['Home', 'About', 'Services', 'Doctors', 'Contact'];
-                return (
-                  <li className="nav-item" key={path}>
-                    <Link
-                      className={`nav-link fw-medium ${location.pathname === path ? 'active' : ''}`}
-                      to={path}
-                    >
-                      {labels[idx]}
-                    </Link>
-                  </li>
-                );
-              })}
+            {/* Desktop Links */}
+            <ul className="navbar-nav d-none d-lg-flex flex-row gap-3 mb-0">
+              {navLinks.map(link => (
+                <li className="nav-item zzz1" key={link.to}>
+                  <Link
+                    className={`nav-link fw-medium ${location.pathname === link.to ? 'active' : ''}`}
+                    to={link.to}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
-            <div className="d-flex gap-2">
+            <div className="d-none d-lg-flex gap-2">
               <Link className="btn btn-outline-primary px-4" to="/login">Login</Link>
               <Link className="btn btn-primary px-4" to="/register">Register</Link>
             </div>
           </div>
+        </nav>
+      </header>
+      
+      {/* Sidebar Drawer */}
+      <div className={`drawer-overlay ${drawerOpen ? 'open' : ''}`} onClick={() => setDrawerOpen(false)} />
+      <div className={`drawer ${drawerOpen ? 'open' : ''}`}>
+        <div className="drawer-header d-flex justify-content-between align-items-center p-3 border-bottom">
+          <img src={logo} alt="Logo" height="32" />
+          <button className="btn" onClick={() => setDrawerOpen(false)} style={{ fontSize: 22 }}>×</button>
         </div>
-      </nav>
-
-      {/* Offcanvas Menu for Small Screens */}
-      <div
-        className="offcanvas offcanvas-end"
-        tabIndex="-1"
-        id="mobileMenu"
-        aria-labelledby="mobileMenuLabel"
-      >
-        <div className="offcanvas-header">
-          <h5 className="offcanvas-title" id="mobileMenuLabel">Menu</h5>
-          <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div className="offcanvas-body d-flex flex-column gap-3">
-          <Link className="nav-link" to="/home">Home</Link>
-          <Link className="nav-link" to="/about">About</Link>
-          <Link className="nav-link" to="/services">Services</Link>
-          <Link className="nav-link" to="/doctors">Doctors</Link>
-          <Link className="nav-link" to="/contact">Contact</Link>
-          <hr />
-          <Link className="btn btn-outline-primary w-100" to="/login">Login</Link>
-          <Link className="btn btn-primary w-100" to="/register">Register</Link>
-        </div>
+        <ul className="list-unstyled p-3">
+          {navLinks.map(link => (
+            <li key={link.to} className="mb-2">
+              <Link
+                className={`nav-link fw-medium ${location.pathname === link.to ? 'active' : ''}`}
+                to={link.to}
+                onClick={handleLinkClick}
+              >
+                {link.label}
+              </Link>
+            </li>
+          ))}
+          <li className="mb-2">
+            <Link className="btn btn-outline-primary w-100 mb-2" to="/login" onClick={handleLinkClick}>Login</Link>
+          </li>
+          <li>
+            <Link className="btn btn-primary w-100" to="/register" onClick={handleLinkClick}>Register</Link>
+          </li>
+        </ul>
       </div>
-    </header>
+
+      {/* Minimal CSS for drawer */}
+      <style>
+        {`
+        .drawer {
+          position: fixed;
+          top: 0;
+          right: -320px;
+          width: 320px;
+          height: 100vh;
+          background: #fff;
+          box-shadow: -2px 0 12px rgba(0,0,0,0.12);
+          transition: right 0.3s cubic-bezier(.65,.05,.36,1);
+          z-index: 1040;
+          overflow-y: auto;
+        }
+        .drawer.open {
+          right: 0;
+        }
+        .drawer-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: 100vh;
+          background: rgba(0,0,0,0.18);
+          opacity: 0;
+          z-index: 1035;
+          pointer-events: none;
+          transition: opacity 0.2s;
+        }
+        .drawer-overlay.open {
+          opacity: 1;
+          pointer-events: auto;
+        }
+        `}
+      </style>
+    </>
   );
 };
 
