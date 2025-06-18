@@ -108,7 +108,7 @@ export default function Doctors() {
     </Text>
   </Text>
 
-    <Pressable
+    <Pressable // CHANGE from *
           onPress={() => setBookingDoctorId(doc.doctorId === bookingDoctorId ? null : doc.doctorId)}
           style={({ pressed }) => [
             {
