@@ -151,6 +151,7 @@ export default function PatientManagement() {
             selectedValue={patientId}
             onValueChange={(value) => setPatientId(value)}
             style={[styles.picker, { color: theme.colors.text }]}
+            
           >
             <Picker.Item label="-- Choose Patient --" value="" />
             {patients.map(p => (
@@ -266,6 +267,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginBottom: 16,
     overflow: 'hidden',
+    backgroundColor: 'white'
   },
   picker: {
     height: 50,

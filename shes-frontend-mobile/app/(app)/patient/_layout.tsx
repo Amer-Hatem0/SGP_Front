@@ -65,6 +65,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 8,
+    backgroundColor: 'white',
   },
   hamburgerButton: {
     padding: 8,

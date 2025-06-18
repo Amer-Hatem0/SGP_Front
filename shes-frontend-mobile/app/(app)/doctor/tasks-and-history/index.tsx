@@ -172,6 +172,7 @@ export default function TasksAndHistory() {
           renderItem={renderWorkHistoryItem}
           keyExtractor={(item, index) => index.toString()}
           scrollEnabled={false}
+          style={{height:300}}
         />
       </View>
     </ScrollView>

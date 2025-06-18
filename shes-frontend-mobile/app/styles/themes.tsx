@@ -658,8 +658,6 @@ export const makeAppointmentStyles = (theme: Theme) => ({
 
   scrollContent: {
     flexGrow: 1,
-    paddingTop: 80,  // For navbar
-    paddingBottom: 100  // For tabbar
   } as ViewStyle,
 
   loadingContainer: {
@@ -673,6 +671,8 @@ export const makeAppointmentStyles = (theme: Theme) => ({
     fontWeight: 'bold',
     marginBottom: theme.spacing.lg,
     color: theme.colors.text,
+    marginTop: 25,
+    marginLeft: 12,
   } as TextStyle,
 
   emptyText: {
@@ -850,7 +850,6 @@ export const makeDoctorStyles = (theme: Theme) => ({
     paddingVertical: theme.spacing.md,
     borderRadius: theme.radii.full,
     marginTop: theme.spacing.md,
-    color: 'black'
   } as ViewStyle,
 
   formInput: {

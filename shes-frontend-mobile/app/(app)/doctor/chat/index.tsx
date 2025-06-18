@@ -6,6 +6,7 @@ import ChatBox from '../../../components/chat/ChatBox';
 import axios from 'axios';
 import API_BASE_URL from '../../../../config/apiConfig';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { KeyboardAvoidingView, Platform } from 'react-native';
 
 export default function DoctorChatPage() {
   const [selectedPatientId, setSelectedPatientId] = useState<string | null>(null);
@@ -51,6 +52,11 @@ export default function DoctorChatPage() {
   };
 
   return (
+    <KeyboardAvoidingView
+    style={{ flex: 1 }}
+    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    keyboardVerticalOffset={90} // adjust if you have a navbar/header
+  >
     <View style={styles.container}>
       <View style={styles.pageWrapper}>
         <View style={styles.listPanel}>
@@ -78,6 +84,7 @@ export default function DoctorChatPage() {
         </View>
       </View>
     </View>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -88,7 +95,7 @@ const styles = StyleSheet.create({
   },
   pageWrapper: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: 'column',
   },
   listPanel: {
     width: 250,
@@ -104,6 +111,8 @@ const styles = StyleSheet.create({
   mainPanel: {
     flex: 1,
     padding: 16,
+    minWidth: 0,
+    flexShrink:1,
   },
   placeholder: {
     flex: 1,

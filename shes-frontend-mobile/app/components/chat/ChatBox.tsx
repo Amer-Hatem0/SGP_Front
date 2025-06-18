@@ -158,9 +158,10 @@ export default function ChatBox({ receiverId, receiverName, onBack }: ChatBoxPro
   return (
     <KeyboardAvoidingView
     behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-    style={styles.container}
-    keyboardVerticalOffset={90}
+    style={{flex:1}}
+    keyboardVerticalOffset={Platform.OS === 'ios' ? 110 : 20}
   >
+    <View style={styles.container}>
       {/* Header */}
     <View style={styles.header}>
       {onBack && (
@@ -261,6 +262,7 @@ export default function ChatBox({ receiverId, receiverName, onBack }: ChatBoxPro
           <Ionicons name="send" size={20} color="white" />
         )}
       </TouchableOpacity>
+    </View>
     </View>
   </KeyboardAvoidingView>
   );
