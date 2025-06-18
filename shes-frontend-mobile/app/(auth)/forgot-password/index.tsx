@@ -14,6 +14,7 @@ import { useTheme, makeForgotPasswordStyles } from '../../styles/themes';
 import { router } from 'expo-router';
 import axios from 'axios';
 import API_BASE_URL from '../../../config/apiConfig';
+import { TouchableWithoutFeedback, Keyboard } from 'react-native';
 
 export default function ForgotPasswordScreen() {
   const { theme } = useTheme();
@@ -80,6 +81,8 @@ export default function ForgotPasswordScreen() {
   };
 
   return (
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles.container}
@@ -149,5 +152,6 @@ export default function ForgotPasswordScreen() {
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
   );
 }

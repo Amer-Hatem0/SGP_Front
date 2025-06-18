@@ -27,7 +27,7 @@ type PatientRoute =
   | "/patient/doctors"
   | "/patient/appointments"
   | "/patient/reports"
-  | "/patient/chat";
+  | "/patient/chat/chatscreen";
 
 const navItems: { name: string; icon: keyof typeof Ionicons.glyphMap; route: PatientRoute }[] = [
   { name: 'Home', icon: 'home', route: '/patient/home' },
@@ -35,7 +35,7 @@ const navItems: { name: string; icon: keyof typeof Ionicons.glyphMap; route: Pat
   { name: 'Doctors', icon: 'medkit', route: '/patient/doctors' },
   { name: 'Appointments', icon: 'calendar', route: '/patient/appointments' },
   { name: 'Reports', icon: 'folder', route: '/patient/reports' },
-  { name: 'Chat', icon: 'chatbubbles', route: '/patient/chat' },
+  { name: 'Chat', icon: 'chatbubbles', route: '/patient/chat/chatscreen' },
 ];
 
   // Optional: You could get current path and highlight selected item if you want.

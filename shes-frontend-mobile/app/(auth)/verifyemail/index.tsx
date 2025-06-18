@@ -10,6 +10,7 @@ import {
 import { router, useLocalSearchParams } from 'expo-router';
 import axios from 'axios';
 import API_BASE_URL from '../../../config/apiConfig';
+import { TouchableWithoutFeedback, Keyboard } from 'react-native';
 
 export default function VerifyEmailScreen() {
   const [otp, setOtp] = useState('');
@@ -45,26 +46,27 @@ export default function VerifyEmailScreen() {
     }
   };
 
-  const handleResendOTP = async () => {
-    setResendLoading(true);
-    try {
-      await axios.post(`${API_BASE_URL}/Account/resend-otp`, { email });
-      Alert.alert('Success', 'New OTP sent to your email');
-    } catch (err: unknown) {
-      console.error("Resend error:", err);
-      let message = 'Failed to resend OTP. Please try again.';
+  // const handleResendOTP = async () => {
+  //   setResendLoading(true);
+  //   try {
+  //     await axios.post(`${API_BASE_URL}/Account/resend-otp`, { email });
+  //     Alert.alert('Success', 'New OTP sent to your email');
+  //   } catch (err: unknown) {
+  //     console.error("Resend error:", err);
+  //     let message = 'Failed to resend OTP. Please try again.';
 
-      if (axios.isAxiosError(err)) {
-        message = err.response?.data?.message || message;
-      }
+  //     if (axios.isAxiosError(err)) {
+  //       message = err.response?.data?.message || message;
+  //     }
 
-      Alert.alert('Error', message);
-    } finally {
-      setResendLoading(false);
-    }
-  };
+  //     Alert.alert('Error', message);
+  //   } finally {
+  //     setResendLoading(false);
+  //   }
+  // };
 
   return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
     <View style={styles.container}>
       <View style={styles.card}>
         <Text style={styles.title}>Verify Email</Text>
@@ -77,7 +79,7 @@ export default function VerifyEmailScreen() {
           onChangeText={setOtp}
           style={styles.input}
           keyboardType="numeric"
-          autoFocus
+          
         />
 
         <Pressable
@@ -96,7 +98,7 @@ export default function VerifyEmailScreen() {
           )}
         </Pressable>
 
-        <View style={styles.resendContainer}>
+        {/* <View style={styles.resendContainer}>
           <Text style={styles.resendText}>Didn't receive code?</Text>
           <Pressable
             onPress={handleResendOTP}
@@ -109,9 +111,10 @@ export default function VerifyEmailScreen() {
               {resendLoading ? 'Sending...' : 'Resend OTP'}
             </Text>
           </Pressable>
-        </View>
+        </View> */}
       </View>
     </View>
+    </TouchableWithoutFeedback>
   );
 }
 
@@ -172,6 +175,10 @@ const styles = {
     color: 'white',
     fontSize: 16,
     fontWeight: '600',
+    borderRadius: 8,
+    backgroundColor: '#15803d', // bg-green-700
+    padding: 12,
+    textAlign: 'center'
   } as const,
   resendContainer: {
     flexDirection: 'row',

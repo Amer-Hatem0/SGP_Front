@@ -8,12 +8,11 @@ import {
   useWindowDimensions ,
   StyleSheet
 } from 'react-native';
-import { useTheme, makeStyles, makeChatStyles } from '../../styles/themes';
-import DoctorList from '../../components/DoctorList';
-import ChatBox from '../../components/chat/ChatBox';
-import PatientSidebar from '../../components/patient/Sidebar';
+import { useTheme, makeStyles, makeChatStyles } from '../../../styles/themes';
+import DoctorList from '../../../components/DoctorList';
+import ChatBox from '../../../components/chat/ChatBox';
 import axios from 'axios';
-import API_BASE_URL from '../../../config/apiConfig';
+import API_BASE_URL from '../../../../config/apiConfig';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function ChatScreen() {
@@ -50,7 +49,7 @@ export default function ChatScreen() {
    const responsiveStyles = isSmallScreen ? chatStyles.smallScreen : {};
   return (
     <SafeAreaView style={chatStyles.wrapper}>
-      {!isSmallScreen && <PatientSidebar />}
+      {!isSmallScreen}
       
       <View style={[chatStyles.wrapper,chatStyles.smallScreen.wrapper]}>
         {(!isSmallScreen || !selectedDoctor.id) && (

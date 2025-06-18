@@ -26,39 +26,67 @@ export default function useAuth() {
 
   // Initialize auth state
   useEffect(() => {
+    let isMounted = true;
+
     const initializeAuth = async () => {
       try {
         const storedUser = await getStoredUser();
-        if (storedUser) {
-          setUser(storedUser);
+        if (isMounted && storedUser) {
           const decoded = getTokenData(storedUser.token);
           if (decoded) {
-            setTokenData(decoded);
-            verifyTokenExpiration(decoded);
+            
+            const expired = verifyTokenExpiration(decoded);
+            if (!expired){
+              setUser(storedUser);
+              setTokenData(decoded);
+            }
           }
         }
       } catch (error) {
         console.error('Auth initialization error:', error);
-        await clearAuthData();
+        if (isMounted) await clearAuthData();
       } finally {
-        setLoading(false);
+        if (isMounted) setLoading(false);
       }
     };
     initializeAuth();
+    return ()=> {isMounted=false;};
+  }, []);
+
+  // Remove all auth data
+  const logout = useCallback(async () => {
+    try {
+      await clearAuthData();
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
   }, []);
 
   // Verify token expiration
   const verifyTokenExpiration = useCallback((decodedToken: TokenData) => {
-    if (!decodedToken?.exp) return;
+    if (!decodedToken?.exp) return false;
     const isExpired = Date.now() >= decodedToken.exp * 1000;
+    // if (isExpired) {
+    //   Alert.alert(
+    //     'Session Expired',
+    //     'Your session has expired. Please log in again.',
+    //     [{ text: 'OK', onPress: () => logout() }]
+    //   );
+    // }
     if (isExpired) {
+    // Delay the alert to avoid disrupting render cycle
+    setTimeout(() => {
       Alert.alert(
         'Session Expired',
         'Your session has expired. Please log in again.',
         [{ text: 'OK', onPress: () => logout() }]
       );
-    }
-  }, []);
+    }, 1000);
+    return true;
+  }
+  return false;
+  }, [logout]);
+  
 
   // Save user to secure storage
   const saveUser = useCallback(async (userData: User) => {
@@ -76,14 +104,6 @@ export default function useAuth() {
     }
   }, [verifyTokenExpiration]);
 
-  // Remove all auth data
-  const logout = useCallback(async () => {
-    try {
-      await clearAuthData();
-    } catch (error) {
-      console.error('Logout error:', error);
-    }
-  }, []);
 
   // Get decoded JWT data with proper typing
   const getTokenData = useCallback((token: string): TokenData | null => {

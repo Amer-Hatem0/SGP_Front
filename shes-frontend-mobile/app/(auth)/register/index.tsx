@@ -10,6 +10,8 @@ import {
   Text,
   Pressable
 } from 'react-native';
+    import { TouchableWithoutFeedback, Keyboard } from 'react-native';
+
 import { router } from 'expo-router';
 import axios from 'axios';
 import API_BASE_URL from '../../../config/apiConfig';
@@ -42,7 +44,7 @@ export default function RegisterScreen() {
       await axios.post(`${API_BASE_URL}/Account/Register`, form);
       Alert.alert('Success', 'Registered successfully. Check your email for OTP code.');
       router.push({
-        pathname: '../(auth)/verify-email',
+        pathname: '../(auth)/verifyemail',
         params: { email: form.email }
       });
     } catch (err: unknown) {
@@ -60,6 +62,9 @@ export default function RegisterScreen() {
   };
 
   return (
+
+  <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+    
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles.container}
@@ -163,6 +168,7 @@ export default function RegisterScreen() {
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
   );
 }
 

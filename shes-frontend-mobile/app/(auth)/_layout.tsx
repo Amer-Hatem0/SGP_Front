@@ -1,35 +1,37 @@
-// app/(auth)/_layout.tsx
-import { Slot, Redirect, useSegments } from 'expo-router'
-import { useAuthContext } from '@/context/AuthContext'
+// Updated _layout.tsx
+import { Slot, Redirect, useSegments } from 'expo-router';
+import { useAuthContext } from '@/context/AuthContext';
+import { View, ActivityIndicator } from 'react-native';
+import { useEffect, useState } from 'react';
 
 export default function AuthLayout() {
-  const { user, loading } = useAuthContext()
-  const segments = useSegments()        // e.g. ['login'] or ['doctor','home']
-  const first = segments[0] ?? ''
+  const { user, loading } = useAuthContext();
+  const segments = useSegments();
+  const [isReady, setIsReady] = useState(false);
 
-  // list all your auth‐page slugs here:
-  const authRoutes = ['login', 'register', 'forgot-password', 'verifyemail']
-  const isAuthRoute = authRoutes.includes(first)
+  useEffect(() => {
+    // Small delay to ensure all auth state is settled
+    const timer = setTimeout(() => setIsReady(true), 100);
+    return () => clearTimeout(timer);
+  }, []);
 
-  if (loading) {
-    // still checking AsyncStorage?
-    return null
+  if (!isReady || loading) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
   }
 
-  // 1) logged in but still on an auth page → out to your app
-  if (user && isAuthRoute) {
-    console.log("user role is:", user.role);
-    const dest = user.role === 'Doctor'
-      ? '/doctor/home'
-      : '/patient/home'
-    return <Redirect href={dest} />
+  const inAuthGroup = segments[0] === '(auth)';
+
+  if (!user && !inAuthGroup) {
+    return <Redirect href="/login" />;
   }
 
-  // 2) not logged in but on an app page → back into auth
-  if (!user && !isAuthRoute) {
-    return <Redirect href="/login" />
+  if (user && inAuthGroup) {
+    return <Redirect href={user.role === 'Doctor' ? '/doctor/home' : '/patient/home'} />;
   }
 
-  // 3) otherwise you’re in the right place—render the auth screen
-  return <Slot />
+  return <Slot />;
 }

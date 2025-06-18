@@ -18,6 +18,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import API_BASE_URL from '../../../config/apiConfig';
 import { useAuthContext } from '@/context/AuthContext';
+import { TouchableWithoutFeedback, Keyboard } from 'react-native';
 
 export default function LoginScreen() {
   const { saveUser } = useAuthContext(); // Correct hook placement
@@ -112,15 +113,15 @@ export default function LoginScreen() {
   };
 
   return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
     <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       style={styles.container}
     >
       <View style={styles.formContainer}>
         <Text style={styles.title}>Welcome Back</Text>
         
         <TextInput
-          autoFocus
           placeholder="Email Address"
           placeholderTextColor={theme.colors.textSecondary}
           value={email}
@@ -172,5 +173,6 @@ export default function LoginScreen() {
         </View>
       </View>
     </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
   );
 }
