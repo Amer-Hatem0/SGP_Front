@@ -803,14 +803,15 @@ export const makeAppointmentStyles = (theme: Theme) => ({
 export const makeDoctorStyles = (theme: Theme) => ({
   container: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: 'column',
     backgroundColor: theme.colors.background,
   } as ViewStyle,
 
   scrollContainer: {
-    flex: 1,
-    paddingTop: 80,  // For navbar
-      paddingBottom: 100  // For tabbar
+    flexGrow: 1,
+    paddingTop: 12,  // For navbar
+      paddingBottom: 20,  // For tabbar
+      paddingLeft: 12
   } as ViewStyle,
 
   title: {
@@ -849,6 +850,7 @@ export const makeDoctorStyles = (theme: Theme) => ({
     paddingVertical: theme.spacing.md,
     borderRadius: theme.radii.full,
     marginTop: theme.spacing.md,
+    color: 'black'
   } as ViewStyle,
 
   formInput: {
@@ -1037,9 +1039,9 @@ export const makePatientHomeStyles = (theme: Theme) => ({
   } as ViewStyle,
 
   scrollContainer: {
-    flex: 1,
-    paddingTop: 80,  // For navbar
-      paddingBottom: 100,  // For tabbar
+    flexGrow: 1,
+    paddingHorizontal: 16,
+      paddingBottom: 16,  // For tabbar
     backgroundColor: theme.colors.background,
   } as ViewStyle,
 
@@ -1074,20 +1076,28 @@ export const makePatientHomeStyles = (theme: Theme) => ({
   // Stats Section
   statsGrid: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: theme.spacing.lg,
-    marginBottom: theme.spacing.xl,
+  flexWrap: 'wrap',
+  justifyContent: 'space-between',
+  paddingHorizontal: 16,
+  marginTop: 16,
+  gap: 12,
   } as ViewStyle,
 
   statCard: {
-    width: '45%', // 2 columns
-    backgroundColor: theme.colors.card,
-    padding: theme.spacing.lg,
-    borderRadius: theme.radii.md,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: theme.spacing.md,
-    ...theme.shadows.sm,
+     flexDirection: 'row',
+  alignItems: 'center',
+  gap: 10,
+  width: '100%',
+  backgroundColor: theme.colors.card,
+  padding: 8,
+  borderRadius: 12,
+  elevation: 2,
+  shadowColor: '#000',
+  shadowOffset: { width: 0, height: 1 },
+  shadowOpacity: 0.1,
+  shadowRadius: 2,
+  maxWidth: '100%',
+  overflow: 'hidden',
   } as ViewStyle,
 
   statCount: {
@@ -1095,10 +1105,20 @@ export const makePatientHomeStyles = (theme: Theme) => ({
     fontWeight: 'bold',
     color: theme.colors.text,
   } as TextStyle,
+    statTextContainer: {
+    flexShrink: 1,
+    
+  } as ViewStyle,
 
   statLabel: {
     color: theme.colors.textSecondary,
     fontSize: theme.typography.sm,
+    flexShrink:1,
+    overflow: 'hidden',
+    padding: 0,
+    gap: 8,
+    alignItems: 'center',
+    flexDirection: 'row',
   } as TextStyle,
 
   // Date Text
@@ -1106,13 +1126,23 @@ export const makePatientHomeStyles = (theme: Theme) => ({
     fontSize: theme.typography.md,
     color: theme.colors.textSecondary,
     marginBottom: theme.spacing.md,
+    marginTop: theme.spacing.md,
   } as TextStyle,
 
   // Info Cards
   infoCards: {
     gap: theme.spacing.lg,
-    marginBottom: theme.spacing.xl,
+    paddingHorizontal: 16,
+    marginTop: 20,
+    // marginBottom: theme.spacing.xl,
   } as ViewStyle,
+  cardShadow: {
+  shadowColor: '#000',
+  shadowOffset: { width: 0, height: 1 },
+  shadowOpacity: 0.1,
+  shadowRadius: 3,
+  elevation: 3,
+} as ViewStyle,
 
   welcomeCard: {
     backgroundColor: theme.colors.card,
@@ -1122,6 +1152,11 @@ export const makePatientHomeStyles = (theme: Theme) => ({
     padding: theme.spacing.lg,
     ...theme.shadows.sm,
     borderLeftWidth: 4, // Accent border
+    shadowColor: '#000',
+    shadowOffset: { width:0, height:1},
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation:2
   } as ViewStyle,
 
   cardTitle: {
@@ -1145,8 +1180,8 @@ export const makePatientHomeStyles = (theme: Theme) => ({
 // Add to themes.tsx
 export const makeProfileStyles = (theme: Theme) => ({
   container: {
-    flexDirection: 'row',
-    gap: theme.spacing.xl,
+    flexDirection: 'column',
+    gap: theme.spacing.lg,
     padding: theme.spacing.lg,
   } as ViewStyle,
 

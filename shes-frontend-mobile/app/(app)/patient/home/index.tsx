@@ -85,9 +85,6 @@ export default function PatientHome() {
     fetchData();
   }, []);
 
-  // const nextAppointment = appointments.length > 0
-  //   ? appointments.sort((a, b) => new Date(a.appointmentDate) - new Date(b.appointmentDate))[0]
-  //   : null;
   const nextAppointment =
   appointments.length > 0
     ? appointments.sort(
@@ -100,22 +97,6 @@ export default function PatientHome() {
     <View style={styles.container}>
       
       <ScrollView style={styles.scrollContainer}>
-        {/* Header */}
-        {/* <View style={styles.header}>
-          <Text style={styles.welcomeText}>Welcome, {fullName}</Text>
-          <View style={styles.headerIcons}>
-            <Pressable>
-              <FontAwesome5 name="bell" size={24} color={theme.colors.text} />
-            </Pressable>
-            <Pressable>
-              <FontAwesome5 name="comment" size={24} color={theme.colors.text} />
-            </Pressable>
-            <Image 
-              source={{ uri: 'https://i.pravatar.cc/40' }} 
-              style={styles.avatar}
-            />
-          </View>
-        </View> */}
 
         {/* Stats Grid */}
         <View style={styles.statsGrid}>
@@ -130,9 +111,12 @@ export default function PatientHome() {
               name={item.icon} 
               size={28} 
               color={item.color} />
-              <View>
+              <View style= {styles.statTextContainer}>
                 <Text style={styles.statCount}>{item.count}</Text>
-                <Text style={styles.statLabel}>{item.label}</Text>
+                <Text style={styles.statLabel} 
+                numberOfLines={1} 
+                ellipsizeMode="tail">
+                  {item.label}</Text>
               </View>
             </View>
           ))}
@@ -143,7 +127,7 @@ export default function PatientHome() {
         
         <View style={styles.infoCards}>
           {/* Next Appointment */}
-          <View style={[styles.welcomeCard, { borderLeftColor: theme.colors.primary }]}>
+          <View style={[styles.welcomeCard, styles.cardShadow, { borderLeftColor: theme.colors.primary }]}>
             <Text style={[styles.cardTitle, { color: theme.colors.primary }]}>Next Appointment</Text>
             {nextAppointment ? (
               <Text style={styles.cardText}>
@@ -155,13 +139,13 @@ export default function PatientHome() {
           </View>
 
           {/* Reports */}
-          <View style={[styles.welcomeCard, { borderLeftColor: theme.colors.success }]}>
+          <View style={[styles.welcomeCard, styles.cardShadow, { borderLeftColor: theme.colors.success }]}>
             <Text style={[styles.cardTitle, { color: theme.colors.success }]}>Medical Reports</Text>
             <Text style={styles.cardText}>{reports.length} report(s) available</Text>
           </View>
 
           {/* Diagnosis */}
-          <View style={[styles.welcomeCard, { borderLeftColor: theme.colors.info }]}>
+          <View style={[styles.welcomeCard, styles.cardShadow, { borderLeftColor: theme.colors.info }]}>
             <Text style={[styles.cardTitle, { color: theme.colors.info }]}>Recent Diagnosis</Text>
             {history[0]?.diagnosis ? (
               <Text style={styles.cardText}>{history[0].diagnosis}</Text>
@@ -170,6 +154,7 @@ export default function PatientHome() {
             )}
           </View>
         </View>
+
       </ScrollView>
     </View>
   );

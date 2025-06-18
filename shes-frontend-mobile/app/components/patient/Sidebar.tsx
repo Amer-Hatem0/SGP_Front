@@ -78,9 +78,10 @@ const styles = StyleSheet.create({
   navItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 14,
-    borderRadius: 6,
+    paddingVertical: 12,
+    borderRadius: 8,
     marginBottom: 10,
+    backgroundColor: 'transparent'
   },
   navIcon: {
     marginRight: 12,

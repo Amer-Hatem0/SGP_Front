@@ -28,7 +28,7 @@ export default function PatientNavbar() {
   }, []);
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.colors.header }]}>
+<View style={[styles.container, { backgroundColor: '#ffffff' }]}>
       <View style={styles.leftContainer}>
         <Text style={[styles.greeting, { color: theme.colors.text }]}>
           👋 Welcome, {user?.name || 'Patient'}
@@ -70,15 +70,15 @@ const styles = StyleSheet.create({
   rightContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 16,
+    gap: 12,
   },
   greeting: {
     fontSize: 16,
     fontWeight: '600',
   },
   date: {
-    fontSize: 12,
-    opacity: 0.8,
+    fontSize: 11,
+    opacity: 0.7,
     marginTop: 2,
   },
   iconButton: {
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   avatar: {
     width: 36,
     height: 36,
-    borderRadius: 18,
+    borderRadius: 999,
     borderWidth: 1,
     borderColor: '#e0e0e0',
   },

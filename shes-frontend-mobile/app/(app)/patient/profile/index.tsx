@@ -4,6 +4,10 @@ import axios from 'axios';
 import { useTheme, makeStyles, makeProfileStyles, makeMedicalStyles } from '../../../styles/themes';
 import PatientSidebar from '../../../components/patient/Sidebar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import API_BASE_URL from '@/config/apiConfig';
+import { KeyboardAvoidingView, Platform } from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
+
 
 type Profile = {
   fullName: string;
@@ -19,6 +23,20 @@ type ProfileField = {
   key: keyof Profile; // This ensures key can only be properties of Profile
 };
 
+const formatDate = (isoString: string) => {
+  try {
+    const date = new Date(isoString);
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  } catch (error) {
+    console.error('Error formatting date:', error);
+    return isoString; // fallback to original if error occurs
+  }
+};
+
 export default function Profile() {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [editing, setEditing] = useState(false);
@@ -27,6 +45,8 @@ export default function Profile() {
   const styles = makeStyles(theme);
   const styles2 = makeProfileStyles(theme);
   const [loading, setLoading] = useState(true);
+  const [showDatePicker, setShowDatePicker] = useState(false);
+
   // ... (fetch logic same as web)
   useEffect(() => {
     const fetchProfile = async () => {
@@ -39,7 +59,7 @@ export default function Profile() {
         const userId = parseInt(decoded.userId || decoded.sub);
 
         const res = await axios.get(
-          `http://localhost:5014/api/Patient/Profile/${userId}`,
+          `${API_BASE_URL}/Patient/Profile/${userId}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
 
@@ -63,13 +83,13 @@ export default function Profile() {
       const { token } = JSON.parse(userData);
       const decoded = JSON.parse(atob(token.split('.')[1]));
       const userId = parseInt(decoded.userId || decoded.sub);
-
-      await axios.put(
-        `http://localhost:5014/api/Patient/Profile/${userId}`,
+      console.log("Sending this data:", form); // 👈 ADD THIS
+      const response= await axios.put(
+        `${API_BASE_URL}/Patient/Profile/${userId}`,
         form,
         { headers: { Authorization: `Bearer ${token}` } }
       );
-
+      console.log("Response:", response.data); // 👈 ADD THIS
       setProfile(prev => ({ ...prev!, ...form }));
       setEditing(false);
     } catch (error) {
@@ -100,6 +120,11 @@ export default function Profile() {
 
   return (
     <View style={{ flex: 1}}>
+      <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={{ flex: 1 }}
+      keyboardVerticalOffset={100} // adjust depending on header height
+    >
       <ScrollView style={{ flex: 1,
        paddingTop: 80,  // For navbar
       paddingBottom: 100,  // For tabbar
@@ -125,13 +150,26 @@ export default function Profile() {
                 <View key={field.key} style={styles.profileField}>
                   <Text style={styles.fieldLabel}>{field.label}:</Text>
                   {editing ? (
+                    field.key === 'dateOfBirth' ? (
+                    <TextInput
+                      value={form.dateOfBirth?.split('T')[0] || ''} // Show just YYYY-MM-DD when editing
+                      onChangeText={text => handleChange('dateOfBirth', text)}
+                      style={styles.textInput}
+                      placeholder="YYYY-MM-DD"
+                    />
+                  ) : (
                     <TextInput
                       value={form[field.key] || ''}
                       onChangeText={text => handleChange(field.key, text)}
                       style={styles.textInput}
                     />
-                  ) : (
-                    <Text style={styles.fieldValue}>{profile[field.key]}</Text>
+                  )
+                 ) : (
+                    <Text style={styles.fieldValue}>
+                      {field.key === 'dateOfBirth' 
+                        ? formatDate(profile[field.key]) 
+                        : profile[field.key]}
+                    </Text>
                   )}
                 </View>
               ))}
@@ -153,6 +191,7 @@ export default function Profile() {
           <Text>Loading profile...</Text>
         )}
       </ScrollView>
+      </KeyboardAvoidingView>
     </View>
   );
 }
