@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { saveUserToLocalStorage } from '../utils/auth';
 import axios from 'axios';
 import API_BASE_URL from '../config/apiConfig';
+  import Header from '../components/Header';
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -46,7 +47,9 @@ console.log("🔍 Decoded token:", decoded);
   };
 
   return (
+    <>      <Header />
     <div className="min-vh-100 d-flex align-items-center justify-content-center bg-gradient-primary">
+   
       <div className="col-md-6 col-lg-5 shadow-lg rounded-4 p-5 bg-white">
         <h2 className="text-center text-primary fw-bold mb-4">Welcome Back</h2>
         <form onSubmit={handleLogin}>
@@ -89,6 +92,6 @@ console.log("🔍 Decoded token:", decoded);
           <Link to="/forgot-password" className="text-decoration-none text-primary">Forgot password?</Link>
         </div>
       </div>
-    </div>
+    </div></>
   );
 }

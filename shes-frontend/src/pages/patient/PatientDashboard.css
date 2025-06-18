@@ -253,7 +253,6 @@
   display: flex;
   flex-wrap: wrap;
   gap: 32px;
- 
   padding: 20px;
   border-radius: 12px;
 }
@@ -898,4 +897,19 @@ text-align: center;
   margin-left: -100px !important;
 
  
+}
+
+ 
+
+
+
+
+
+.slot-btn.booked {
+  background-color: #dc3545 !important; /* Red for booked slots */
+  color: white !important;
+  text-decoration: line-through;
+  font-style: italic;
+  cursor: not-allowed;
+  opacity: 0.9;
 }

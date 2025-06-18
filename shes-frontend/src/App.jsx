@@ -41,12 +41,19 @@ import UserDetails from './pages/admin/UserDetails';
 
 
 
+import HealthCareTemplate from './pages/Guest/HealthCareTemplate';
+import About from './pages/Guest/About';
+import ServicesPage from './pages/Guest/ServicesPage';
+import DoctorsPage from './pages/Guest/DoctorsPage';
+import ContactPage from './pages/Guest/ContactPage';
 
 
 
 import SupervisorHome from './pages/supervisor/SupervisorHome';
 import { getUserFromLocalStorage } from './utils/auth';
 import PatientSidebar from './components/PatientSidebar';
+
+
 import ChatPage from './pages/ChatPage';
 import VerifyEmail from './pages/VerifyEmail';
 
@@ -60,6 +67,11 @@ export default function App() {
       <Route path="/register" element={<Register />} />
       <Route path="/ChatPage" element={<ChatPage />} />
       <Route path="/verify-email" element={<VerifyEmail />} />
+       <Route path="/home" element={<HealthCareTemplate />} />
+          <Route path="/about" element={<About />} />
+  <Route path="/services" element={<ServicesPage />} />
+    <Route path="/doctors" element={<DoctorsPage />} />
+   <Route path="/contact" element={<ContactPage />} />
 
 
 

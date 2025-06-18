@@ -13,7 +13,13 @@
   vertical-align: middle;
 }
 
- 
+ .www{
+  margin-left: 200px;
+ width: 70%;
+ margin: auto;
+   margin-left: 400px;
+   margin-top: 100px;
+ }
 
 .ma{
  
@@ -36,6 +42,10 @@ margin-left: 250px;
 margin-left: 0;
  
 }
+ .www{
+margin: auto;
+margin-top: 100px;
+ }
 }
 /* Responsive Drawer */
 .drawer-sidebar {

@@ -3,7 +3,7 @@ import API_BASE_URL from '../config/apiConfig';
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
-
+  import Header from '../components/Header';
 export default function Register() {
   const [form, setForm] = useState({
     userName: '',
@@ -38,6 +38,7 @@ export default function Register() {
   };
 
   return (
+        <>      <Header /> 
     <div className="min-vh-100 d-flex align-items-center justify-content-center bg-gradient-success">
       <div className="col-md-8 col-lg-6 shadow-lg rounded-4 p-5 bg-white">
         <h2 className="text-center text-success fw-bold mb-4">Create Your Account</h2>
@@ -167,6 +168,6 @@ export default function Register() {
           <Link to="/login" className="text-decoration-none text-success">Already have an account? Login</Link>
         </div>
       </div>
-    </div>
+    </div></>
   );
 }
