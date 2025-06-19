@@ -29,7 +29,7 @@ export default function DoctorSidebar() {
   return (
     <div className="DoctorSidebar-container">
       {/* Logo / Title */}
-      <h2 className="DoctorSidebar-title">SHES</h2>
+      <h2 className="DoctorSidebar-title">SHES Doctor</h2>
 
       {/* Navigation Menu */}
       <nav className="DoctorSidebar-nav">

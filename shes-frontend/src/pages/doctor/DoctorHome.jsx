@@ -6,6 +6,8 @@ import DoctorSidebar from '../../components/DoctorSidebar';
 import { useNavigate } from 'react-router-dom';
 import { FaUserMd, FaChartLine, FaBell, FaProcedures } from 'react-icons/fa';
 import Navbar from '../../components/DrNavbar';
+import Spinner from '../../components/Spinner';
+
 export default function DoctorHome() {
   const [dailyTasks, setDailyTasks] = useState(null);
   const [performance, setPerformance] = useState(null);
@@ -15,20 +17,32 @@ export default function DoctorHome() {
   const navigate = useNavigate();
   const [unreadCount, setUnreadCount] = useState(0);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); 
+const [isLoading, setIsLoading] = useState(true);
 
   const [adminName, setAdminName] = useState('Dr. Ahmed');
 
-  useEffect(() => {
-    const storedName = JSON.parse(localStorage.getItem('user'))?.name || 'Doctor';
-    if (storedName) {
-      setAdminName(storedName);
-    }
+useEffect(() => {
+  const storedName = JSON.parse(localStorage.getItem('user'))?.name || 'Doctor';
+  setAdminName(storedName);
 
-    fetchDailyTasks();
-    fetchPerformanceReport();
-    fetchNotifications();
-    checkNewMessages();
-  }, []);
+  const fetchAll = async () => {
+    try {
+      await Promise.all([
+        fetchDailyTasks(),
+        fetchPerformanceReport(),
+        fetchNotifications(),
+        checkNewMessages()
+      ]);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  fetchAll();
+}, []);
+
 
   const fetchDailyTasks = async () => {
     try {
@@ -93,6 +107,9 @@ export default function DoctorHome() {
     localStorage.removeItem('user');
     window.location.href = '/login';
   };
+if (isLoading) {
+  return <Spinner message="Loading doctor dashboard..." />;
+}
 
   return (
     <div className="d-flex flex-column min-vh-100 bg-light">

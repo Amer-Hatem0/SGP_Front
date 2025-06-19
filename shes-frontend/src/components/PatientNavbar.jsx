@@ -145,7 +145,7 @@ export default function PatientNavbar() {
                   style={{ minWidth: '220px' }}
                 >
                   <div className="dropdown-header px-3 py-2">
-                    <div className="fw-bold">{name}</div>
+                    <div className="fw-bold">{fullName}</div>
                     <small className={`${darkMode ? 'text-light' : 'text-muted'}`}>{role}</small>
                   </div>
                   <div className="dropdown-divider" />
@@ -204,7 +204,7 @@ export default function PatientNavbar() {
                 {initial}
               </div>
               <div>
-                <h6 className="mb-0 fw-bold">{name}</h6>
+                <h6 className="mb-0 fw-bold">{fullName}</h6>
                 <small className={darkMode ? 'text-light' : 'text-muted'}>{role}</small>
               </div>
             </div>
@@ -243,13 +243,7 @@ export default function PatientNavbar() {
               >
                 <FaUser className="me-3" /> My Profile
               </Link>
-              <Link 
-                to="/settings" 
-                className={`nav-link d-flex align-items-center py-2 ${darkMode ? 'text-light' : 'text-dark'}`}
-                onClick={() => setShowMobileMenu(false)}
-              >
-                <FaUserCog className="me-3" /> Settings
-              </Link>
+              
               <button 
                 className={`nav-link d-flex align-items-center py-2 w-100 text-start ${darkMode ? 'text-light' : 'text-dark'}`}
                 onClick={() => {

@@ -4,6 +4,7 @@ import Sidebar from '../../components/Sidebar';
 import API_BASE_URL from '../../config/apiConfig';
 import 'bootstrap/dist/css/bootstrap.min.css';
  import AdminNavbar from '../../components/AdminNavbar';
+import Spinner from '../../components/Spinner';
 
 const AdminAppointments = () => {
   const [appointments, setAppointments] = useState([]);
@@ -23,7 +24,7 @@ const AdminAppointments = () => {
       console.error(err);
       setError('Failed to fetch appointments.');
     } finally {
-      setLoading(false);
+       setTimeout(() => setLoading(false), 1000);
     }
   };
 
@@ -55,7 +56,7 @@ const AdminAppointments = () => {
           <h2 className="mb-4 text-primary fw-bold">Appointments Management</h2>
 
           {loading ? (
-            <div className="text-center">Loading appointments...</div>
+            <Spinner message="Loading appointments..." />
           ) : error ? (
             <div className="alert alert-danger">{error}</div>
           ) : (

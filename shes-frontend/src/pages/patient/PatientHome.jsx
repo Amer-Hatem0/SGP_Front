@@ -5,58 +5,58 @@ import API_BASE_URL from '../../config/apiConfig';
 import './PatientDashboard.css'; 
 import PatientNavbar from '../../components/PatientNavbar';
 import PatientSidebar from '../../components/PatientSidebar';
+import Spinner from '../../components/Spinner';
 
 export default function PatientHome() {
   const [fullName, setFullName] = useState('');
   const [appointments, setAppointments] = useState([]);
   const [reports, setReports] = useState([]);
   const [history, setHistory] = useState([]);
+const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const user = JSON.parse(localStorage.getItem('user'));
-        const token = user.token;
-        const decoded = JSON.parse(atob(token.split('.')[1]));
-        const userId = parseInt(decoded.userId || decoded.sub);
+ useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const user = JSON.parse(localStorage.getItem('user'));
+      const token = user.token;
+      const decoded = JSON.parse(atob(token.split('.')[1]));
+      const userId = parseInt(decoded.userId || decoded.sub);
 
-        // get profile
-        const profileRes = await axios.get(`${API_BASE_URL}/Patient/Profile/${userId}`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        setFullName(profileRes.data.fullName);
+      const profileRes = await axios.get(`${API_BASE_URL}/Patient/Profile/${userId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setFullName(profileRes.data.fullName);
 
-        // get patientId
-        const res1 = await axios.get(`${API_BASE_URL}/Patient/PatientIdByUserId/${userId}`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        const patientId = res1.data.patientId;
+      const res1 = await axios.get(`${API_BASE_URL}/Patient/PatientIdByUserId/${userId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const patientId = res1.data.patientId;
 
-        // appointments
-        const appointmentsRes = await axios.get(`${API_BASE_URL}/Appointment/Patient/${patientId}`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        setAppointments(appointmentsRes.data);
+      const appointmentsRes = await axios.get(`${API_BASE_URL}/Appointment/Patient/${patientId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setAppointments(appointmentsRes.data);
 
-        // reports
-        const reportsRes = await axios.get(`${API_BASE_URL}/ReportFile/Patient/${patientId}`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        setReports(reportsRes.data);
+      const reportsRes = await axios.get(`${API_BASE_URL}/ReportFile/Patient/${patientId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setReports(reportsRes.data);
 
-        // medical history
-        const historyRes = await axios.get(`${API_BASE_URL}/Patient/MedicalHistory/${patientId}`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        setHistory(historyRes.data);
+      const historyRes = await axios.get(`${API_BASE_URL}/Patient/MedicalHistory/${patientId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setHistory(historyRes.data);
 
-      } catch (err) {
-        console.error("Error fetching data", err);
-      }
-    };
+    } catch (err) {
+      console.error("Error fetching data", err);
+    } finally {
+      setIsLoading(false);  // <-- stop loading
+    }
+  };
 
-    fetchData();
-  }, []);
+  fetchData();
+}, []);
+
 
   const nextAppointment = appointments.length > 0
     ? [...appointments].sort((a, b) => new Date(a.appointmentDate) - new Date(b.appointmentDate))[0]
@@ -71,6 +71,10 @@ const options = {
 };
 
 const formattedDate = today.toLocaleDateString('en-US', options);
+if (isLoading) {
+  return <Spinner message="Loading your data..." />;
+}
+
   return (
     <div className=" patient-main1">
       <PatientNavbar />

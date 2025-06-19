@@ -3,21 +3,24 @@ import axios from 'axios';
 import DoctorSidebar from '../../components/DoctorSidebar';
 import API_BASE_URL from '../../config/apiConfig';
 import Navbar from '../../components/DrNavbar';
+import Spinner from '../../components/Spinner';
+
 export default function PatientDetails() {
   const [patientId, setPatientId] = useState('');
   const [patients, setPatients] = useState([]);
   const [history, setHistory] = useState(null);
   const [reports, setReports] = useState([]);
   const [selectedReport, setSelectedReport] = useState(null);
+  const [loading, setLoading] = useState(false);
+
   const token = JSON.parse(localStorage.getItem('user'))?.token;
 
   const fetchHistory = async () => {
+    setLoading(true);
     try {
       const res = await axios.get(`${API_BASE_URL}/Doctor/PatientFullHistory/${patientId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      console.log("Fetched history:", res.data);
-
       setHistory(res.data);
     } catch (err) {
       console.error(err);
@@ -30,11 +33,11 @@ export default function PatientDetails() {
       const res = await axios.get(`${API_BASE_URL}/Doctor/PatientReports/${patientId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      
-
       setReports(res.data);
     } catch (err) {
       console.error(err);
+    } finally {
+      setTimeout(() => setLoading(false), 3000);
     }
   };
 
@@ -55,7 +58,8 @@ export default function PatientDetails() {
   }, []);
 
   const showReport = (url) => {
-    setSelectedReport(url);
+    const fullUrl = `${API_BASE_URL.replace('/api', '')}${url.startsWith('/') ? '' : '/'}${url}`;
+    setSelectedReport(fullUrl);
   };
 
   const closeModal = () => {
@@ -63,125 +67,162 @@ export default function PatientDetails() {
   };
 
   return (
-      <div className=" ">
-            <Navbar />
-          
-    <div className="PatientDetails-container">
-      <DoctorSidebar />
-      <main className="PatientDetails-main">
-        <h1 className="PatientDetails-title">Patient Full Details</h1>
+    <div>
+      <Navbar />
+      <div className="PatientDetails-container">
+        <DoctorSidebar />
+        <main className="PatientDetails-main">
+          <h1 className="PatientDetails-title">Patient Full Details</h1>
 
-        <div className="PatientDetails-form">
-          <label className="PatientDetails-label">Select Patient</label>
-          <select
-            className="PatientDetails-input"
-            value={patientId}
-            onChange={handlePatientChange}
-          >
-            <option value="">-- Choose Patient --</option>
-            {patients.map(p => (
-              <option key={p.patientId} value={p.patientId}>
-                {p.fullName} ({p.gender})
-              </option>
-            ))}
-          </select>
+          <div className="PatientDetails-form">
+            <label className="PatientDetails-label">Select Patient</label>
+            <select
+              className="PatientDetails-input"
+              value={patientId}
+              onChange={handlePatientChange}
+            >
+              <option value="">-- Choose Patient --</option>
+              {patients.map(p => (
+                <option key={p.patientId} value={p.patientId}>
+                  {p.fullName} ({p.gender})
+                </option>
+              ))}
+            </select>
 
-          <button className="PatientDetails-button" onClick={() => { fetchHistory(); fetchReports(); }}>
-            Show History
-          </button>
-        </div>
+           <button
+  className="PatientDetails-button"
+  onClick={() => {
+    fetchHistory();
+    fetchReports();
+  }}
+  disabled={!patientId} // الزر يصبح غير مفعل إذا لم يتم اختيار مريض
+>
+  Show History
+</button>
 
-        {history && (
-          <div className="PatientDetails-content">
-            <div className="PatientDetails-infoCard">
-              <h2 className="PatientDetails-subtitle">🧑‍⚕️ {history.fullName}</h2>
-              <p><strong>Age:</strong> {history.age}</p>
-              <p><strong>Gender:</strong> {history.gender}</p>
-            </div>
+          </div>
 
-            <div className="PatientDetails-section">
-              <h2 className="PatientDetails-subtitle">📅 Appointments</h2>
-              <ul className="PatientDetails-list">
-                {history.visits?.map((visit, idx) => (
-                  <li key={idx} className="PatientDetails-item">
-                    🗓️ <strong>{new Date(visit.appointmentDate).toLocaleDateString()}</strong><br />
-                    Doctor: {visit.doctorName}<br />
-                    Status: <strong>{visit.status}</strong>
-                  </li>
-                ))}
-              </ul>
-            </div>
+          {loading ? (
+            <div className="pt-5"><Spinner message="Fetching patient data..." /></div>
+          ) : history && (
+            <div className="PatientDetails-content">
+              <div className="PatientDetails-infoCard">
+                <h2 className="PatientDetails-subtitle">🧑‍⚕️ {history.fullName}</h2>
+                <p><strong>Age:</strong> {history.age}</p>
+                <p><strong>Gender:</strong> {history.gender}</p>
+              </div>
 
-            <div className="PatientDetails-section">
-              <h2 className="PatientDetails-subtitle">📄 Medical History</h2>
-              <ul className="PatientDetails-list">
-                {history.medicalHistories?.map((record, idx) => (
-                  <li key={idx} className="PatientDetails-item">
-                    <p><strong>Diagnosis:</strong> {record.disease}</p>
-                    <p><strong>Treatment:</strong> {record.treatment}</p>
-                    <p><strong>Note:</strong> {record.notes}</p>
-                    <small>{new Date(record.recordedAt).toLocaleDateString()}</small>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="PatientDetails-section">
-              <h2 className="PatientDetails-subtitle">📁 Uploaded Reports</h2>
-              {reports.length === 0 ? (
-                <p>No reports found.</p>
-              ) : (
+              <div className="PatientDetails-section">
+                <h2 className="PatientDetails-subtitle">📅 Appointments</h2>
                 <ul className="PatientDetails-list">
-                  {reports.map((rpt, idx) => (
+                  {history.visits?.map((visit, idx) => (
                     <li key={idx} className="PatientDetails-item">
-                      <button
-                        onClick={() => showReport(rpt.fileUrl)}
-                        className="PatientDetails-downloadLink"
-                      >
-                        📎 {rpt.fileName}
-                      </button>
+                      🗓️ <strong>
+                        {new Date(visit.appointmentDate).toLocaleString('en-US', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric',
+                          hour: '2-digit',
+                          minute: '2-digit',
+                          hour12: true
+                        })}
+                      </strong><br />
+                      Doctor: {visit.doctorName}<br />
+                      Status: <strong>{visit.status}</strong>
                     </li>
                   ))}
                 </ul>
-              )}
-            </div>
-          </div>
-        )}
+              </div>
 
-        {/* Modal for showing report */}
-        {selectedReport && (
-          <div className="modal-overlay" onClick={closeModal}>
-            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-              <iframe
-                src={selectedReport}
-                title="Report Viewer"
-                style={{ width: '100%', height: '80vh' }}
-              />
-              <button onClick={closeModal} className="PatientDetails-button">Close</button>
-            </div>
-          </div>
-        )}
-      </main>
+              <div className="PatientDetails-section">
+                <h2 className="PatientDetails-subtitle">📄 Medical History</h2>
+                <ul className="PatientDetails-list">
+                  {history.medicalHistories?.map((record, idx) => (
+                    <li key={idx} className="PatientDetails-item">
+                      <p><strong>Diagnosis:</strong> {record.disease}</p>
+                      <p><strong>Treatment:</strong> {record.treatment}</p>
+                      <p><strong>Note:</strong> {record.notes}</p>
+                      <small>{new Date(record.recordedAt).toLocaleDateString()}</small>
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
-      <style>{`
-        .modal-overlay {
-          position: fixed;
-          top: 0; left: 0; right: 0; bottom: 0;
-          background-color: rgba(0,0,0,0.6);
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          z-index: 1000;
-        }
-        .modal-content {
-          background: white;
-          padding: 1rem;
-          border-radius: 8px;
-          width: 80%;
-          max-width: 900px;
-          box-shadow: 0 0 20px rgba(0,0,0,0.2);
-        }
-      `}</style>
-    </div>  </div>
+              <div className="PatientDetails-section">
+                <h2 className="PatientDetails-subtitle">📁 Uploaded Reports</h2>
+                {reports.length === 0 ? (
+                  <p>No reports found.</p>
+                ) : (
+                  <ul className="PatientDetails-list">
+                    {reports.map((rpt, idx) => (
+                      <li key={idx} className="PatientDetails-item d-flex justify-content-between align-items-center">
+                        <button
+                          onClick={() => showReport(rpt.fileUrl)}
+                          className="PatientDetails-downloadLink"
+                        >
+                          📎 {rpt.fileName}
+                        </button>
+                        <a
+                          href={`${API_BASE_URL.replace('/api', '')}${rpt.fileUrl}`}
+                          download
+                          className="btn btn-sm btn-outline-primary ms-2"
+                        >
+                          Download
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Modal for showing report */}
+          {selectedReport && (
+            <div className="modal-overlay" onClick={closeModal}>
+              <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                <iframe
+                  src={selectedReport}
+                  title="Report Viewer"
+                  style={{ width: '100%', height: '80vh' }}
+                />
+                <div className="d-flex justify-content-between mt-3">
+                  <button onClick={closeModal} className="btn btn-secondary">Close</button>
+                  <a
+                    href={selectedReport}
+                    download
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-primary"
+                  >
+                    Download
+                  </a>
+                </div>
+              </div>
+            </div>
+          )}
+        </main>
+
+        <style>{`
+          .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(0,0,0,0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+          }
+          .modal-content {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 900px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+          }
+        `}</style>
+      </div>
+    </div>
   );
 }

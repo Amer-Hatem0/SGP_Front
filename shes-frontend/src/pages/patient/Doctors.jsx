@@ -15,36 +15,30 @@ export default function Doctors() {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [selectedTimeForConfirm, setSelectedTimeForConfirm] = useState(null);
 
-  // أيام الأسبوع (من الأحد للسبت ما عدا الجمعة كما في الكود الأصلي)
+
   const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Saturday'];
   const today = new Date();
 
-  // Generate week days
   const generateWeekDays = () => {
     const startOfWeek = new Date(today);
     startOfWeek.setDate(today.getDate() + (weekOffset * 7));
-    // Set to start of day to ensure consistent comparison for "isPast"
-    startOfWeek.setHours(0, 0, 0, 0); 
-    const dayOfWeek = startOfWeek.getDay(); // 0 for Sunday, 1 for Monday, etc.
-    
-    // Adjust startOfWeek to be the first day (Sunday) of the current logical week
-    // This correctly handles cases where `today` is not Sunday.
+    startOfWeek.setHours(0, 0, 0, 0);
+    const dayOfWeek = startOfWeek.getDay();
     const firstDayOfCurrentWeek = new Date(startOfWeek);
     firstDayOfCurrentWeek.setDate(startOfWeek.getDate() - dayOfWeek);
 
     return daysOfWeek.map((day, index) => {
       const currentDate = new Date(firstDayOfCurrentWeek);
       currentDate.setDate(firstDayOfCurrentWeek.getDate() + index);
-      
-      // Check if the current date is in the past compared to today (start of today)
-      const isPast = currentDate.setHours(0,0,0,0) < today.setHours(0,0,0,0); 
+
+      const isPast = currentDate.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0);
 
       return {
-        name: day.slice(0, 3), // e.g., "Sun", "Mon"
+        name: day.slice(0, 3),
         date: currentDate,
         disabled: isPast,
         active: selectedDay?.date?.toDateString() === currentDate.toDateString(),
-        formatted: currentDate.toISOString().split('T')[0], // e.g., "2025-06-18"
+        formatted: currentDate.toISOString().split('T')[0],
       };
     });
   };
@@ -72,7 +66,7 @@ export default function Doctors() {
     fetchDoctors();
   }, []);
 
-  // Handle Book button click
+
   const handleBookClick = (doctorId) => {
     setBookingDoctorId(doctorId);
     setSelectedDay(null); // Reset selected day
@@ -90,12 +84,10 @@ export default function Doctors() {
 
     const times = [];
     let current = new Date(day.date);
-    current.setHours(9, 0, 0, 0); // Start at 9:00 AM
-
-    // Generate time slots from 9:00 AM to 2:30 PM (14:30)
+    current.setHours(9, 0, 0, 0);
     while (current.getHours() < 14 || (current.getHours() === 14 && current.getMinutes() <= 30)) {
       times.push(new Date(current));
-      current.setMinutes(current.getMinutes() + 30); // Increment by 30 minutes
+      current.setMinutes(current.getMinutes() + 30);
     }
 
     try {
@@ -107,12 +99,12 @@ export default function Doctors() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-const bookedTimesFormatted = appointmentsRes.data.map(a => {
-  const d = new Date(a.dateTime);
-  const hours = d.getHours().toString().padStart(2, '0');
-  const minutes = d.getMinutes().toString().padStart(2, '0');
-  return `${hours}:${minutes}`; // مثال: "14:30"
-});
+      const bookedTimesFormatted = appointmentsRes.data.map(a => {
+        const d = new Date(a.dateTime);
+        const hours = d.getHours().toString().padStart(2, '0');
+        const minutes = d.getMinutes().toString().padStart(2, '0');
+        return `${hours}:${minutes}`;
+      });
 
 
 
@@ -126,7 +118,6 @@ const bookedTimesFormatted = appointmentsRes.data.map(a => {
     }
   };
 
-  // تأكيد الحجز - Prepare for confirmation modal
   const handleSubmit = (e, doctorId, selectedTime) => {
     e.preventDefault();
     setSelectedTimeForConfirm(selectedTime);
@@ -154,9 +145,9 @@ const bookedTimesFormatted = appointmentsRes.data.map(a => {
       const actualPatientId = patientRes.data.patientId;
 
       // Convert selectedTime (local Date object) to ISO string (UTC) for backend
-const adjustedDate = new Date(selectedTime);
-adjustedDate.setDate(adjustedDate.getDate() - 1); // 🔴 خصم يوم كامل
-const formattedDateTime = new Date(adjustedDate.getTime() - adjustedDate.getTimezoneOffset() * 60000).toISOString();
+      const adjustedDate = new Date(selectedTime);
+      adjustedDate.setDate(adjustedDate.getDate() - 1);
+      const formattedDateTime = new Date(adjustedDate.getTime() - adjustedDate.getTimezoneOffset() * 60000).toISOString();
 
 
 
@@ -262,11 +253,11 @@ const formattedDateTime = new Date(adjustedDate.getTime() - adjustedDate.getTime
                   {timeSlots.length > 0 ? (
                     timeSlots.map((slot, i) => {
                       // Get the time string in HH:MM format for comparison
-                    const hours = slot.getHours().toString().padStart(2, '0');
-const minutes = slot.getMinutes().toString().padStart(2, '0');
-const slotStr = `${hours}:${minutes}`;
-  const booked = bookedTimes.includes(slotStr);
-                      
+                      const hours = slot.getHours().toString().padStart(2, '0');
+                      const minutes = slot.getMinutes().toString().padStart(2, '0');
+                      const slotStr = `${hours}:${minutes}`;
+                      const booked = bookedTimes.includes(slotStr);
+
                       return (
                         <button
                           key={i}
@@ -275,8 +266,8 @@ const slotStr = `${hours}:${minutes}`;
                           title={booked ? 'This time is already booked' : 'Book this time'}
                           onClick={(e) => !booked && handleSubmit(e, bookingDoctorId, slot)}
                         >
-                        {slotStr}
-  {booked && <span style={{ marginLeft: '5px', fontWeight: 'bold' }}> (محجوز)</span>}
+                          {slotStr}
+                          {booked && <span style={{ marginLeft: '5px', fontWeight: 'bold' }}> (محجوز)</span>}
                         </button>
                       );
                     })

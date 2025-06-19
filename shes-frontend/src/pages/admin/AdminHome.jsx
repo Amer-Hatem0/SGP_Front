@@ -4,6 +4,8 @@ import API_BASE_URL from '../../config/apiConfig';
 import Sidebar from '../../components/Sidebar';
 import AdminNavbar from '../../components/AdminNavbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Spinner from '../../components/Spinner';
+
 import { Bar, Doughnut } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -23,17 +25,22 @@ const AdminDashboard = () => {
   const token = localStorage.getItem('token');
   const [adminName, setAdminName] = useState('Admin');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); 
+const [isLoading, setIsLoading] = useState(true);
 
-  const fetchStats = async () => {
-    try {
-      const res = await axios.get(`${API_BASE_URL}/Admin/GetHospitalStatistics`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setStats(res.data);
-    } catch (err) {
-      console.error('Error fetching dashboard data:', err);
-    }
-  };
+ const fetchStats = async () => {
+  setIsLoading(true); // Start spinner
+  try {
+    const res = await axios.get(`${API_BASE_URL}/Admin/GetHospitalStatistics`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    setStats(res.data);
+  } catch (err) {
+    console.error('Error fetching dashboard data:', err);
+  } finally {
+    setIsLoading(false); // Stop spinner
+  }
+};
+
 
   useEffect(() => {
     const storedName = localStorage.getItem('adminName'); 
@@ -46,9 +53,10 @@ const AdminDashboard = () => {
     fetchStats();
   }, []);
 
-  if (!stats) {
-    return <div className="text-center mt-5 py-5">Loading dashboard...</div>;
-  }
+ if (isLoading) {
+  return <Spinner message="Loading dashboard..." />;
+}
+
 
   const barData = {
     labels: ['Patients', 'Doctors', 'Supervisors', 'Appointments', 'Feedbacks'],

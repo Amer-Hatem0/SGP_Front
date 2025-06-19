@@ -1,17 +1,35 @@
-import React from 'react';
+ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './style.css';
-
+ 
 import img1 from '../../assets/images/about/img-1.jpg';
 import img2 from '../../assets/images/about/img-2.jpg';
 import img3 from '../../assets/images/about/img-3.jpg';
 import logo from '../../assets/images/logo.png';
  import Header from '../../components/Header';
  import FeaturesSection from '../../components/FeaturesSection';
+import Spinner from '../../components/Spinner';
 
  
 function HealthCareTemplate() {
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+  fetchData(); 
+}, []);
+
+const fetchData = async () => {
+  try {
+    setLoading(true);
+ 
+  } finally {
+     setTimeout(() => setLoading(false), 1000);
+  }
+};
+
+if (loading) return <Spinner />;
+
   return (
+    
     <div className="App">
       {/* ========== Header Component ========== */}
 <Header />
