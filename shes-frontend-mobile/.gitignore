@@ -37,3 +37,6 @@ yarn-error.*
 *.tsbuildinfo
 
 app-example
+
+app/(app)/patient/chatbot/assets/diagnosis_metadata_finale.json
+app/(app)/patient/chatbot/assets/symptom_model.onnx
