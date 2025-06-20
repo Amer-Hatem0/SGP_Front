@@ -20,6 +20,27 @@ export default function ManageAppointments() {
   const [weekOffset, setWeekOffset] = useState(0);
   const [message, setMessage] = useState('');
 const [isLoading, setIsLoading] = useState(true);
+const getStatusLabel = (statusID) => {
+  switch (statusID) {
+    case 1: return 'Pending';
+    case 2: return 'Scheduled';
+    case 3: return 'Completed';
+    case 4: return 'Canceled';
+    case 5: return 'Rescheduled';
+    default: return 'Unknown';
+  }
+};
+
+const getStatusColor = (statusID) => {
+  switch (statusID) {
+    case 1: return 'info';
+    case 2: return 'primary';
+    case 3: return 'success';
+    case 4: return 'danger';
+    case 5: return 'warning text-dark';
+    default: return 'secondary';
+  }
+};
 
   const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Saturday'];
   const today = new Date();
@@ -280,16 +301,12 @@ return (
                       <td>{a.patientName}</td>
                       <td>{a.doctorName}</td>
                       <td>{new Date(new Date(a.appointmentDate).setDate(new Date(a.appointmentDate).getDate() + 1)).toLocaleString()}</td>
-                      <td>
-                        <span className={`badge bg-${
-                          a.status === 'Completed' ? 'success' :
-                          a.status === 'Rescheduled' ? 'warning text-dark' :
-                          a.status === 'Pending' ? 'info' :
-                          'secondary'
-                        }`}>
-                          {a.status || 'N/A'}
-                        </span>
-                      </td>
+                     <td>
+  <span className={`badge bg-${getStatusColor(a.statusID)}`}>
+    {getStatusLabel(a.statusID)}
+  </span>
+</td>
+
                     </tr>
                   ))}
                 </tbody>

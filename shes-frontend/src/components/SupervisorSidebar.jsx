@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaUserMd, FaClipboardList, FaTasks, FaUserCheck, FaChartBar, FaBars, FaSignOutAlt } from 'react-icons/fa';
 
 export default function SupervisorNavbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const adminName = localStorage.getItem('adminName') || 'Supervisor';
-
+ const navigate = useNavigate();
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -14,7 +14,7 @@ export default function SupervisorNavbar() {
     if (window.confirm("Are you sure you want to logout?")) {
       localStorage.removeItem('token');
       localStorage.removeItem('adminName');
-      window.location.href = '/login';
+      navigate('/login');  
     }
   };
 

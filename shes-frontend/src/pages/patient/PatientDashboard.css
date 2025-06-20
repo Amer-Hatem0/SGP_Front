@@ -913,3 +913,26 @@ text-align: center;
   cursor: not-allowed;
   opacity: 0.9;
 }
+.report-card-specialization {
+  font-size: 0.9rem;
+  margin-bottom: 4px;
+}
+
+
+.report-grid .card{
+  background-color: #ffffff;
+  width: 400px !important;
+ 
+}
+
+.text-specialization{
+  color: #198754;
+  font-weight:bolder !important;
+  font-size: 16px !important;
+}
+
+.accordion-body-custom p{
+  color: #198754 !important;
+  font-weight:bolder !important;
+  font-size: 16px !important;
+}

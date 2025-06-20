@@ -1,4 +1,4 @@
- 
+import { useNavigate } from 'react-router-dom'; 
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import DoctorSidebar from '../../components/DoctorSidebar';
@@ -9,6 +9,7 @@ export default function DoctorAppointments() {
   const [appointments, setAppointments] = useState([]);
   const [rescheduleData, setRescheduleData] = useState({});
   const token = JSON.parse(localStorage.getItem('user'))?.token;
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     fetchAppointments();
@@ -22,6 +23,18 @@ export default function DoctorAppointments() {
       setAppointments(res.data);
     } catch (err) {
       console.error('Error fetching appointments:', err);
+    }
+  };
+
+  const getStatusInfo = (statusID) => {
+    switch (statusID) {
+      case 1: return { label: 'Pending', color: 'secondary' };
+      case 2: return { label: 'Scheduled', color: 'info' };
+      case 3: return { label: 'Completed', color: 'success' };
+      case 4: return { label: 'Canceled', color: 'danger' };
+      case 5: return { label: 'Rescheduled', color: 'warning text-dark' };
+          case 7: return { label: 'Reschedule Rejected', color: 'danger' };
+      default: return { label: 'Unknown', color: 'dark' };
     }
   };
 
@@ -62,6 +75,7 @@ export default function DoctorAppointments() {
       });
       alert('✅ Appointment marked as completed.');
       fetchAppointments();
+      navigate('/doctor/patient-management');
     } catch (err) {
       console.error(err);
       alert('❌ Failed to mark as completed.');
@@ -73,7 +87,7 @@ export default function DoctorAppointments() {
       <Navbar />
       <div className="d-flex">
         <DoctorSidebar />
-        <div className="myappoint container  ">
+        <div className="container myappoint">
           <h4 className="fw-bold mb-4">My Appointments</h4>
 
           {appointments.length === 0 ? (
@@ -92,17 +106,31 @@ export default function DoctorAppointments() {
               </thead>
               <tbody>
                 {appointments.map((app, i) => {
-                  const disabled = app.statusName === 'Completed';
+                  const { label, color } = getStatusInfo(app.statusID);
+                  const disabled = app.statusID === 3;
                   return (
                     <tr key={app.appointmentId}>
                       <td>{i + 1}</td>
                       <td>{app.patientName}</td>
-                      <td>{new Date(new Date(app.appointmentDate).getTime() + 3 * 60 * 60 * 1000).toLocaleString()}</td>
+                    <td>
+  {(() => {
+    const date = new Date(app.appointmentDate);
+    date.setDate(date.getDate() + 1);  
 
+    const options = {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    };
+
+    return date.toLocaleString('en-US', options);
+  })()}
+</td>
                       <td>
-                        <span className={`badge bg-${app.statusName === 'Completed' ? 'success' : app.statusName === 'Rescheduled' ? 'warning text-dark' : 'secondary'}`}>
-                          {app.statusName}
-                        </span>
+                        <span className={`badge bg-${color}`}>{label}</span>
                       </td>
                       <td>
                         <input

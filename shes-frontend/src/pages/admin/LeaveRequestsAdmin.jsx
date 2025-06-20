@@ -18,7 +18,7 @@ const LeaveRequestsAdmin = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       // Filter only Forwarded requests
-      const filtered = res.data.filter(r => r.status === 'Forwarded');
+      const filtered = res.data.filter(r => r.status === 'ForwardedToAdmin');
       setRequests(filtered);
     } catch (err) {
       console.error(err);

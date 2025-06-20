@@ -1,65 +1,64 @@
- import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './style.css';
- 
+
 import img1 from '../../assets/images/about/img-1.jpg';
 import img2 from '../../assets/images/about/img-2.jpg';
 import img3 from '../../assets/images/about/img-3.jpg';
 import logo from '../../assets/images/logo.png';
- import Header from '../../components/Header';
- import FeaturesSection from '../../components/FeaturesSection';
+import Header from '../../components/Header';
+import FeaturesSection from '../../components/FeaturesSection';
 import Spinner from '../../components/Spinner';
-
  
+
 function HealthCareTemplate() {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-  fetchData(); 
-}, []);
+    fetchData();
+  }, []);
 
-const fetchData = async () => {
-  try {
-    setLoading(true);
- 
-  } finally {
-     setTimeout(() => setLoading(false), 1000);
-  }
-};
+  const fetchData = async () => {
+    try {
+      setLoading(true);
 
-if (loading) return <Spinner />;
+    } finally {
+      setTimeout(() => setLoading(false), 1000);
+    }
+  };
+
+  if (loading) return <Spinner />;
 
   return (
-    
+
     <div className="App">
       {/* ========== Header Component ========== */}
-<Header />
+      <Header />
 
       {/* ========== Banner Component ========== */}
-  <section className="banner">
-    <div className="container">
-      <div className="row">
-        {/* Add the background image */}
-        <div className="col-lg-6 col-md-12 col-xl-7 banner-content">
-          <div className="block">
-            <div className="divider mb-3"></div>
-            <span className="text-uppercase text-sm letter-spacing">
-              Total Health care solution
-            </span>
-            <h1 className="mb-3 mt-3">Your most trusted health partner</h1>
-            <p className="mb-4 pr-5">
-              A repudiandae ipsam labore ipsa voluptatum quidem quae laudantium quisquam aperiam maiores sunt fugit, deserunt rem suscipit placeat.
-            </p>
-          
+      <section className="banner">
+        <div className="container">
+          <div className="row">
+            {/* Add the background image */}
+            <div className="col-lg-6 col-md-12 col-xl-7 banner-content">
+              <div className="block">
+                <div className="divider mb-3"></div>
+                <span className="text-uppercase text-sm letter-spacing">
+                  Total Health care solution
+                </span>
+                <h1 className="mb-3 mt-3">Where Healing Begins and Hope Never Ends</h1>
+                <p className="mb-4 pr-5">
+                  We are committed to delivering exceptional, patient-centered care through innovation, compassion, and expertise — ensuring your health is always our priority    </p>
+
+              </div>
+            </div>
+
+
           </div>
         </div>
-        {/* Add Features component here */}
-       
-      </div>
-    </div>
-  </section>
+      </section>
 
       {/* ========== Features Component ========== */}
-<FeaturesSection />
+      <FeaturesSection />
 
       {/* ========== About Component ========== */}
       <section className="section about">
@@ -80,7 +79,7 @@ if (loading) return <Spinner />;
               <div className="about-content pl-4 mt-4 mt-lg-0">
                 <h2 className="title-color">Personal care <br />& healthy living</h2>
                 <p className="mt-4 mb-5">
-                  We provide best leading medical service Nulla perferendis veniam deleniti ipsum officia dolores repellat laudantium obcaecati neque.
+                  We provide best leading medical service No one carries the pardon of the delectable, the office of pains repels the praise of the blinded, nor does it.
                 </p>
                 <a href="/service" className="btn btn-main-2 btn-round-full btn-icon">
                   Services<i className="icofont-simple-right ml-3"></i>
@@ -130,38 +129,113 @@ if (loading) return <Spinner />;
       </section>
 
       {/* ========== Services Component ========== */}
-      <section className="section service gray-bg">
-        <div className="container">
-          <div className="row justify-content-center">
-            <div className="col-lg-7 text-center">
-              <div className="section-title">
-                <h2>Award winning patient care</h2>
-                <div className="divider mx-auto my-4"></div>
-                <p>
-                  Let's know more el necessitatibus dolor asperiores illum possimus sint voluptates incidunt molestias nostrum laudantium. Maiores porro cumque quaerat.
-                </p>
-              </div>
-            </div>
+    <section className="section service gray-bg">
+  <div className="container">
+    <div className="row justify-content-center">
+      <div className="col-lg-7 text-center">
+        <div className="section-title">
+          <h2>Award winning patient care</h2>
+          <div className="divider mx-auto my-4"></div>
+          <p>
+            We are committed to delivering exceptional medical services using modern technologies, compassionate staff, and continuous innovation for better health outcomes.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div className="row">
+      {/* Service 1 */}
+      <div className="col-lg-4 col-md-6 col-sm-6">
+        <div className="service-item mb-4">
+          <div className="icon d-flex align-items-center">
+            <i className="icofont-heart-beat text-lg"></i>
+            <h4 className="mt-3 mb-3">Cardiology</h4>
           </div>
-          <div className="row">
-            {[...Array(6)].map((_, i) => (
-              <div key={i} className="col-lg-4 col-md-6 col-sm-6">
-                <div className="service-item mb-4">
-                  <div className="icon d-flex align-items-center">
-                    <i className="icofont-laboratory text-lg"></i>
-                    <h4 className="mt-3 mb-3">Laboratory services</h4>
-                  </div>
-                  <div className="content">
-                    <p className="mb-4">
-                      Saepe nulla praesentium eaque omnis perferendis a doloremque.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
+          <div className="content">
+            <p className="mb-4">
+              Advanced heart care and diagnostics to keep your heart strong and healthy.
+            </p>
           </div>
         </div>
-      </section>
+      </div>
+
+      {/* Service 2 */}
+      <div className="col-lg-4 col-md-6 col-sm-6">
+        <div className="service-item mb-4">
+          <div className="icon d-flex align-items-center">
+            <i className="icofont-brain-alt text-lg"></i>
+            <h4 className="mt-3 mb-3">Neurology</h4>
+          </div>
+          <div className="content">
+            <p className="mb-4">
+              Expert diagnosis and care for neurological conditions and disorders.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Service 3 */}
+      <div className="col-lg-4 col-md-6 col-sm-6">
+        <div className="service-item mb-4">
+          <div className="icon d-flex align-items-center">
+            <i className="icofont-baby text-lg"></i>
+            <h4 className="mt-3 mb-3">Pediatrics</h4>
+          </div>
+          <div className="content">
+            <p className="mb-4">
+              Comprehensive healthcare services for infants, children, and adolescents.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Service 4 */}
+      <div className="col-lg-4 col-md-6 col-sm-6">
+        <div className="service-item mb-4">
+          <div className="icon d-flex align-items-center">
+            <i className="icofont-tooth text-lg"></i>
+            <h4 className="mt-3 mb-3">Dental Care</h4>
+          </div>
+          <div className="content">
+            <p className="mb-4">
+              Full range of dental treatments with a focus on comfort and hygiene.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Service 5 */}
+      <div className="col-lg-4 col-md-6 col-sm-6">
+        <div className="service-item mb-4">
+          <div className="icon d-flex align-items-center">
+            <i className="icofont-xray text-lg"></i>
+            <h4 className="mt-3 mb-3">Radiology</h4>
+          </div>
+          <div className="content">
+            <p className="mb-4">
+              High-tech imaging services including X-rays, CT scans, and MRIs.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Service 6 */}
+      <div className="col-lg-4 col-md-6 col-sm-6">
+        <div className="service-item mb-4">
+          <div className="icon d-flex align-items-center">
+            <i className="icofont-laboratory text-lg"></i>
+            <h4 className="mt-3 mb-3">Laboratory</h4>
+          </div>
+          <div className="content">
+            <p className="mb-4">
+              Accurate diagnostic tests and reports with fast turnaround times.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 
       {/* ========== Appointment Component ========== */}
       <section className="section appoinment">
@@ -170,7 +244,7 @@ if (loading) return <Spinner />;
             <div className="col-lg-6">
               <div className="appoinment-content">
                 <img src={img3} alt="" className="img-fluid" />
-               
+
               </div>
             </div>
             <div className="col-lg-6 col-md-10">
@@ -243,17 +317,17 @@ if (loading) return <Spinner />;
                 </p>
                 <ul className="list-inline footer-socials mt-4">
                   <li className="list-inline-item">
-                    <a href="https://www.facebook.com/themefisher"> 
+                    <a href="https://www.facebook.com/themefisher">
                       <i className="icofont-facebook"></i>
                     </a>
                   </li>
                   <li className="list-inline-item">
-                    <a href="https://twitter.com/themefisher"> 
+                    <a href="https://twitter.com/themefisher">
                       <i className="icofont-twitter"></i>
                     </a>
                   </li>
                   <li className="list-inline-item">
-                    <a href="https://www.pinterest.com/themefisher/"> 
+                    <a href="https://www.pinterest.com/themefisher/">
                       <i className="icofont-linkedin"></i>
                     </a>
                   </li>
@@ -312,7 +386,7 @@ if (loading) return <Spinner />;
               <div className="col-lg-6">
                 <div className="copyright">
                   &copy; Copyright Reserved to <span className="text-color">Novena</span> by{' '}
-                  <a href="https://themefisher.com/"  target="_blank" rel="noopener noreferrer">
+                  <a href="https://themefisher.com/" target="_blank" rel="noopener noreferrer">
                     Themefisher
                   </a>
                 </div>

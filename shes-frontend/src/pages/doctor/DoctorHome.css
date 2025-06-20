@@ -64,8 +64,8 @@ background-color: #f4f7fc;
   right: -12px;
   background-color: red;
   color: white;
-  font-size: 10px;
-  padding: 2px 4px;
+  font-size: 16px !important;
+  padding: 10px 5px;
   border-radius: 10px;
 }
 

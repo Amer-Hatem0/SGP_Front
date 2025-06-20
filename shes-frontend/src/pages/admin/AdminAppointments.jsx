@@ -3,7 +3,7 @@ import axios from 'axios';
 import Sidebar from '../../components/Sidebar';
 import API_BASE_URL from '../../config/apiConfig';
 import 'bootstrap/dist/css/bootstrap.min.css';
- import AdminNavbar from '../../components/AdminNavbar';
+import AdminNavbar from '../../components/AdminNavbar';
 import Spinner from '../../components/Spinner';
 
 const AdminAppointments = () => {
@@ -11,7 +11,7 @@ const AdminAppointments = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const token = localStorage.getItem('token');
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // حالة.drawer
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [adminName, setAdminName] = useState('Admin');
 
   const fetchAppointments = async () => {
@@ -24,7 +24,18 @@ const AdminAppointments = () => {
       console.error(err);
       setError('Failed to fetch appointments.');
     } finally {
-       setTimeout(() => setLoading(false), 1000);
+      setTimeout(() => setLoading(false), 1000);
+    }
+  };
+
+  const getStatusInfo = (statusID) => {
+    switch (statusID) {
+      case 1: return { label: 'Pending', color: 'secondary' };
+      case 2: return { label: 'Scheduled', color: 'info' };
+      case 3: return { label: 'Completed', color: 'success' };
+      case 4: return { label: 'Canceled', color: 'danger' };
+      case 5: return { label: 'Rescheduled', color: 'warning text-dark' };
+      default: return { label: 'Unknown', color: 'dark' };
     }
   };
 
@@ -38,20 +49,16 @@ const AdminAppointments = () => {
 
   return (
     <div className="d-flex flex-column min-vh-100 bg-light">
-      {/* Navbar */}
       <AdminNavbar 
-  onMenuToggle={() => setIsSidebarOpen(!isSidebarOpen)} 
-  isSidebarOpen={isSidebarOpen} 
-/>
+        onMenuToggle={() => setIsSidebarOpen(!isSidebarOpen)} 
+        isSidebarOpen={isSidebarOpen} 
+      />
 
-      {/* Main Content with Responsive Sidebar */}
       <div className="d-flex flex-grow-1 overflow-hidden position-relative pt-5">
-        {/* Sidebar for large screens */}
         <div className="d-none d-lg-block fixed-sidebar-container">
           <Sidebar />
         </div>
 
-        {/* Main Page Content */}
         <main className="flex-grow-1 ma p-3 p-md-4 overflow-auto">
           <h2 className="mb-4 text-primary fw-bold">Appointments Management</h2>
 
@@ -73,26 +80,37 @@ const AdminAppointments = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {appointments.map((appt, index) => (
-                    <tr key={appt.appointmentId}>
-                      <td>{index + 1}</td>
-                      <td>{appt.patientName}</td>
-                      <td>{appt.doctorName}</td>
-                      <td>{new Date(appt.appointmentDate).toLocaleDateString()}</td>
-                      <td>{new Date(appt.appointmentDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
-                      <td className="text-center">
-                        <span className={`badge ${
-                          appt.statusName === 'Completed'
-                            ? 'bg-success'
-                            : appt.statusName === 'Cancelled'
-                              ? 'bg-danger'
-                              : 'bg-warning text-dark'
-                        }`}>
-                          {appt.statusName}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
+                  {appointments.map((appt, index) => {
+                    const { label, color } = getStatusInfo(appt.statusID);
+                    return (
+                      <tr key={appt.appointmentId}>
+                        <td>{index + 1}</td>
+                        <td>{appt.patientName}</td>
+                        <td>{appt.doctorName}</td>
+                     <td>
+  {(() => {
+    const date = new Date(appt.appointmentDate);
+    date.setDate(date.getDate() + 1); 
+
+    const options = {
+      weekday: 'long',   
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    };
+
+    return date.toLocaleDateString('en-US', options);
+  })()}
+</td>
+                        <td>{new Date(appt.appointmentDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
+                        <td className="text-center">
+                          <span className={`badge bg-${color}`}>
+                            {label}
+                          </span>
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
@@ -100,14 +118,11 @@ const AdminAppointments = () => {
         </main>
       </div>
 
-      {/* Responsive Drawer Sidebar */}
       {isSidebarOpen && <div className="drawer-overlay" onClick={() => setIsSidebarOpen(false)}></div>}
       <div className={`drawer-sidebar ${isSidebarOpen ? 'open' : ''}`}>
         <div className="drawer-header d-flex justify-content-end p-3">
           <button className="btn btn-close" onClick={() => setIsSidebarOpen(false)}></button>
         </div>
-
-        {/* Mobile User Info */}
         <div className="d-flex flex-column align-items-center mb-4 px-3">
           <div className="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mb-2"
                style={{ width: '50px', height: '50px', fontSize: '1.5rem' }}>
@@ -119,7 +134,6 @@ const AdminAppointments = () => {
 
         <Sidebar />
 
-        {/* Mobile Logout Button inside drawer */}
         <div className="mt-auto px-3 pb-4">
           <button
             className="btn btn-danger w-100"

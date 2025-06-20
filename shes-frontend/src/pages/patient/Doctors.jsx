@@ -14,34 +14,48 @@ export default function Doctors() {
   const [showBookingModal, setShowBookingModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [selectedTimeForConfirm, setSelectedTimeForConfirm] = useState(null);
+const [leaveRequests, setLeaveRequests] = useState([]);
 
 
   const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Saturday'];
   const today = new Date();
+const isDateInLeave = (date) => {
+  return leaveRequests.some((leave) => {
+    const start = new Date(leave.startDate);
+    const end = new Date(leave.endDate);
+    return date >= new Date(start.setHours(0,0,0,0)) && date <= new Date(end.setHours(23,59,59,999));
+  });
+};
+const generateWeekDays = (baseDate = today, leaves = leaveRequests) => {
+  const startOfWeek = new Date(baseDate);
+  startOfWeek.setDate(baseDate.getDate() + (weekOffset * 7));
+  startOfWeek.setHours(0, 0, 0, 0);
+  const dayOfWeek = startOfWeek.getDay();
+  const firstDayOfCurrentWeek = new Date(startOfWeek);
+  firstDayOfCurrentWeek.setDate(startOfWeek.getDate() - dayOfWeek);
 
-  const generateWeekDays = () => {
-    const startOfWeek = new Date(today);
-    startOfWeek.setDate(today.getDate() + (weekOffset * 7));
-    startOfWeek.setHours(0, 0, 0, 0);
-    const dayOfWeek = startOfWeek.getDay();
-    const firstDayOfCurrentWeek = new Date(startOfWeek);
-    firstDayOfCurrentWeek.setDate(startOfWeek.getDate() - dayOfWeek);
+  return daysOfWeek.map((day, index) => {
+    const currentDate = new Date(firstDayOfCurrentWeek);
+    currentDate.setDate(firstDayOfCurrentWeek.getDate() + index);
 
-    return daysOfWeek.map((day, index) => {
-      const currentDate = new Date(firstDayOfCurrentWeek);
-      currentDate.setDate(firstDayOfCurrentWeek.getDate() + index);
-
-      const isPast = currentDate.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0);
-
-      return {
-        name: day.slice(0, 3),
-        date: currentDate,
-        disabled: isPast,
-        active: selectedDay?.date?.toDateString() === currentDate.toDateString(),
-        formatted: currentDate.toISOString().split('T')[0],
-      };
+    const dateToCheck = new Date(currentDate);
+    const isPast = dateToCheck.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0);
+    const isLeaveDay = leaves.some((leave) => {
+      const start = new Date(leave.startDate);
+      const end = new Date(leave.endDate);
+      return dateToCheck >= start.setHours(0,0,0,0) && dateToCheck <= end.setHours(23,59,59,999);
     });
-  };
+
+    return {
+      name: day.slice(0, 3),
+      date: currentDate,
+      disabled: isPast || isLeaveDay,
+      active: selectedDay?.date?.toDateString() === currentDate.toDateString(),
+      formatted: currentDate.toISOString().split('T')[0],
+    };
+  });
+};
+
 
   const [weekDays, setWeekDays] = useState(generateWeekDays());
 
@@ -67,13 +81,30 @@ export default function Doctors() {
   }, []);
 
 
-  const handleBookClick = (doctorId) => {
-    setBookingDoctorId(doctorId);
-    setSelectedDay(null); // Reset selected day
-    setTimeSlots([]); // Clear time slots
-    setBookedTimes([]); // Clear booked times
-    setShowBookingModal(true);
-  };
+ const handleBookClick = async (doctorId) => {
+  setBookingDoctorId(doctorId);
+  setSelectedDay(null);
+  setTimeSlots([]);
+  setBookedTimes([]);
+  setShowBookingModal(true);
+
+  try {
+    const user = JSON.parse(localStorage.getItem('user'));
+    const token = user.token;
+    const res = await axios.get(`${API_BASE_URL}/Patient/LeaveRequests/${doctorId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  const approved = res.data.filter(lr => lr.statusID === 1);
+setLeaveRequests(approved);
+setWeekDays(generateWeekDays(new Date(), approved));
+
+ 
+  } catch (error) {
+    console.error('Failed to fetch leave requests:', error);
+  }
+};
+
+
 
   const handleDayClick = async (day) => {
     if (day.disabled) return;
@@ -157,7 +188,8 @@ export default function Doctors() {
           doctorId,
           patientId: actualPatientId,
           dateTime: formattedDateTime, // Send as UTC ISO string
-          status: 'Pending',
+         statusID: 1,
+
           notes: 'Booked from patient panel',
         },
         { headers: { Authorization: `Bearer ${token}` } }
@@ -233,16 +265,28 @@ export default function Doctors() {
 
             {/* Days of the week */}
             <div className="days-of-week d-flex gap-2 flex-wrap mb-3">
-              {weekDays.map((day, i) => (
-                <button
-                  key={i}
-                  className={`day-card ${day.disabled ? 'disabled' : ''} ${day.active ? 'active' : ''}`}
-                  onClick={() => handleDayClick(day)}
-                  disabled={day.disabled}
-                >
-                  {day.name} <br /> <small>{day.date.getDate()}</small>
-                </button>
-              ))}
+           {weekDays.map((day, i) => (
+  <button
+    key={i}
+    className={`day-card ${day.disabled ? 'disabled' : ''} ${day.active ? 'active' : ''}`}
+    onClick={() => handleDayClick(day)}
+    disabled={day.disabled}
+  title={day.disabled
+  ? isDateInLeave(day.date)
+    ? "🕒 Unavailable – Doctor is on leave"
+    : "⛔️ Unavailable – Past date"
+  : ""}
+
+  >
+  {day.name} <br /> 
+<small>{day.date.getDate()}</small>
+{day.disabled && isDateInLeave(day.date) && (
+  <div style={{ fontSize: '10px', color: '#dc3545' }}>On Leave</div>
+)}
+
+  </button>
+))}
+
             </div>
 
             {/* Available time slots */}
