@@ -46,10 +46,7 @@ const AboutPage = () => {
             </div>
             <div className="col-lg-8">
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt, quod laborum alias.
-                Vitae dolorum, officia sit! Saepe ullam facere at, consequatur incidunt, quae esse, quis
-                ut reprehenderit dignissimos, libero delectus.
-              </p>
+            Our Smart Hospital Enhancement System (SHES) leverages AI-driven tools to improve scheduling, reduce delays, and provide patients with accurate preliminary diagnoses — all while maintaining efficiency and transparency across hospital operations  </p>
               <img src={sign} alt="" className="img-fluid" />
             </div>
           </div>
@@ -64,100 +61,38 @@ const AboutPage = () => {
               <div className="about-block-item mb-5 mb-lg-0">
                 <img src={about1} alt="" className="img-fluid w-100" />
                 <h4 className="mt-3">Healthcare for Kids</h4>
-                <p>Voluptate aperiam esse possimus maxime repellendus, nihil quod accusantium.</p>
+                <p>Our team ensures your child’s health with personalized treatment plans.</p>
               </div>
             </div>
             <div className="col-lg-3 col-md-6">
               <div className="about-block-item mb-5 mb-lg-0">
                 <img src={about2}  alt="" className="img-fluid w-100" />
                 <h4 className="mt-3">Medical Counseling</h4>
-                <p>Voluptate aperiam esse possimus maxime repellendus, nihil quod accusantium.</p>
+                <p>Get expert medical advice from qualified professionals at every step.</p>
               </div>
             </div>
             <div className="col-lg-3 col-md-6">
               <div className="about-block-item mb-5 mb-lg-0">
                 <img src={about3}  alt="" className="img-fluid w-100" />
                 <h4 className="mt-3">Modern Equipments</h4>
-                <p>Voluptate aperiam esse possimus maxime repellendus, nihil quod accusantium.</p>
+                <p>Our hospital is equipped with the latest diagnostic and surgical technologies.</p>
               </div>
             </div>
             <div className="col-lg-3 col-md-6">
               <div className="about-block-item">
                 <img src={about4}  alt="" className="img-fluid w-100" />
                 <h4 className="mt-3">Qualified Doctors</h4>
-                <p>Voluptate aperiam esse possimus maxime repellendus, nihil quod accusantium.</p>
+                <p>Every patient receives care from experts in their specific medical condition.</p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Team Section */}
-      <section className="section team">
-        <div className="container">
-          <div className="row justify-content-center">
-            <div className="col-lg-6">
-              <div className="section-title text-center">
-                <h2 className="mb-4">Meet Our Specialist</h2>
-                <div className="divider mx-auto my-4"></div>
-                <p>
-                  Today’s users expect effortless experiences. Don’t let essential people and
-                  processes stay stuck in the past. Speed it up, skip the hassles
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-lg-3 col-md-6 col-sm-6">
-              <div className="team-block mb-5 mb-lg-0">
-                <img src={team1} alt="" className="img-fluid w-100" />
-                <div className="content">
-                  <h4 className="mt-4 mb-0">
-                    <a href="/doctor-single">John Marshal</a>
-                  </h4>
-                  <p>Internist, Emergency Physician</p>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-3 col-md-6 col-sm-6">
-              <div className="team-block mb-5 mb-lg-0">
-                <img src={team2} alt="" className="img-fluid w-100" />
-                <div className="content">
-                  <h4 className="mt-4 mb-0">
-                    <a href="/doctor-single">Marshal Root</a>
-                  </h4>
-                  <p>Surgeon, Cardiologist</p>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-3 col-md-6 col-sm-6">
-              <div className="team-block mb-5 mb-lg-0">
-                <img src={team3} alt="" className="img-fluid w-100" />
-                <div className="content">
-                  <h4 className="mt-4 mb-0">
-                    <a href="/doctor-single">Siamon john</a>
-                  </h4>
-                  <p>Internist, General Practitioner</p>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-3 col-md-6 col-sm-6">
-              <div className="team-block">
-                <img src={team4} alt="" className="img-fluid w-100" />
-                <div className="content">
-                  <h4 className="mt-4 mb-0">
-                    <a href="/doctor-single">Rishat Ahmed</a>
-                  </h4>
-                  <p>Orthopedic Surgeon</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+   
 
       {/* Testimonials Section */}
-      <section className="section testimonial">
+      <section className="section testimonial mt-5 pt-5">
         <div className="container">
           <div className="row">
             <div className="col-lg-6 offset-lg-6">
@@ -175,13 +110,11 @@ const AboutPage = () => {
                   <span>John Partho</span>
                 </div>
                 <p>
-                  They provide great service facility consectetur adipisicing elit. Itaque rem,
-                  praesentium, iure, ipsum magnam deleniti a vel eos adipisci suscipit fugit placeat.
-                  Quibusdam laboriosam eveniet nostrum nemo commodi numquam quod.
+                 At our facility, we are dedicated to providing exceptional medical services that prioritize patient well-being, accuracy in diagnosis, and efficiency in treatment. With a team of skilled professionals and a patient-centered approach, we ensure that every individual receives comprehensive care, emotional support, and access to modern healthcare technologies — creating a safe and trustworthy environment for all
                 </p>
                 <i className="icofont-quote-right"></i>
               </div>
-              {/* كرر العناصر حسب الحاجة */}
+            
             </div>
           </div>
         </div>

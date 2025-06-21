@@ -10,7 +10,7 @@ const AdminNavbar = ({ onMenuToggle, isSidebarOpen }) => {
     if (window.confirm('Are you sure you want to logout?')) {
       localStorage.removeItem('token');
       localStorage.removeItem('adminName');
-      navigate('/login'); // ✅ بدون إعادة تحميل الصفحة
+      navigate('/login');  
     }
   };
 

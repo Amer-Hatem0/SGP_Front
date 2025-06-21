@@ -1,5 +1,6 @@
 import React from 'react';
 import logo from '../assets/images/logo2.png'
+import { FaFacebookF,FaInstagram ,FaWhatsapp  } from 'react-icons/fa';
 const Footer = () => {
   return (
     <footer className="footer section gray-bg">
@@ -12,23 +13,16 @@ const Footer = () => {
                 <img src={logo} alt="Logo" className="img-fluid logofooter" />
               </div>
               <p>
-                Tempora dolorem voluptatum nam vero assumenda voluptate, facilis ad eos obcaecati tenetur veritatis eveniet distinctio possimus.
-              </p>
+           We are dedicated to providing reliable, compassionate healthcare services supported by innovation, integrity, and excellence — because your health matters   </p>
               <ul className="list-inline footer-socials mt-4">
-                <li className="list-inline-item">
-                  <a href="https://www.facebook.com/themefisher"  target="_blank" rel="noopener noreferrer">
-                    <i className="icofont-facebook"></i>
-                  </a>
+                <li className="list-inline-item p-2 me-5">
+                  <FaFacebookF size={20} color="#3b5998" />
                 </li>
-                <li className="list-inline-item">
-                  <a href="https://twitter.com/themefisher"  target="_blank" rel="noopener noreferrer">
-                    <i className="icofont-twitter"></i>
-                  </a>
+                <li className="list-inline-item p-2 me-5">
+               <FaInstagram size={20} color="#3b5998" />
                 </li>
-                <li className="list-inline-item">
-                  <a href="https://www.pinterest.com/themefisher/"  target="_blank" rel="noopener noreferrer">
-                    <i className="icofont-linkedin"></i>
-                  </a>
+                <li className="list-inline-item p-2 me-5">
+                  <FaWhatsapp size={20} color="#3b5998" />
                 </li>
               </ul>
             </div>
@@ -40,11 +34,11 @@ const Footer = () => {
               <h4 className="text-capitalize mb-3">Department</h4>
               <div className="divider mb-4"></div>
               <ul className="list-unstyled footer-menu lh-35">
-                <li><a href="#">Surgery</a></li>
-                <li><a href="#">Wome's Health</a></li>
-                <li><a href="#">Radiology</a></li>
-                <li><a href="#">Cardioc</a></li>
-                <li><a href="#">Medicine</a></li>
+                <li><p href="#">Surgery</p></li>
+                <li><p href="#">Wome's Health</p></li>
+                <li><p href="#">Radiology</p></li>
+                <li><p href="#">Cardioc</p></li>
+                <li><p href="#">Medicine</p></li>
               </ul>
             </div>
           </div>
@@ -55,11 +49,11 @@ const Footer = () => {
               <h4 className="text-capitalize mb-3">Support</h4>
               <div className="divider mb-4"></div>
               <ul className="list-unstyled footer-menu lh-35">
-                <li><a href="#">Terms & Conditions</a></li>
-                <li><a href="#">Privacy Policy</a></li>
-                <li><a href="#">Company Support</a></li>
-                <li><a href="#">FAQ Questions</a></li>
-                <li><a href="#">Company Licence</a></li>
+                <li><p href="#">Terms & Conditions</p></li>
+                <li><p href="#">Privacy Policy</p></li>
+                <li><p href="#">Company Support</p></li>
+                <li><p href="#">FAQ Questions</p></li>
+                <li><p href="#">Company Licence</p></li>
               </ul>
             </div>
           </div>
@@ -76,13 +70,7 @@ const Footer = () => {
                 </div>
                 <h4 className="mt-2"><a href="tel:+23-345-67890">Support@email.com</a></h4>
               </div>
-              <div className="footer-contact-block">
-                <div className="icon d-flex align-items-center">
-                  <i className="icofont-support mr-3"></i>
-                  <span className="h6 mb-0">Mon to Fri : 08:30 - 18:00</span>
-                </div>
-                <h4 className="mt-2"><a href="tel:+23-345-67890">+23-456-6588</a></h4>
-              </div>
+           
             </div>
           </div>
         </div>
@@ -90,12 +78,22 @@ const Footer = () => {
         {/* Footer Bottom */}
         <div className="footer-btm py-4 mt-5">
           <div className="row align-items-center justify-content-between">
-            
-            <div className="col-lg-12">
+          
+            <div className="col-lg-5">
               <div className="subscribe-form text-lg-right mt-5 mt-lg-0">
+              <p className="btn btn-main-2 btn-round-full">
+  © 2025 <span className="text-success">SHES</span> – All Rights Reserved.
+</p>
+
+                
+              </div>
+            </div>
+            <div className="col-lg-4">
+              <div className="subscribe-form text-lg-right mt-5 mt-lg-0">
+               
                 <form action="#" className="subscribe">
                   <input type="text" className="form-control" placeholder="Your Email address" />
-                  <a href="#" className="btn btn-main-2 btn-round-full">Subscribe</a>
+                  <p href="#" className="btn   btn-round-full aaaaaaaaaaaaaaaaaa ">Subscribe</p>
                 </form>
               </div>
             </div>

@@ -326,7 +326,9 @@ a:focus {
   padding-top: 30px;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
-
+.contact-i{
+  font-size: 30px;
+}
 .slick-slide:focus, .slick-slide a {
   outline: none;
 }
@@ -871,7 +873,10 @@ a:focus {
   position: absolute;
   content: "";
   background: url("../../assets/images/bg/bg-2.jpg") no-repeat 50% 50%;
+  background-size: cover;
+  filter: brightness(0.9); /* تقليل السطوع إلى 50% */
 }
+
 
 .testimonial .slick-dots {
   text-align: left;
@@ -1548,20 +1553,7 @@ a:focus {
  
 }
 
-/* .AboutPage Header{
-    z-index: 1 !important;
-}
-.AboutUs span{
-
-    font-size:50px;
-    color: #ffffff !important;
-    z-index: 5 !important;
-}
-.AboutUs {
-
  
-    z-index: 5 !important;
-} */
 
 
 .logof{
@@ -1573,4 +1565,10 @@ a:focus {
 }
 .logofooter{
     width: 200px;
+}
+
+
+.aaaaaaaaaaaaaaaaaa{
+  background-color: #198754 !important;
+  border-radius: 30px !important;
 }

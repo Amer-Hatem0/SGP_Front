@@ -285,7 +285,7 @@ const getReportPreviewContent = () => {
               <button className="btn btn-info mt-3" onClick={openUploadModal}>Upload your first report!</button>
             </div>
           ) : (
-            <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 report-grid">
+            <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 m-auto g-4 report-grid">
               {filteredReports.map((r) => (
                 <div className="col" key={r.reportID}>
                   <div className="card h-100 shadow-sm report-card">

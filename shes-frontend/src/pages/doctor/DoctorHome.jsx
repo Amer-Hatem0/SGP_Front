@@ -84,16 +84,25 @@ useEffect(() => {
     }
   };
 
-  const checkNewMessages = async () => {
-    try {
-      const res = await axios.get(`${API_BASE_URL}/Doctor/DoctorHasNewMessages`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setHasNewMessage(res.data === true);
-    } catch (err) {
-      console.error('Error checking messages');
-    }
-  };
+const checkNewMessages = async () => {
+  try {
+    const res = await axios.get(`${API_BASE_URL}/Doctor/DoctorHasNewMessages`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    console.log('🔍 checkNewMessages response:', res.data);
+
+    // دعم استجابة من نوع boolean أو object يحتوي على hasNewMessages
+    const isNewMessage =
+      res.data === true || res.data?.hasNewMessages === true;
+
+    setHasNewMessage(isNewMessage);
+  } catch (err) {
+    console.error('❌ Error checking messages:', err);
+    setHasNewMessage(false); // fallback
+  }
+};
+
 
   const goToChat = () => {
     navigate('/doctor/chat');
@@ -147,16 +156,31 @@ if (isLoading) {
                 )}
               </span>
 
-              <span
-                onClick={goToChat}
-                style={{ cursor: 'pointer', position: 'relative' }}
-                title="Messages"
-              >
-                💬
-                {hasNewMessage && (
-                  <span className="DrHome-badge"></span>
-                )}
-              </span>
+    <span
+  onClick={goToChat}
+  style={{ cursor: 'pointer', position: 'relative' }}
+  title="Messages"
+>
+  💬
+  {hasNewMessage && (
+    <span
+      style={{
+        position: 'absolute',
+        top: '-6px',
+        right: '-10px',
+        width: '12px',
+        height: '12px',
+        backgroundColor: '#28a745',
+        borderRadius: '50%',
+        border: '2px solid white',
+        animation: 'pulseGreen 1.2s infinite',
+      }}
+    ></span>
+  )}
+</span>
+
+
+
             </div>
           </header>
 

@@ -3,7 +3,7 @@ import axios from 'axios';
 import Header from '../../components/Header';
 import Footer from '../../components/footer';
 import API_BASE_URL from '../../config/apiConfig';
-
+import { Link } from 'react-router-dom';
 const DoctorsPage = () => {
   const [doctors, setDoctors] = useState([]);
 
@@ -78,9 +78,9 @@ const DoctorsPage = () => {
                   We are pleased to offer you the{' '}
                   <span className="title-color">chance to have the healthy</span>
                 </h2>
-                <a href="/appointment" className="btn btn-main-2 btn-round-full">
-                  Get appointment <i className="icofont-simple-right ml-2"></i>
-                </a>
+                <Link to="/login" className="btn btn-main btn-round-full aaaaaaaaaaaaaaaaaa">
+                  Make an appointment
+                </Link>
               </div>
             </div>
           </div>

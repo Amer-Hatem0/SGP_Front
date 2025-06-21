@@ -29,23 +29,23 @@ const ContactPage = () => {
           <div className="row">
             <div className="col-lg-4 col-sm-6 col-md-6">
               <div className="contact-block mb-4 mb-lg-0">
-                <i className="icofont-live-support"></i>
+               <p className="contact-i">📞 </p>
                 <h5>Call Us</h5>
-                +823-4565-13456
+               +970569690000
               </div>
             </div>
             <div className="col-lg-4 col-sm-6 col-md-6">
               <div className="contact-block mb-4 mb-lg-0">
-                <i className="icofont-support-faq"></i>
+                  <p className="contact-i">📧</p>
                 <h5>Email Us</h5>
-                contact@mail.com
+                contact.SHES@gmail.com
               </div>
             </div>
             <div className="col-lg-4 col-sm-6 col-md-6">
               <div className="contact-block mb-4 mb-lg-0">
-                <i className="icofont-location-pin"></i>
+                 <p className="contact-i">📍</p>
                 <h5>Location</h5>
-                North Main Street, Brooklyn Australia
+                North Main Street, Palestine
               </div>
             </div>
           </div>
@@ -61,9 +61,7 @@ const ContactPage = () => {
                 <h2 className="text-md mb-2">Contact us</h2>
                 <div className="divider mx-auto my-4"></div>
                 <p className="mb-5">
-                  Laboriosam exercitationem molestias beatae eos pariatur,
-                  similique, excepturi mollitia sit perferendis maiores ratione
-                  aliquam?
+                Have questions or need support? Our team is here to assist you with appointments, services, or general inquiries — don’t hesitate to reach out
                 </p>
               </div>
             </div>

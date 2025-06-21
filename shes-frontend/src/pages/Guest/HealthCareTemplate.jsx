@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './style.css';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import CountUp from 'react-countup';
 
 import img1 from '../../assets/images/about/img-1.jpg';
 import img2 from '../../assets/images/about/img-2.jpg';
@@ -9,13 +12,19 @@ import logo from '../../assets/images/logo.png';
 import Header from '../../components/Header';
 import FeaturesSection from '../../components/FeaturesSection';
 import Spinner from '../../components/Spinner';
- 
+ import Footer from '../../components/footer';
 
 function HealthCareTemplate() {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     fetchData();
   }, []);
+useEffect(() => {
+  AOS.init({
+    duration: 1000,
+    once: true,
+  });
+}, []);
 
   const fetchData = async () => {
     try {
@@ -58,10 +67,10 @@ function HealthCareTemplate() {
       </section>
 
       {/* ========== Features Component ========== */}
-      <FeaturesSection />
+      <FeaturesSection data-aos="fade-right" />
 
       {/* ========== About Component ========== */}
-      <section className="section about">
+     <section className="section about" data-aos="fade-right">
         <div className="container">
           <div className="row align-items-center">
             <div className="col-lg-4 col-sm-6">
@@ -81,9 +90,10 @@ function HealthCareTemplate() {
                 <p className="mt-4 mb-5">
                   We provide best leading medical service No one carries the pardon of the delectable, the office of pains repels the praise of the blinded, nor does it.
                 </p>
-                <a href="/service" className="btn btn-main-2 btn-round-full btn-icon">
-                  Services<i className="icofont-simple-right ml-3"></i>
-                </a>
+                
+                   <Link to="/services" className="btn btn-main btn-round-full aaaaaaaaaaaaaaaaaa">
+                  Services
+                </Link>
               </div>
             </div>
           </div>
@@ -91,144 +101,47 @@ function HealthCareTemplate() {
       </section>
 
       {/* ========== Stats Component ========== */}
-      <section className="cta-section">
-        <div className="container">
-          <div className="cta position-relative">
-            <div className="row">
-              <div className="col-lg-3 col-md-6 col-sm-6">
-                <div className="counter-stat">
-                  <i className="icofont-doctor"></i>
-                  <span className="h3">58</span>k
-                  <p>Happy People</p>
-                </div>
-              </div>
-              <div className="col-lg-3 col-md-6 col-sm-6">
-                <div className="counter-stat">
-                  <i className="icofont-flag"></i>
-                  <span className="h3">700</span>+
-                  <p>Surgery Completed</p>
-                </div>
-              </div>
-              <div className="col-lg-3 col-md-6 col-sm-6">
-                <div className="counter-stat">
-                  <i className="icofont-badge"></i>
-                  <span className="h3">40</span>+
-                  <p>Expert Doctors</p>
-                </div>
-              </div>
-              <div className="col-lg-3 col-md-6 col-sm-6">
-                <div className="counter-stat">
-                  <i className="icofont-globe"></i>
-                  <span className="h3">20</span>
-                  <p>Worldwide Branch</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ========== Services Component ========== */}
-    <section className="section service gray-bg">
+<section className="cta-section" data-aos="fade-up">
   <div className="container">
-    <div className="row justify-content-center">
-      <div className="col-lg-7 text-center">
-        <div className="section-title">
-          <h2>Award winning patient care</h2>
-          <div className="divider mx-auto my-4"></div>
-          <p>
-            We are committed to delivering exceptional medical services using modern technologies, compassionate staff, and continuous innovation for better health outcomes.
-          </p>
-        </div>
-      </div>
-    </div>
-    <div className="row">
-      {/* Service 1 */}
-      <div className="col-lg-4 col-md-6 col-sm-6">
-        <div className="service-item mb-4">
-          <div className="icon d-flex align-items-center">
-            <i className="icofont-heart-beat text-lg"></i>
-            <h4 className="mt-3 mb-3">Cardiology</h4>
-          </div>
-          <div className="content">
-            <p className="mb-4">
-              Advanced heart care and diagnostics to keep your heart strong and healthy.
-            </p>
+    <div className="cta position-relative">
+      <div className="row">
+        <div className="col-lg-3 col-md-6 col-sm-6">
+          <div className="counter-stat">
+            <i className="icofont-doctor"></i>
+            <span className="h3">
+              <CountUp end={58} duration={4} />k
+            </span>
+            <p>Happy People</p>
           </div>
         </div>
-      </div>
 
-      {/* Service 2 */}
-      <div className="col-lg-4 col-md-6 col-sm-6">
-        <div className="service-item mb-4">
-          <div className="icon d-flex align-items-center">
-            <i className="icofont-brain-alt text-lg"></i>
-            <h4 className="mt-3 mb-3">Neurology</h4>
-          </div>
-          <div className="content">
-            <p className="mb-4">
-              Expert diagnosis and care for neurological conditions and disorders.
-            </p>
+        <div className="col-lg-3 col-md-6 col-sm-6">
+          <div className="counter-stat">
+            <i className="icofont-flag"></i>
+            <span className="h3">
+              <CountUp end={700} duration={5} />+
+            </span>
+            <p>Surgery Completed</p>
           </div>
         </div>
-      </div>
 
-      {/* Service 3 */}
-      <div className="col-lg-4 col-md-6 col-sm-6">
-        <div className="service-item mb-4">
-          <div className="icon d-flex align-items-center">
-            <i className="icofont-baby text-lg"></i>
-            <h4 className="mt-3 mb-3">Pediatrics</h4>
-          </div>
-          <div className="content">
-            <p className="mb-4">
-              Comprehensive healthcare services for infants, children, and adolescents.
-            </p>
+        <div className="col-lg-3 col-md-6 col-sm-6">
+          <div className="counter-stat">
+            <i className="icofont-badge"></i>
+            <span className="h3">
+              <CountUp end={40} duration={4} />+
+            </span>
+            <p>Expert Doctors</p>
           </div>
         </div>
-      </div>
 
-      {/* Service 4 */}
-      <div className="col-lg-4 col-md-6 col-sm-6">
-        <div className="service-item mb-4">
-          <div className="icon d-flex align-items-center">
-            <i className="icofont-tooth text-lg"></i>
-            <h4 className="mt-3 mb-3">Dental Care</h4>
-          </div>
-          <div className="content">
-            <p className="mb-4">
-              Full range of dental treatments with a focus on comfort and hygiene.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* Service 5 */}
-      <div className="col-lg-4 col-md-6 col-sm-6">
-        <div className="service-item mb-4">
-          <div className="icon d-flex align-items-center">
-            <i className="icofont-xray text-lg"></i>
-            <h4 className="mt-3 mb-3">Radiology</h4>
-          </div>
-          <div className="content">
-            <p className="mb-4">
-              High-tech imaging services including X-rays, CT scans, and MRIs.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* Service 6 */}
-      <div className="col-lg-4 col-md-6 col-sm-6">
-        <div className="service-item mb-4">
-          <div className="icon d-flex align-items-center">
-            <i className="icofont-laboratory text-lg"></i>
-            <h4 className="mt-3 mb-3">Laboratory</h4>
-          </div>
-          <div className="content">
-            <p className="mb-4">
-              Accurate diagnostic tests and reports with fast turnaround times.
-            </p>
+        <div className="col-lg-3 col-md-6 col-sm-6">
+          <div className="counter-stat">
+            <i className="icofont-globe"></i>
+            <span className="h3">
+              <CountUp end={20} duration={3.5} />
+            </span>
+            <p>Worldwide Branch</p>
           </div>
         </div>
       </div>
@@ -237,8 +150,58 @@ function HealthCareTemplate() {
 </section>
 
 
+
+      {/* ========== Services Component ========== */}
+<section className="section service gray-bg">
+  <div className="container">
+    <div className="row justify-content-center">
+      <div className="col-lg-7 text-center">
+        <div className="section-title" data-aos="fade-up">
+          <h2>Award winning patient care</h2>
+          <div className="divider mx-auto my-4"></div>
+          <p>
+            We are committed to delivering exceptional medical services using modern technologies, compassionate staff, and continuous innovation for better health outcomes.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div className="row">
+      
+      {[
+        { icon: '🫀', title: 'Cardiology', text: 'Advanced heart care and diagnostics to keep your heart strong and healthy.' },
+        { icon: '🧠', title: 'Neurology', text: 'Expert diagnosis and care for neurological conditions and disorders.' },
+        { icon: '👶', title: 'Pediatrics', text: 'Comprehensive healthcare services for infants, children, and adolescents.' },
+        { icon: '😁', title: 'Dental Care', text: 'Full range of dental treatments with a focus on comfort and hygiene.' },
+        { icon: '🩻', title: 'Radiology', text: 'High-tech imaging services including X-rays, CT scans, and MRIs.' },
+        { icon: '🧪', title: 'Laboratory', text: 'Accurate diagnostic tests and reports with fast turnaround times.' },
+      ].map((service, index) => (
+        <div
+          className="col-lg-4 col-md-6 col-sm-6"
+          key={index}
+          data-aos="zoom-in-up"
+          data-aos-delay={index * 150}
+        >
+          <div className="service-item mb-4">
+            <div className="icon d-flex align-items-center">
+              <p className="contact-i">{service.icon}</p>
+              <h4 className="mt-3 mb-3">{service.title}</h4>
+            </div>
+            <div className="content">
+              <p className="mb-4">{service.text}</p>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+
+
       {/* ========== Appointment Component ========== */}
-      <section className="section appoinment">
+    <section className="section appoinment" data-aos="zoom-in">
+
         <div className="container">
           <div className="row align-items-center">
             <div className="col-lg-6">
@@ -255,47 +218,45 @@ function HealthCareTemplate() {
                 </p>
                 <form id="#" className="appoinment-form" method="post" action="#">
                   <div className="row">
-                    <div className="col-lg-6">
-                      <div className="form-group">
-                        <select className="form-control" id="exampleFormControlSelect1">
-                          <option>Choose Department</option>
-                        </select>
+                    <div className="col-lg-6 mt-2">
+                      
+                        <div className="form-group">
+                        <input name="date" id="date" type="text" disabled className="form-control" placeholder="Choose Department" />
                       </div>
                     </div>
-                    <div className="col-lg-6">
-                      <div className="form-group">
-                        <select className="form-control" id="exampleFormControlSelect2">
-                          <option>Select Doctors</option>
-                        </select>
+                    <div className="col-lg-6 mt-2">
+                      
+                       <div className="form-group">
+                        <input name="date" id="date" type="text" disabled className="form-control" placeholder="Select Doctors" />
                       </div>
                     </div>
-                    <div className="col-lg-6">
+                    <div className="col-lg-6 mt-2">
                       <div className="form-group">
-                        <input name="date" id="date" type="text" className="form-control" placeholder="dd/mm/yyyy" />
+                        <input name="date" id="date" type="text" disabled className="form-control" placeholder="dd/mm/yyyy" />
                       </div>
                     </div>
-                    <div className="col-lg-6">
+                    <div className="col-lg-6 mt-2">
                       <div className="form-group">
-                        <input name="time" id="time" type="text" className="form-control" placeholder="Time" />
+                        <input name="time" id="time" type="text" disabled className="form-control" placeholder="Time" />
                       </div>
                     </div>
-                    <div className="col-lg-6">
+                    <div className="col-lg-6 mt-2">
                       <div className="form-group">
-                        <input name="name" id="name" type="text" className="form-control" placeholder="Full Name" />
+                        <input name="name" id="name" type="text" disabled className="form-control" placeholder="Full Name" />
                       </div>
                     </div>
-                    <div className="col-lg-6">
+                    <div className="col-lg-6 mt-2">
                       <div className="form-group">
-                        <input name="phone" id="phone" type="Number" className="form-control" placeholder="Phone Number" />
+                        <input name="phone" id="phone" type="Number"disabled className="form-control" placeholder="Phone Number" />
                       </div>
                     </div>
                   </div>
-                  <div className="form-group-2 mb-4">
-                    <textarea name="message" id="message" className="form-control" rows="6" placeholder="Your Message"></textarea>
+                  <div className="form-group-2  mt-2 mb-4">
+                    <textarea name="message" id="message"disabled className="form-control" rows="6" placeholder="Your Message"></textarea>
                   </div>
-                  <a className="btn btn-main btn-round-full" href="/appoinment.html">
-                    Make Appointment <i className="icofont-simple-right ml-2"></i>
-                  </a>
+                    <Link to="/login" className="btn  btn-main btn-round-full aaaaaaaaaaaaaaaaaa">
+                  Make an appointment
+                </Link>
                 </form>
               </div>
             </div>
@@ -304,112 +265,7 @@ function HealthCareTemplate() {
       </section>
 
       {/* ========== Footer Component ========== */}
-      <footer className="footer section gray-bg">
-        <div className="container">
-          <div className="row">
-            <div className="col-lg-4 mr-auto col-sm-6">
-              <div className="widget mb-5 mb-lg-0">
-                <div className="logo mb-4">
-                  <img src="/images/logo.png" alt="" className="img-fluid" />
-                </div>
-                <p>
-                  Tempora dolorem voluptatum nam vero assumenda voluptate, facilis ad eos obcaecati tenetur veritatis eveniet distinctio possimus.
-                </p>
-                <ul className="list-inline footer-socials mt-4">
-                  <li className="list-inline-item">
-                    <a href="https://www.facebook.com/themefisher">
-                      <i className="icofont-facebook"></i>
-                    </a>
-                  </li>
-                  <li className="list-inline-item">
-                    <a href="https://twitter.com/themefisher">
-                      <i className="icofont-twitter"></i>
-                    </a>
-                  </li>
-                  <li className="list-inline-item">
-                    <a href="https://www.pinterest.com/themefisher/">
-                      <i className="icofont-linkedin"></i>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div className="col-lg-2 col-md-6 col-sm-6">
-              <div className="widget mb-5 mb-lg-0">
-                <h4 className="text-capitalize mb-3">Department</h4>
-                <div className="divider mb-4"></div>
-                <ul className="list-unstyled footer-menu lh-35">
-                  <li><a href="#">Surgery</a></li>
-                  <li><a href="#">Wome's Health</a></li>
-                  <li><a href="#">Radiology</a></li>
-                  <li><a href="#">Cardioc</a></li>
-                  <li><a href="#">Medicine</a></li>
-                </ul>
-              </div>
-            </div>
-            <div className="col-lg-2 col-md-6 col-sm-6">
-              <div className="widget mb-5 mb-lg-0">
-                <h4 className="text-capitalize mb-3">Support</h4>
-                <div className="divider mb-4"></div>
-                <ul className="list-unstyled footer-menu lh-35">
-                  <li><a href="#">Terms & Conditions</a></li>
-                  <li><a href="#">Privacy Policy</a></li>
-                  <li><a href="#">Company Support</a></li>
-                  <li><a href="#">FAQ Questions</a></li>
-                  <li><a href="#">Company Licence</a></li>
-                </ul>
-              </div>
-            </div>
-            <div className="col-lg-3 col-md-6 col-sm-6">
-              <div className="widget widget-contact mb-5 mb-lg-0">
-                <h4 className="text-capitalize mb-3">Get in Touch</h4>
-                <div className="divider mb-4"></div>
-                <div className="footer-contact-block mb-4">
-                  <div className="icon d-flex align-items-center">
-                    <i className="icofont-email mr-3"></i>
-                    <span className="h6 mb-0">Support Available for 24/7</span>
-                  </div>
-                  <h4 className="mt-2"><a href="tel:+23-345-67890">Support@email.com</a></h4>
-                </div>
-                <div className="footer-contact-block">
-                  <div className="icon d-flex align-items-center">
-                    <i className="icofont-support mr-3"></i>
-                    <span className="h6 mb-0">Mon to Fri : 08:30 - 18:00</span>
-                  </div>
-                  <h4 className="mt-2"><a href="tel:+23-345-67890">+23-456-6588</a></h4>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="footer-btm py-4 mt-5">
-            <div className="row align-items-center justify-content-between">
-              <div className="col-lg-6">
-                <div className="copyright">
-                  &copy; Copyright Reserved to <span className="text-color">Novena</span> by{' '}
-                  <a href="https://themefisher.com/" target="_blank" rel="noopener noreferrer">
-                    Themefisher
-                  </a>
-                </div>
-              </div>
-              <div className="col-lg-6">
-                <div className="subscribe-form text-lg-right mt-5 mt-lg-0">
-                  <form action="#" className="subscribe">
-                    <input type="text" className="form-control" placeholder="Your Email address" />
-                    <a href="#" className="btn btn-main-2 btn-round-full">Subscribe</a>
-                  </form>
-                </div>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-lg-4">
-                <a className="backtop js-scroll-trigger" href="#top">
-                  <i className="icofont-long-arrow-up"></i>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </footer>
+       <Footer />
     </div>
   );
 }
