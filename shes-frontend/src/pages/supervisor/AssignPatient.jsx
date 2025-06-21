@@ -20,6 +20,7 @@ export default function ManageAppointments() {
   const [weekOffset, setWeekOffset] = useState(0);
   const [message, setMessage] = useState('');
 const [isLoading, setIsLoading] = useState(true);
+const [leaveDays, setLeaveDays] = useState([]);
 const getStatusLabel = (statusID) => {
   switch (statusID) {
     case 1: return 'Pending';
@@ -30,6 +31,21 @@ const getStatusLabel = (statusID) => {
     default: return 'Unknown';
   }
 };
+const generateWeekOptions = () => {
+  const options = [];
+  for (let i = 0; i <= 4; i++) {  
+    const start = new Date();
+    start.setDate(start.getDate() + (i * 7));
+    const end = new Date(start);
+    end.setDate(end.getDate() + 6);
+    options.push({
+      label: `Week ${i + 1}: ${start.toLocaleDateString()} - ${end.toLocaleDateString()}`,
+      value: i
+    });
+  }
+  return options;
+};
+const weekOptions = generateWeekOptions();
 
 const getStatusColor = (statusID) => {
   switch (statusID) {
@@ -42,37 +58,60 @@ const getStatusColor = (statusID) => {
   }
 };
 
+useEffect(() => {
+  if (selectedDoctor) {
+    axios.get(`${API_BASE_URL}/Doctor/LeaveRequests/${selectedDoctor}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then(res => setLeaveDays(res.data))
+      .catch(err => {
+        console.error('Error fetching leave days:', err);
+        setLeaveDays([]);
+      });
+  }
+}, [selectedDoctor]);
   const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Saturday'];
   const today = new Date();
 
-  const generateWeekDays = () => {
-    const startOfWeek = new Date(today);
-    startOfWeek.setDate(today.getDate() + (weekOffset * 7));
-    startOfWeek.setHours(0, 0, 0, 0);
-    const dayOfWeek = startOfWeek.getDay();
-    const firstDayOfCurrentWeek = new Date(startOfWeek);
-    firstDayOfCurrentWeek.setDate(startOfWeek.getDate() - dayOfWeek);
+ const generateWeekDays = () => {
+  const startOfWeek = new Date(today);
+  startOfWeek.setDate(today.getDate() + (weekOffset * 7));
+  startOfWeek.setHours(0, 0, 0, 0);
+  const dayOfWeek = startOfWeek.getDay();
+  const firstDayOfCurrentWeek = new Date(startOfWeek);
+  firstDayOfCurrentWeek.setDate(startOfWeek.getDate() - dayOfWeek);
 
-    return daysOfWeek.map((day, index) => {
-      const currentDate = new Date(firstDayOfCurrentWeek);
-      currentDate.setDate(firstDayOfCurrentWeek.getDate() + index);
-      const isPast = currentDate.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0);
+  return daysOfWeek.map((day, index) => {
+    const currentDate = new Date(firstDayOfCurrentWeek);
+    currentDate.setDate(firstDayOfCurrentWeek.getDate() + index);
+    currentDate.setHours(0, 0, 0, 0);
 
-      return {
-        name: day.slice(0, 3),
-        date: currentDate,
-        disabled: isPast,
-        active: selectedDay?.date?.toDateString() === currentDate.toDateString(),
-        formatted: currentDate.toISOString().split('T')[0],
-      };
+    const isPast = currentDate < new Date().setHours(0, 0, 0, 0);
+
+    // ✅ هل اليوم ضمن فترة إجازة؟
+    const isLeaveDay = leaveDays.some(l => {
+      const start = new Date(l.startDate).setHours(0, 0, 0, 0);
+      const end = new Date(l.endDate).setHours(23, 59, 59, 999);
+      return currentDate.getTime() >= start && currentDate.getTime() <= end;
     });
-  };
+
+    return {
+      name: day.slice(0, 3),
+      date: currentDate,
+      disabled: isPast || isLeaveDay,
+      leave: isLeaveDay,
+      active: selectedDay?.date?.toDateString() === currentDate.toDateString(),
+      formatted: currentDate.toISOString().split('T')[0],
+    };
+  });
+};
 
   const [weekDays, setWeekDays] = useState(generateWeekDays());
 
-  useEffect(() => {
-    setWeekDays(generateWeekDays());
-  }, [weekOffset]);
+useEffect(() => {
+  setWeekDays(generateWeekDays());
+}, [weekOffset, leaveDays, selectedDay]);
+
 
   useEffect(() => {
     fetchAllData();
@@ -235,18 +274,41 @@ return (
                 </select>
               </div>
               {/* week day selector */}
-              <div className="mb-3">
-                <label className="form-label">Select Day</label>
-                <div className="d-flex flex-wrap gap-2">
-                  {weekDays.map((day, i) => (
-                    <button key={i} className={`btn btn-sm ${day.active ? 'btn-primary' : 'btn-outline-secondary'}`}
-                      disabled={day.disabled}
-                      onClick={() => handleDayClick(day)}>
-                      {day.name} <br /> {day.date.getDate()}
-                    </button>
-                  ))}
-                </div>
-              </div>
+       <div className="mb-3">
+  <label className="form-label">Select Week</label>
+  <select
+    className="form-select mb-2"
+    value={weekOffset}
+    onChange={(e) => setWeekOffset(Number(e.target.value))}
+  >
+    {weekOptions.map((opt, i) => (
+      <option key={i} value={opt.value}>{opt.label}</option>
+    ))}
+  </select>
+
+  <div className="d-flex flex-wrap gap-2">
+    {weekDays.map((day, i) => (
+      <button
+        key={i}
+        className={`btn btn-sm ${
+          day.disabled
+            ? day.leave
+              ? 'btn-outline-danger'
+              : 'btn-outline-secondary'
+            : day.active
+            ? 'btn-primary'
+            : 'btn-outline-primary'
+        }`}
+        disabled={day.disabled}
+        onClick={() => handleDayClick(day)}
+      >
+        {day.name} <br /> {day.date.getDate()}
+      </button>
+    ))}
+  </div>
+</div>
+
+
               {/* times */}
               {selectedDay && (
                 <div className="mb-3">

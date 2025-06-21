@@ -50,30 +50,41 @@ export default function PatientManagement() {
     }
   };
 
- const handleUploadReport = async () => {
+const handleUploadReport = async () => {
   if (!reportFile || !patientId) {
     alert("Please select a patient and file.");
     return;
   }
 
-  const formData = new FormData();
-  formData.append("PatientId", patientId);
-  formData.append("ReportFile", reportFile);
-
   try {
+    const user = JSON.parse(localStorage.getItem('user'));
+    const token = user.token;
+    const decoded = JSON.parse(atob(token.split('.')[1]));
+    const specialization = decoded.specialization || 'Unknown';
+console.log("Decoded Token:", decoded);
+
+    const formData = new FormData();
+    formData.append("PatientId", patientId);
+    formData.append("ReportFile", reportFile);
+    formData.append("Description", reportDescription);
+    formData.append("Specialization", specialization);  
+
     await axios.post(`${API_BASE_URL}/Doctor/UploadReportFile`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'multipart/form-data'
       }
     });
+
     alert("✅ Report uploaded successfully.");
     setReportFile(null);
+    setReportDescription('');
   } catch (err) {
     console.error(err);
     alert("❌ Failed to upload report.");
   }
 };
+
 
 
   useEffect(() => {

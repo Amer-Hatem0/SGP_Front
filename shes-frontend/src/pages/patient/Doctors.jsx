@@ -15,6 +15,7 @@ export default function Doctors() {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [selectedTimeForConfirm, setSelectedTimeForConfirm] = useState(null);
 const [leaveRequests, setLeaveRequests] = useState([]);
+const [bookingSuccess, setBookingSuccess] = useState(false);
 
 
   const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Saturday'];
@@ -200,6 +201,8 @@ setWeekDays(generateWeekDays(new Date(), approved));
         ...prev,
         selectedTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })
       ]);
+setBookingSuccess(true);
+setTimeout(() => setBookingSuccess(false), 2000);  
 
       // Close modals and reset
       setShowConfirmModal(false);
@@ -343,6 +346,11 @@ setWeekDays(generateWeekDays(new Date(), approved));
           </div>
         </div>
       )}
+{bookingSuccess && (
+  <div className="toast-booking-success">
+    ✅ Appointment booked successfully!
+  </div>
+)}
 
       {/* Modal + Slot Style */}
       <style jsx>{`
@@ -358,6 +366,25 @@ setWeekDays(generateWeekDays(new Date(), approved));
           justify-content: center;
           z-index: 9999;
         }
+          .toast-booking-success {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #198754;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: 500;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  z-index: 99999;
+  animation: slideIn 0.5s ease;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
         .modal-content, .modal-content-lg {
           background-color: #fff;
           padding: 20px;

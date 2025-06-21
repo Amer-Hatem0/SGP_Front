@@ -13,6 +13,7 @@ const AdminAppointments = () => {
   const token = localStorage.getItem('token');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [adminName, setAdminName] = useState('Admin');
+const [statusFilter, setStatusFilter] = useState('All');
 
   const fetchAppointments = async () => {
     try {
@@ -68,6 +69,23 @@ const AdminAppointments = () => {
             <div className="alert alert-danger">{error}</div>
           ) : (
             <div className="table-responsive">
+              <div className="mb-3 d-flex align-items-center gap-2">
+  <label className="form-label fw-semibold mb-0">Filter by Status:</label>
+  <select
+    className="form-select form-select-sm"
+    style={{ maxWidth: '200px' }}
+    value={statusFilter}
+    onChange={(e) => setStatusFilter(e.target.value)}
+  >
+    <option value="All">All</option>
+    <option value="1">Pending</option>
+    <option value="2">Scheduled</option>
+    <option value="3">Completed</option>
+    <option value="4">Canceled</option>
+    <option value="5">Rescheduled</option>
+  </select>
+</div>
+
               <table className="table table-bordered table-hover align-middle">
                 <thead className="table-light">
                   <tr>
@@ -80,37 +98,26 @@ const AdminAppointments = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {appointments.map((appt, index) => {
-                    const { label, color } = getStatusInfo(appt.statusID);
-                    return (
-                      <tr key={appt.appointmentId}>
-                        <td>{index + 1}</td>
-                        <td>{appt.patientName}</td>
-                        <td>{appt.doctorName}</td>
-                     <td>
-  {(() => {
-    const date = new Date(appt.appointmentDate);
-    date.setDate(date.getDate() + 1); 
+               {appointments
+  .filter(appt => statusFilter === 'All' || String(appt.statusID) === statusFilter)
+  .map((appt, index) => {
+    const { label, color } = getStatusInfo(appt.statusID);
+    return (
+      <tr key={appt.appointmentId}>
+        <td>{index + 1}</td>
+        <td>{appt.patientName}</td>
+        <td>{appt.doctorName}</td>
+        <td>{new Date(new Date(appt.appointmentDate).setDate(new Date(appt.appointmentDate).getDate() + 1)).toLocaleDateString('en-US', {
+          weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+        })}</td>
+        <td>{new Date(appt.appointmentDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
+        <td className="text-center">
+          <span className={`badge bg-${color}`}>{label}</span>
+        </td>
+      </tr>
+    );
+  })}
 
-    const options = {
-      weekday: 'long',   
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    };
-
-    return date.toLocaleDateString('en-US', options);
-  })()}
-</td>
-                        <td>{new Date(appt.appointmentDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
-                        <td className="text-center">
-                          <span className={`badge bg-${color}`}>
-                            {label}
-                          </span>
-                        </td>
-                      </tr>
-                    );
-                  })}
                 </tbody>
               </table>
             </div>

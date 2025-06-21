@@ -313,12 +313,12 @@ const Users = () => {
                         <td><span className="badge bg-secondary">{user.roles?.[0] || 'N/A'}</span></td>
                         <td className="text-center">
                           <button
-                            className="btn btn-sm btn-outline-info me-2"
+                            className="btn btn-sm btn-outline-warning me-2"
                             onClick={() => navigate(`/admin/user/${user.id}`)} // <--- تم تغيير هذا السطر
                           >
                             View
                           </button>
-                          <button
+                          {/* <button
                             className="btn btn-sm btn-outline-warning me-2"
                             onClick={() => {
                               setSelectedUser({ 
@@ -334,7 +334,7 @@ const Users = () => {
                             }}
                           >
                             Edit
-                          </button>
+                          </button> */}
                           <button className="btn btn-sm btn-outline-danger" onClick={() => handleDelete(user.id)}>Delete</button>
                         </td>
                       </tr>

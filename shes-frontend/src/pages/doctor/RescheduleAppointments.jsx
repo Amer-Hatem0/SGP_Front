@@ -10,6 +10,7 @@ export default function DoctorAppointments() {
   const [rescheduleData, setRescheduleData] = useState({});
   const token = JSON.parse(localStorage.getItem('user'))?.token;
   const navigate = useNavigate(); 
+const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
     fetchAppointments();
@@ -45,28 +46,42 @@ export default function DoctorAppointments() {
     }));
   };
 
-  const submitReschedule = async (id) => {
-    const data = rescheduleData[id];
-    if (!data?.newDate || !data?.reason) {
-      alert('Please provide both date and reason.');
-      return;
-    }
+const submitReschedule = async (id) => {
+  const data = rescheduleData[id];
+  if (!data?.newDate || !data?.reason) {
+    alert('Please provide both date and reason.');
+    return;
+  }
 
-    try {
-      await axios.post(`${API_BASE_URL}/Doctor/RequestReschedule`, {
-        appointmentId: id,
-        newDate: data.newDate,
-        reason: data.reason
-      }, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      alert('✅ Reschedule request sent.');
-      fetchAppointments();
-    } catch (err) {
-      console.error(err);
-      alert('❌ Failed to submit request.');
-    }
-  };
+  try {
+    await axios.post(`${API_BASE_URL}/Doctor/RequestReschedule`, {
+      appointmentId: id,
+      newDate: data.newDate,
+      reason: data.reason
+    }, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+
+    setSuccessMessage(`🕒 Appointment #${id} is now awaiting supervisor approval.`);
+    
+    // تنظيف الحقول فقط لهذا الموعد
+    setRescheduleData(prev => {
+      const updated = { ...prev };
+      delete updated[id];
+      return updated;
+    });
+
+ 
+    fetchAppointments();
+
+   
+    setTimeout(() => setSuccessMessage(''), 3000);
+  } catch (err) {
+    console.error(err);
+    alert('❌ Failed to submit request.');
+  }
+};
+
 
   const markAsCompleted = async (id) => {
     try {
@@ -89,6 +104,11 @@ export default function DoctorAppointments() {
         <DoctorSidebar />
         <div className="container myappoint">
           <h4 className="fw-bold mb-4">My Appointments</h4>
+{successMessage && (
+  <div className="alert alert-info fw-semibold">
+    {successMessage}
+  </div>
+)}
 
           {appointments.length === 0 ? (
             <p className="text-muted">No appointments found.</p>
@@ -107,7 +127,8 @@ export default function DoctorAppointments() {
               <tbody>
                 {appointments.map((app, i) => {
                   const { label, color } = getStatusInfo(app.statusID);
-                  const disabled = app.statusID === 3;
+                 const disabled = app.statusID === 3 || app.statusID === 4; // 3 = Completed, 4 = Canceled
+
                   return (
                     <tr key={app.appointmentId}>
                       <td>{i + 1}</td>

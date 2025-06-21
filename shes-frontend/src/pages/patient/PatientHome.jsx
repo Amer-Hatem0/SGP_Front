@@ -113,7 +113,23 @@ export default function PatientHome() {
                     <h5 className="card-title text-primary fw-semibold">Next Appointment</h5>
                     {nextAppointment ? (
                       <>
-                        <p className="card-text">{new Date(nextAppointment.appointmentDate).toLocaleString()}</p>
+                       <p className="card-text">
+  {(() => {
+    const date = new Date(nextAppointment.appointmentDate);
+    date.setDate(date.getDate() + 1); 
+
+    const options = {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    };
+
+    return date.toLocaleString('en-US', options);
+  })()}
+</p>
                         <p className="text-muted">Status: <strong>{getStatusLabel(nextAppointment.statusID)}</strong></p>
                       </>
                     ) : (
@@ -182,6 +198,31 @@ export default function PatientHome() {
                 </div>
               )}
 
+{/* Rescheduled Appointment Notice */}
+{appointments.some(a => a.statusID === 5) && (
+  <div className="col-md-12">
+    <div
+      className="card shadow-sm border-left-info h-100 hoverable"
+      style={{ cursor: 'pointer', borderLeft: '4px solid #17a2b8' }}
+      onClick={() => navigate('/patient/appointments')}
+    >
+      <div className="card-body">
+        <h5 className="card-title text-info fw-semibold">Appointment Rescheduled</h5>
+        {appointments
+          .filter(a => a.statusID === 5)
+          .sort((a, b) => new Date(b.appointmentDate) - new Date(a.appointmentDate))
+          .slice(0, 1)
+          .map((appt, idx) => (
+            <div key={idx}>
+              <p className="mb-1">New Date: <strong>{new Date(appt.appointmentDate).toLocaleString()}</strong></p>
+              <p className="mb-2">Doctor: <strong>{appt.doctorName}</strong></p>
+              <p className="text-muted">📅 Your appointment has been rescheduled. Please check the updated details.</p>
+            </div>
+          ))}
+      </div>
+    </div>
+  </div>
+)}
 
             </div>
           </main>
