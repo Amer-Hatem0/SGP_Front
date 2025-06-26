@@ -477,6 +477,7 @@ const Users = () => {
                         onChange={e => setNewUser({ ...newUser, specialization: e.target.value })} />
                     </div>
                   )}
+                  
                   {/* Input for Profile Image when adding a new user */}
                   <div className="mb-2">
                     <input className="form-control" placeholder="Profile Image URL (optional)"

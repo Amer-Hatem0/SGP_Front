@@ -282,12 +282,13 @@ color: #4a4a4ae0 !important;
   color: #fff;
 }
 
-/* حركة نبض القلب */
+ 
 .heartbeat-icon {
   font-size: 4rem;
-  color: red;
+  color: #007bff;  
   animation: heartbeat 1.5s infinite;
 }
+
 
 @keyframes heartbeat {
   0%, 100% {
@@ -302,4 +303,9 @@ color: #4a4a4ae0 !important;
   75% {
     transform: scale(1.2);
   }
+}
+
+.doctor-img img{
+
+  height: 300px !important;
 }

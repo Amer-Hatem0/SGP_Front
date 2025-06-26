@@ -93,7 +93,7 @@ const Footer = () => {
                
                 <form action="#" className="subscribe">
                   <input type="text" className="form-control" placeholder="Your Email address" />
-                  <p href="#" className="btn   btn-round-full aaaaaaaaaaaaaaaaaa ">Subscribe</p>
+                  <p href="#" className="btn   btn-round-full aaaaaaaaaaaaaaaaaa text-white ">Subscribe</p>
                 </form>
               </div>
             </div>

@@ -55,13 +55,16 @@ const DoctorsPage = () => {
 
           <div className="row shuffle-wrapper portfolio-gallery">
             {doctors.map((doctor, index) => (
-              <DoctorCard
-                key={index}
-                image={doctor.profileImage || "/images/team/1.jpg"}
-                name={doctor.fullName || 'Doctor Name'}
-                specialty={doctor.specialization || 'General Medicine'}
-                category='["cat1"]'
-              />
+            <DoctorCard
+  key={index}
+ doctorId={doctor.doctorId}
+
+  image={doctor.profileImage || "/images/team/1.jpg"}
+  name={doctor.fullName || 'Doctor Name'}
+  specialty={doctor.specialization || 'General Medicine'}
+  category='["cat1"]'
+/>
+
             ))}
           </div>
         </div>
@@ -92,7 +95,8 @@ const DoctorsPage = () => {
 };
 
 // Doctor Card Component
-const DoctorCard = ({ image, name, specialty, category }) => {
+const DoctorCard = ({ image, name, specialty, category, doctorId }) => {
+
   return (
     <div className="col-lg-3 col-sm-6 col-md-6 mb-4 shuffle-item" data-groups={category}>
       <div className="position-relative doctor-inner-box">
@@ -107,7 +111,12 @@ const DoctorCard = ({ image, name, specialty, category }) => {
         </div>
         <div className="content mt-3">
           <h4 className="mb-0">
-            <a href="/doctor-single">{name}</a>
+        
+  <Link to={`/doctor-details/${doctorId}`} className="text-decoration-none text-dark">
+    {name}
+  </Link>
+ 
+
           </h4>
           <p>{specialty}</p>
         </div>

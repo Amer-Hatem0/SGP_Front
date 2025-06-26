@@ -54,7 +54,8 @@ const handleSave = async () => {
       gender: editUser.gender,
       age: editUser.age,
       role: editUser.roles[0],
-      profileImage: editUser.profileImage // إرسال الصورة كـ Base64
+      profileImage: editUser.profileImage ,
+      specialization: editUser.specialization || null
     }, {
       headers: { 
         Authorization: `Bearer ${token}`,
@@ -139,6 +140,12 @@ const handleSave = async () => {
                       </li>
                        <li className="list-group-item"><strong>Age:</strong> {user.age || ' '}</li>
                       <li className="list-group-item"><strong>Status:</strong> {user.status || 'active'}</li>
+          {user.roles?.includes('Doctor') && (
+  <li className="list-group-item">
+    <strong>Specialization:</strong> {user.specialization || 'N/A'}
+  </li>
+)}
+
                     </ul>
                     <div className="text-end mt-3">
                       <button
@@ -206,7 +213,18 @@ const handleSave = async () => {
                         setEditUser({ ...editUser, age: +e.target.value })
                       }
                     />
-                    
+                    {editUser.roles[0] === 'Doctor' && (
+  <input
+    type="text"
+    className="form-control mb-2"
+    placeholder="Specialization"
+    value={editUser.specialization || ''}
+    onChange={(e) =>
+      setEditUser({ ...editUser, specialization: e.target.value })
+    }
+  />
+)}
+
                     {/* رفع الصورة */}
                     <input
                       type="file"

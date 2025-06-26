@@ -31,7 +31,8 @@ export default function PatientNavbar() {
         const decoded = JSON.parse(atob(token.split('.')[1]));
         const userId = parseInt(decoded.userId || decoded.sub);
 
-        const profileRes = await axios.get(`${API_BASE_URL}/Patient/Profile/${userId}`, {
+        const profileRes = await axios.get(`${API_BASE_URL}/Patient/ProfileByUserId/${userId}`, {
+          
           headers: { Authorization: `Bearer ${token}` }
         });
         setFullName(profileRes.data.fullName);

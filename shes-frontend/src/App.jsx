@@ -8,6 +8,8 @@ import About from './pages/Guest/About';
 import ServicesPage from './pages/Guest/ServicesPage';
 import DoctorsPage from './pages/Guest/DoctorsPage';
 import ContactPage from './pages/Guest/ContactPage';
+import DoctorDetails from './pages/Guest/DoctorDetails';
+ 
 
 // Auth Pages
 import Login from './pages/Login';
@@ -67,6 +69,7 @@ export default function App() {
       <Route path="/services" element={<ServicesPage />} />
       <Route path="/doctors" element={<DoctorsPage />} />
       <Route path="/contact" element={<ContactPage />} />
+      <Route path="/doctor-details/:doctorId" element={<DoctorDetails />} />
 
       {/* Patient Routes */}
       <Route path="/patient/home" element={<RoleProtectedRoute allowedRole="Patient"><PatientHome /></RoleProtectedRoute>} />
