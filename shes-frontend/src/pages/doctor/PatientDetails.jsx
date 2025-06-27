@@ -78,8 +78,8 @@ export default function PatientDetails() {
       reportID: reportData.reportID
     });
     setTimeout(() => {
-        const modal = new Modal(reportViewerModalRef.current);
-        modal.show();
+      const modal = new Modal(reportViewerModalRef.current);
+      modal.show();
     }, 100);
   };
 
@@ -87,7 +87,7 @@ export default function PatientDetails() {
     setSelectedReport(null);
     const modalInstance = Modal.getInstance(reportViewerModalRef.current);
     if (modalInstance) {
-        modalInstance.hide();
+      modalInstance.hide();
     }
   };
 
@@ -127,7 +127,7 @@ export default function PatientDetails() {
     } else {
       return (
         <div className="no-preview-message">
-          <i className="bi bi-info-circle"></i> No preview available for this file type.<br/> Please download the file to view it.
+          <i className="bi bi-info-circle"></i> No preview available for this file type.<br /> Please download the file to view it.
         </div>
       );
     }
@@ -224,17 +224,19 @@ export default function PatientDetails() {
                           {history.visits.map((visit, idx) => (
                             <tr key={idx}>
                               <td>{new Date(visit.appointmentDate).toLocaleString('en-US', {
-                                  year: 'numeric', month: 'short', day: 'numeric',
-                                  hour: '2-digit', minute: '2-digit', hour12: true
+                                year: 'numeric', month: 'short', day: 'numeric',
+                                hour: '2-digit', minute: '2-digit', hour12: true
                               })}</td>
                               <td>{visit.doctorName}</td>
-                              <td>
-                                <span className={`status-badge status-${
-                                  visit.status === 'Completed' ? 'completed' :
-                                  visit.status === 'Pending' ? 'pending' :
-                                  'other'
-                                }`}>{visit.status}</span>
-                              </td>
+  <td>
+  <span className={`appointment-status status-${visit.status?.toLowerCase()}`}>
+    {visit.status}
+  </span>
+</td>
+
+
+
+
                             </tr>
                           ))}
                         </tbody>
@@ -257,12 +259,12 @@ export default function PatientDetails() {
                       {history.medicalHistories.map((record, idx) => (
                         <div className="accordion-item-custom" key={idx}>
                           <h2 className="accordion-header-custom" id={`heading${idx}`}>
-                          
-                              <strong>Diagnosis: {record.disease}</strong>
-                              
-                           </h2>     <span className=" ms-4 mt-3 record-date">{new Date(record.recordedAt).toLocaleDateString()}</span>
-                           
-                         
+
+                            <strong>Diagnosis: {record.disease}</strong>
+
+                          </h2>     <span className=" ms-4 mt-3 record-date">{new Date(record.recordedAt).toLocaleDateString()}</span>
+
+
                           <div
                             id={`collapse${idx}`}
                             className={`accordion-collapse-custom   ${openAccordionIdx === idx ? 'show' : ''}`}
@@ -270,8 +272,8 @@ export default function PatientDetails() {
                             data-bs-parent="#medicalHistoryAccordion" // Ensure this ID matches the parent div if multiple collapse items
                           >
                             <div className="accordion-body-custom">
-                           <p><strong className="ppppp" >Treatment:</strong> {record?.treatment?.trim() ? record.treatment : 'N/A'}</p>
-<p className="mb-0"><strong className="ppppp">Notes:</strong> {record?.notes?.trim() ? record.notes : 'N/A'}</p>
+                              <p><strong className="ppppp" >Treatment:</strong> {record?.treatment?.trim() ? record.treatment : 'N/A'}</p>
+                              <p className="mb-0"><strong className="ppppp">Notes:</strong> {record?.notes?.trim() ? record.notes : 'N/A'}</p>
 
                             </div>
                           </div>
@@ -284,106 +286,106 @@ export default function PatientDetails() {
                 </div>
               </div>
 
-           
-            {/* Uploaded Reports Section */}
-<div className="PatientDetails-section PatientDetails-reports">
-  <div className="card-content-wrapper">
-    <h5 className="section-subtitle">
-      <i className="bi bi-file-earmark-medical"></i>Uploaded Reports
-    </h5>
 
-    {reports.length === 0 ? (
-      <p className="no-data-message">No reports found for this patient.</p>
-    ) : (
-      <>
-        <div className="report-search-container">
-          <input
-            type="text"
-            className="report-search-input-custom"
-            placeholder="Search reports by file name, description, or specialization..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
+              {/* Uploaded Reports Section */}
+              <div className="PatientDetails-section PatientDetails-reports">
+                <div className="card-content-wrapper">
+                  <h5 className="section-subtitle">
+                    <i className="bi bi-file-earmark-medical"></i>Uploaded Reports
+                  </h5>
 
-        <ul className="reports-list-group">
-          {filteredReports.map((rpt, idx) => (
-            <li key={idx} className="report-list-item">
-              <button
-                onClick={() => {
-                  const fileUrl = `${API_BASE_URL.replace('/api', '')}${rpt.fileUrl.startsWith('/') ? '' : '/'}${rpt.fileUrl}`;
-                  const fileExtension = rpt.fileName?.split('.').pop().toLowerCase();
-                  setSelectedReport({
-                    url: fileUrl,
-                    fileName: rpt.fileName,
-                    fileExtension,
-                  });
-                }}
-                className="report-view-button"
-              >
-                <i className="bi bi-paperclip"></i>
-                <span>{rpt.fileName}</span>
-                <small className="report-specialization-text">
-                  Specialization: {rpt.specialization || 'N/A'}
-                </small>
-              </button>
+                  {reports.length === 0 ? (
+                    <p className="no-data-message">No reports found for this patient.</p>
+                  ) : (
+                    <>
+                      <div className="report-search-container">
+                        <input
+                          type="text"
+                          className="report-search-input-custom"
+                          placeholder="Search reports by file name, description, or specialization..."
+                          value={searchTerm}
+                          onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                      </div>
 
-              <a
-                href={`${API_BASE_URL.replace('/api', '')}${rpt.fileUrl}`}
-                download
-                target="_blank"
-                rel="noopener noreferrer"
-                className="report-download-button"
-              >
-                <i className="bi bi-download"></i> Download
-              </a>
-            </li>
-          ))}
-        </ul>
+                      <ul className="reports-list-group">
+                        {filteredReports.map((rpt, idx) => (
+                          <li key={idx} className="report-list-item">
+                            <button
+                              onClick={() => {
+                                const fileUrl = `${API_BASE_URL.replace('/api', '')}${rpt.fileUrl.startsWith('/') ? '' : '/'}${rpt.fileUrl}`;
+                                const fileExtension = rpt.fileName?.split('.').pop().toLowerCase();
+                                setSelectedReport({
+                                  url: fileUrl,
+                                  fileName: rpt.fileName,
+                                  fileExtension,
+                                });
+                              }}
+                              className="report-view-button"
+                            >
+                              <i className="bi bi-paperclip"></i>
+                              <span>{rpt.fileName}</span>
+                              <small className="report-specialization-text">
+                                Specialization: {rpt.specialization || 'N/A'}
+                              </small>
+                            </button>
 
-        {/* Preview of selected report */}
-        {selectedReport && (
-          <div className="mt-4">
-            <h5 className="text-primary mb-3">
-              📄 Viewing Report: {selectedReport.fileName}
-            </h5>
+                            <a
+                              href={`${API_BASE_URL.replace('/api', '')}${rpt.fileUrl}`}
+                              download
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="report-download-button"
+                            >
+                              <i className="bi bi-download"></i> Download
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
 
-            {['png', 'jpg', 'jpeg', 'gif'].includes(selectedReport.fileExtension) ? (
-              <img
-                src={selectedReport.url}
-                alt="Report Preview"
-                style={{
-                  maxWidth: '100%',
-                  height: 'auto',
-                  borderRadius: '8px',
-                  border: '1px solid #ccc',
-                }}
-              />
-            ) : selectedReport.fileExtension === 'pdf' ? (
-              <iframe
-                src={selectedReport.url}
-                title="PDF Viewer"
-                style={{
-                  width: '100%',
-                  height: '600px',
-                  border: '1px solid #ccc',
-                  borderRadius: '8px',
-                }}
-              />
-            ) : (
-              <div className="alert alert-warning mt-3">
-                No preview available.{" "}
-                <a href={selectedReport.url} download target="_blank" rel="noopener noreferrer">
-                  Click here to download
-                </a>
+                      {/* Preview of selected report */}
+                      {selectedReport && (
+                        <div className="mt-4">
+                          <h5 className="text-primary mb-3">
+                            📄 Viewing Report: {selectedReport.fileName}
+                          </h5>
+
+                          {['png', 'jpg', 'jpeg', 'gif'].includes(selectedReport.fileExtension) ? (
+                            <img
+                              src={selectedReport.url}
+                              alt="Report Preview"
+                              style={{
+                                maxWidth: '100%',
+                                height: 'auto',
+                                borderRadius: '8px',
+                                border: '1px solid #ccc',
+                              }}
+                            />
+                          ) : selectedReport.fileExtension === 'pdf' ? (
+                            <iframe
+                              src={selectedReport.url}
+                              title="PDF Viewer"
+                              style={{
+                                width: '100%',
+                                height: '600px',
+                                border: '1px solid #ccc',
+                                borderRadius: '8px',
+                              }}
+                            />
+                          ) : (
+                            <div className="alert alert-warning mt-3">
+                              No preview available.{" "}
+                              <a href={selectedReport.url} download target="_blank" rel="noopener noreferrer">
+                                Click here to download
+                              </a>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
               </div>
-            )}
-          </div>
-        )}
-      </>
-    )}
-  </div>
-</div>
 
             </div>
           )}
@@ -397,40 +399,40 @@ export default function PatientDetails() {
         </main>
       </div>
 
-    {selectedReport && (
-  <div className="custom-report-overlay" onClick={() => setSelectedReport(null)}>
-    <div className="custom-report-modal" onClick={(e) => e.stopPropagation()}>
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        <h5 className="text-primary mb-0">{selectedReport.fileName}</h5>
-        <button className="btn btn-danger btn-sm" onClick={() => setSelectedReport(null)}>
-          <i className="bi bi-x-circle"></i> Close
-        </button>
-      </div>
+      {selectedReport && (
+        <div className="custom-report-overlay" onClick={() => setSelectedReport(null)}>
+          <div className="custom-report-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="d-flex justify-content-between align-items-center mb-3">
+              <h5 className="text-primary mb-0">{selectedReport.fileName}</h5>
+              <button className="btn btn-danger btn-sm" onClick={() => setSelectedReport(null)}>
+                <i className="bi bi-x-circle"></i> Close
+              </button>
+            </div>
 
-      {['png', 'jpg', 'jpeg', 'gif'].includes(selectedReport.fileExtension) ? (
-        <img
-          src={selectedReport.url}
-          alt="Report Preview"
-          className="w-100"
-          style={{ maxHeight: '70vh', objectFit: 'contain', borderRadius: '8px' }}
-        />
-      ) : selectedReport.fileExtension === 'pdf' ? (
-        <iframe
-          src={selectedReport.url}
-          title="PDF Viewer"
-          style={{ width: '100%', height: '70vh', border: '1px solid #ccc', borderRadius: '8px' }}
-        />
-      ) : (
-        <div className="alert alert-warning mt-3">
-          No preview available.{" "}
-          <a href={selectedReport.url} download target="_blank" rel="noopener noreferrer">
-            Click here to download
-          </a>
-        </div>
-      )}
-    </div>
+            {['png', 'jpg', 'jpeg', 'gif'].includes(selectedReport.fileExtension) ? (
+              <img
+                src={selectedReport.url}
+                alt="Report Preview"
+                className="w-100"
+                style={{ maxHeight: '70vh', objectFit: 'contain', borderRadius: '8px' }}
+              />
+            ) : selectedReport.fileExtension === 'pdf' ? (
+              <iframe
+                src={selectedReport.url}
+                title="PDF Viewer"
+                style={{ width: '100%', height: '70vh', border: '1px solid #ccc', borderRadius: '8px' }}
+              />
+            ) : (
+              <div className="alert alert-warning mt-3">
+                No preview available.{" "}
+                <a href={selectedReport.url} download target="_blank" rel="noopener noreferrer">
+                  Click here to download
+                </a>
+              </div>
+            )}
+          </div>
 
-    <style>{`
+          <style>{`
       .custom-report-overlay {
         position: fixed;
         top: 0; left: 0; right: 0; bottom: 0;
@@ -457,8 +459,8 @@ export default function PatientDetails() {
         to { opacity: 1; transform: scale(1); }
       }
     `}</style>
-  </div>
-)}
+        </div>
+      )}
 
 
       {/* Embedded CSS Styles */}
