@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { 
+import {
   FaBell, FaSignOutAlt, FaUserCog, FaUser, FaBars, FaTimes,
-  FaTachometerAlt, FaStethoscope, FaCalendarAlt, 
+  FaTachometerAlt, FaStethoscope, FaCalendarAlt,
   FaFileMedical, FaHistory, FaCommentAlt
 } from 'react-icons/fa';
-import { Link, useLocation } from 'react-router-dom'; 
-import logo from './logo.png';  
+import { Link, useLocation } from 'react-router-dom';
+import logo from './logo.png';
 import axios from 'axios';
 import API_BASE_URL from '../config/apiConfig';
 
 export default function PatientNavbar() {
   const user = JSON.parse(localStorage.getItem('user')) || {};
   const storedName = localStorage.getItem('patientName');
-  const name = storedName || user.name || 'Patient';  
+  const name = storedName || user.name || 'Patient';
   const role = user.role || 'Patient';
   const location = useLocation();
-  
+
   const [darkMode, setDarkMode] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
@@ -32,7 +32,6 @@ export default function PatientNavbar() {
         const userId = parseInt(decoded.userId || decoded.sub);
 
         const profileRes = await axios.get(`${API_BASE_URL}/Patient/ProfileByUserId/${userId}`, {
-          
           headers: { Authorization: `Bearer ${token}` }
         });
         setFullName(profileRes.data.fullName);
@@ -58,15 +57,13 @@ export default function PatientNavbar() {
     <>
       <nav className={`navbar ${darkMode ? 'navbar-dark bg-dark' : 'navbar-light bg-white'} shadow-sm`}>
         <div className="container-fluid">
-          {/* Logo and Mobile Menu Toggle */}
           <div className="d-flex align-items-center">
             <Link to="/patient/home" className="navbar-brand">
-              <img src={logo} alt="Wellness Logo" style={{ height: '60px' , width:'200px'}} />
+              <img src={logo} alt="Wellness Logo" style={{ height: '60px', width: '200px' }} />
             </Link>
           </div>
 
-          {/* Desktop Navigation (hidden on mobile) */}
-          <div className="d-none d-lg-flex align-items-center flex-grow-1">
+          <div className="d-none d-lg-flex align-items-center flex-grow-1 desktop-nav">
             <div className="d-flex justify-content-center flex-grow-1">
               {navLinks.map((link) => (
                 <Link
@@ -86,12 +83,10 @@ export default function PatientNavbar() {
             </div>
           </div>
 
-          {/* Right Side Icons */}
           <div className="d-flex align-items-center">
-            {/* Mobile Menu Button (hidden on desktop) */}
-            <button 
-              className="navbar-toggler ms-2 d-lg-none border-0" 
-              type="button" 
+            <button
+              className="navbar-toggler ms-2 d-lg-none border-0 force-show-toggler"
+              type="button"
               onClick={() => setShowMobileMenu(!showMobileMenu)}
               aria-label="Toggle navigation"
             >
@@ -102,22 +97,6 @@ export default function PatientNavbar() {
               )}
             </button>
 
-            {/* Notification Bell (hidden on mobile when menu is open) */}
-            {/* {!showMobileMenu && (
-              <div className="position-relative me-2">
-                <button 
-                  className={`btn btn-sm ${darkMode ? 'btn-outline-light' : 'btn-outline-secondary'} rounded-circle p-2`}
-                  aria-label="Notifications"
-                >
-                  <FaBell size={16} />
-                  <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                    3
-                  </span>
-                </button>
-              </div>
-            )} */}
-
-            {/* User Dropdown (hidden on mobile when menu is open) */}
             {!showMobileMenu && (
               <div className="dropdown">
                 <button
@@ -125,79 +104,79 @@ export default function PatientNavbar() {
                   onClick={() => setShowDropdown(!showDropdown)}
                   aria-expanded={showDropdown}
                 >
-                  <div 
+                  <div
                     className="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold"
-                    style={{ 
-                      width: '36px', 
-                      height: '36px', 
+                    style={{
+                      width: '36px',
+                      height: '36px',
                       backgroundColor: '#0d6efd',
                       fontSize: '14px'
                     }}
                   >
                     {initial}
                   </div>
-                  <span className={`ms-2 d-none d-md-inline ${darkMode ? 'text-light' : 'text-dark'}`}>
+                  <span
+                    className={`ms-2 d-none d-md-inline navbar-user-name ${darkMode ? 'text-light' : 'text-dark'}`}
+                    title={fullName}
+                  >
                     {fullName}
                   </span>
                 </button>
 
-                <div 
-                  className={`dropdown-menu dropdown-menu1 dropdown-menu-end mt-2 shadow ${showDropdown ? 'show' : ''} ${darkMode ? 'bg-dark border-secondary' : 'bg-white border-light'}`}
-                  style={{ minWidth: '220px' }}
+                <div
+                  className={`dropdown-menu dropdown-menu1 dropdown-menu-end mt-2 shadow-lg ${showDropdown ? 'show' : ''} ${darkMode ? 'bg-dark border-secondary' : 'bg-white border-light'}`}
+                  style={{ minWidth: '250px', borderRadius: '10px', padding: '0.75rem' }}
                 >
-                  <div className="dropdown-header px-3 py-2">
-                    <div className="fw-bold">{fullName}</div>
+                  <div className="dropdown-header px-2 pb-2 border-bottom">
+                    <div className="fw-bold" style={{ fontSize: '1rem' }}>{fullName}</div>
                     <small className={`${darkMode ? 'text-light' : 'text-muted'}`}>{role}</small>
                   </div>
-                  <div className="dropdown-divider" />
-                  {/* <Link 
-                    to="/patient/profile" 
-                    className={`dropdown-item ${darkMode ? 'text-light hover-dark' : 'text-dark hover-light'}`}
-                    onClick={() => setShowDropdown(false)}
-                  >
-                    <FaUser className="me-2" /> My Profile
-                  </Link> */}
-                  <Link 
-                    to="/patient/profile" 
-                    className={`dropdown-item ${darkMode ? 'text-light hover-dark' : 'text-dark hover-light'}`}
-                    onClick={() => setShowDropdown(false)}
-                  >
-                    <FaUserCog className="me-2" /> Settings
-                  </Link>
-                  <div className="dropdown-divider" />
-                  <button 
-                    className="dropdown-item text-danger"
-                    onClick={() => {
-                      localStorage.removeItem('token');
-                      localStorage.removeItem('adminName');
-                      window.location.href = '/login';
-                    }}
-                  >
-                    <FaSignOutAlt className="me-2" /> Logout
-                  </button>
+
+                  <div className="pt-2">
+                    <Link
+                      to="/patient/profile"
+                      className={`dropdown-item d-flex align-items-center gap-2 ${darkMode ? 'text-light' : 'text-dark'}`}
+                      onClick={() => setShowDropdown(false)}
+                      style={{ padding: '10px 12px', borderRadius: '8px' }}
+                    >
+                      <FaUserCog size={16} /> Settings
+                    </Link>
+
+                    <button
+                      className="dropdown-item d-flex align-items-center gap-2 text-danger"
+                      onClick={() => {
+                        localStorage.removeItem('token');
+                        localStorage.removeItem('adminName');
+                        window.location.href = '/login';
+                      }}
+                      style={{ padding: '10px 12px', borderRadius: '8px' }}
+                    >
+                      <FaSignOutAlt size={16} /> Logout
+                    </button>
+                  </div>
                 </div>
+
               </div>
             )}
           </div>
         </div>
       </nav>
 
-      {/* Mobile Sidebar Menu */}
-      <div 
+      <div
         className={`mobile-sidebar ${darkMode ? 'dark' : 'light'} ${showMobileMenu ? 'open' : ''}`}
         onClick={() => setShowMobileMenu(false)}
       >
-        <div 
+        <div
           className={`sidebar-content ${darkMode ? 'bg-dark' : 'bg-light'}`}
           onClick={(e) => e.stopPropagation()}
         >
           <div className="sidebar-header d-flex justify-content-between align-items-center p-3 border-bottom">
             <div className="user-info d-flex align-items-center">
-              <div 
+              <div
                 className="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold me-3"
-                style={{ 
-                  width: '40px', 
-                  height: '40px', 
+                style={{
+                  width: '40px',
+                  height: '40px',
                   backgroundColor: '#0d6efd',
                   fontSize: '16px'
                 }}
@@ -209,7 +188,7 @@ export default function PatientNavbar() {
                 <small className={darkMode ? 'text-light' : 'text-muted'}>{role}</small>
               </div>
             </div>
-            <button 
+            <button
               className="btn p-0 border-0 bg-transparent"
               onClick={() => setShowMobileMenu(false)}
               aria-label="Close menu"
@@ -237,15 +216,14 @@ export default function PatientNavbar() {
             ))}
 
             <div className="mt-4 pt-3 border-top">
-              <Link 
-                to="/patient/profile" 
+              <Link
+                to="/patient/profile"
                 className={`nav-link d-flex align-items-center py-2 ${darkMode ? 'text-light' : 'text-dark'}`}
                 onClick={() => setShowMobileMenu(false)}
               >
                 <FaUser className="me-3" /> My Profile
               </Link>
-              
-              <button 
+              <button
                 className={`nav-link d-flex align-items-center py-2 w-100 text-start ${darkMode ? 'text-light' : 'text-dark'}`}
                 onClick={() => {
                   localStorage.removeItem('token');
@@ -260,7 +238,6 @@ export default function PatientNavbar() {
         </div>
       </div>
 
-      {/* Add this CSS to your stylesheet */}
       <style jsx>{`
         .mobile-sidebar {
           position: fixed;
@@ -273,11 +250,11 @@ export default function PatientNavbar() {
           transform: translateX(100%);
           transition: transform 0.3s ease-out;
         }
-        
+
         .mobile-sidebar.open {
           transform: translateX(0);
         }
-        
+
         .sidebar-content {
           position: absolute;
           top: 0;
@@ -289,16 +266,43 @@ export default function PatientNavbar() {
           transform: translateX(100%);
           transition: transform 0.3s ease-out;
         }
-        
+
         .mobile-sidebar.open .sidebar-content {
           transform: translateX(0);
         }
-        
-        @media (max-width: 576px) {
+
+        .navbar-user-name {
+          max-width: 200px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: inline-block;
+          vertical-align: middle;
+        }
+
+        @media (max-width: 1600px) {
+          .desktop-nav {
+            display: none !important;
+          }
+
+          .force-show-toggler {
+            display: block !important;
+          }
+
           .sidebar-content {
             width: 280px;
           }
         }
+          .dropdown-menu1 {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+  transition: all 0.2s ease-in-out;
+}
+
+.dropdown-item:hover {
+  background-color: #f5f5f5;
+  text-decoration: none;
+}
+
       `}</style>
     </>
   );
